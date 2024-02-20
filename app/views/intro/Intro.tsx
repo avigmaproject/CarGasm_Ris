@@ -149,12 +149,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     position: "absolute",
     right: 150,
-    bottom: Platform.OS === "ios" ? 0 : -20,
+    top: -25,
   },
   nextButton: {
     position: "absolute",
     right: 150,
-    bottom: Platform.OS === "ios" ? 30 : 10,
+    top: -50,
   },
   headerText: {
     fontSize: 36,

@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   Keyboard,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TextInput } from "react-native-paper";
 import TextBox from "../../../components/TextBox";
 import Header from "../../../components/Header";
@@ -28,6 +28,9 @@ import OtpPage from "../component/OtpPage";
 import ResetPassword from "../component/ResetPassword";
 import { useDispatch } from "react-redux";
 import { onLogin } from "../../../redux/ducks/login";
+import { useAppSelector } from "../../../utils/hooks";
+import GlobalContext from "../../../contexts/GlobalContext";
+import Loader from "../../../components/Loader";
 
 const androidImages = [
   require("../../../assets/images/Facebook.png"),
@@ -46,7 +49,11 @@ export default function Login({ navigation }: LoginProps) {
   const [secureTextEntry, setsecureTextEntry] = useState(true);
   const [rememberpassword, setrememberpassword] = useState(false);
   const [errors, setErrors] = useState<LoginErrors>();
+  const [loading, setLoading] = useState(false);
   const actionSheetRef = useSheetRef();
+  const selectLogin = useAppSelector((state) => state.login);
+  const { setAuthenticated } = useContext(GlobalContext);
+
   const dispatch = useDispatch<any>();
 
   const routes: Route[] = [
@@ -63,7 +70,6 @@ export default function Login({ navigation }: LoginProps) {
       component: ResetPassword,
     },
   ];
-
   const handleSecureEntry = () => {
     setsecureTextEntry(!secureTextEntry);
   };
@@ -92,12 +98,24 @@ export default function Login({ navigation }: LoginProps) {
     Keyboard.dismiss();
     const isValid = validateInputs();
     if (isValid) {
+      setLoading(true);
       dispatch(onLogin(email, password, 1));
     }
   };
 
+  useEffect(() => {
+    if (selectLogin.called) {
+      setLoading(false);
+      const { error, errorCode } = selectLogin;
+      if (!error) {
+        setAuthenticated(true);
+      }
+    }
+  }, [selectLogin]);
+
   return (
     <SafeAreaView style={styles.container}>
+      {loading && <Loader />}
       <Box style={styles.headerContainer}>
         <Box ph={15} mt={15}>
           <Header back onPress={() => navigation.goBack()} />

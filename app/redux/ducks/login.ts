@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
 import axiosInstance from "../../axios";
 import { LOGIN_SUBMIT } from "../../utils/api";
-import { saveUserToken } from "../../utils/localStorage";
 import { AppDispatch } from "../store";
+import { postAuth } from "../../utils/helper";
 
 const LOGIN: LOGIN = "carGasm/login";
 
@@ -47,8 +47,8 @@ export const onLogin =
       .post(url, data, config)
       .then((res) => {
         dispatch(loginAction({ ...res.data, error: false }));
-        if (res.data) {
-          console.log("res", res.data);
+        if (res.data.userToken) {
+          postAuth(res.data.userToken);
         }
       })
       .catch((error: AxiosError) => {

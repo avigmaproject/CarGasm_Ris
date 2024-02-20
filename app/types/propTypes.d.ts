@@ -98,3 +98,7 @@ type WelcomeProps = {
 type ResetPasswordProps = {
   onPress: () => void;
 };
+
+type LoaderProps = {
+  status?: string;
+};

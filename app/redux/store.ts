@@ -1,6 +1,6 @@
-import { applyMiddleware, createStore } from "redux";
-import { thunk } from "redux-thunk";
+import thunk from "redux-thunk";
 import appReducer from "./ducks";
+import { applyMiddleware, createStore } from "redux";
 
 const middlewares = [thunk];
 
