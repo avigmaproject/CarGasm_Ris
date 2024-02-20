@@ -1,33 +1,26 @@
-import { View, Text } from 'react-native'
-import React,{useEffect} from 'react';
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import AuthNavigation from "./app/navigations/auth/AuthNavigation";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import { PersistGate } from "redux-persist/lib/integration/react";
-import store, { persistor } from "./app/redux/index";
+import { createStackNavigator } from "@react-navigation/stack";
+import Welcome from "./app/views/welcome/Welcome";
+import Login from "./app/views/auth/login/Login";
+import SignUp from "./app/views/auth/signup/SignUp";
+import Splash from "./app/views/splash/Splash";
+import Intro from "./app/views/intro/Intro";
+const Stack = createStackNavigator();
 
-const AppWrapper = () => (
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-        <App />
-    </PersistGate>
-  </Provider>
-);
 const App = () => {
   return (
     <NavigationContainer>
-      <AuthNavigation />    
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Splash" component={Splash} />
+        <Stack.Screen name="Intro" component={Intro} />
+        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        {/* <Stack.Screen name="Forgotpassword" component={Forgotpassword} />
+            <Stack.Screen name="Resetpassword" component={Resetpassword} /> */}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
-export default AppWrapper;
-
-
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <AuthNavigation />
-//     </NavigationContainer>
-
-//   )
-// }
+export default App;
