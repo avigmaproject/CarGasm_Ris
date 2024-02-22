@@ -102,3 +102,29 @@ type ResetPasswordProps = {
 type LoaderProps = {
   status?: string;
 };
+
+type SnackProps = {
+  title: string | null;
+  mode: SnackMode;
+  close: (delay: number) => void;
+  setTimer: (timer: NodeJS.Timer) => void;
+};
+
+type HeaderProps = {
+  back: boolean;
+  title?: string;
+  onPress?: () => void;
+};
+
+type ProfileProps = {
+  navigation: StackNavigationProp<RootStackParamList, "Profile">;
+};
+
+type TextInProps = {
+  label: string;
+  input?: ViewStyle;
+};
+
+type ImagePickerProps = {
+  onSaveImage: (images: Image[] | null) => void;
+};

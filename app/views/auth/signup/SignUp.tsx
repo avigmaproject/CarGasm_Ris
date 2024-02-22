@@ -1,6 +1,4 @@
 import {
-  View,
-  Text,
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
@@ -8,7 +6,7 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TextInput } from "react-native-paper";
 import TextBox from "../../../components/TextBox";
 import Header from "../../../components/Header";
@@ -19,6 +17,20 @@ import TextButton from "../../../components/TextButton";
 import PrimaryButton from "../../../components/PrimaryButton";
 import colors from "../../../utils/color";
 import { SignUpProps } from "../../../types/propTypes";
+import { useAppSelector } from "../../../utils/hooks";
+import GlobalContext from "../../../contexts/GlobalContext";
+import { useDispatch } from "react-redux";
+import { isEmailValid, isNameValid } from "../../../utils/regex";
+import { onLogin } from "../../../redux/ducks/login";
+import Loader from "../../../components/Loader";
+import { snackBar } from "../../../utils/helper";
+import { onRegister } from "../../../redux/ducks/signup";
+import LinearGradient from "react-native-linear-gradient";
+import {
+  pixelSizeHorizontal,
+  pixelSizeVertical,
+} from "../../../utils/responsive";
+import { gradient_android, gradient_ios } from "../../../utils/constant";
 const androidImages = [
   require("../../../assets/images/Facebook.png"),
   require("../../../assets/images/Google.png"),
@@ -31,23 +43,21 @@ const iosImages = [
 ];
 
 export default function SignUp({ navigation }: SignUpProps) {
-  const [form, setform] = useState({
-    fullname: "",
-    email: "",
-    password: "",
-    cpassword: "",
-    phonenumber: "",
-  });
+  const [name, setName] = useState("Rish jain");
+  const [email, setEmail] = useState("ris@mail.com");
+  const [password, setPassword] = useState("hello");
+  const [cpassword, setCPassword] = useState("hello");
+  const [phoneNumber, setPhoneNumber] = useState("1234567890");
   const [secureTextEntry, setsecureTextEntry] = useState(true);
   const [termcondition, settermcondition] = useState(false);
-  const [fullNameerror, setfullNameerror] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [cpasswordError, setcPasswordError] = useState("");
-  const { fullname, email, password, cpassword, phonenumber } = form;
-  const handleOnChangeText = (value: any, fieldName: string) => {
-    setform({ ...form, [fieldName]: value });
-  };
+  const [errors, setErrors] = useState<SignupErrors>();
+  const [loading, setLoading] = useState(false);
+
+  const selectRegister = useAppSelector((state) => state.signup);
+  const { setAuthenticated, setFromLogin } = useContext(GlobalContext);
+
+  const dispatch = useDispatch<any>();
+
   const handleSecureEntry = () => {
     setsecureTextEntry(!secureTextEntry);
   };
@@ -55,13 +65,57 @@ export default function SignUp({ navigation }: SignUpProps) {
     settermcondition(!termcondition);
   };
 
+  function validateInputs() {
+    const tempErrors: SignupErrors = {};
+    if (!isEmailValid(email)) {
+      tempErrors.email = "Enter a valid email";
+    }
+    if (password.length === 0) {
+      tempErrors.password = "Enter a valid password";
+    }
+    if (password !== cpassword) {
+      tempErrors.cpassword = "Password did not match";
+    }
+    if (!isNameValid(name)) {
+      tempErrors.name = "Enter a valid name";
+    }
+    if (phoneNumber.length === 0) {
+      tempErrors.phone = "Enter a valid phone number";
+    }
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  }
+
   const OnHandleRegister = () => {
-    console.log(form);
+    const isValid = validateInputs();
+    if (isValid) {
+      setLoading(true);
+      dispatch(onRegister(email, password, 2, name, phoneNumber));
+    }
   };
+
+  useEffect(() => {
+    if (selectRegister.called) {
+      setLoading(false);
+      const { error, errorCode, userToken } = selectRegister;
+      if (errorCode === "1" && !error) {
+        snackBar("User Created Succesfully!", "green");
+        setAuthenticated(true);
+        setFromLogin(false);
+      } else {
+        snackBar(userToken, "red");
+      }
+    }
+  }, [selectRegister]);
+
   return (
-    <SafeAreaView style={styles.container}>
+    <LinearGradient
+      style={styles.container}
+      colors={Platform.OS === "ios" ? gradient_ios : gradient_android}
+    >
+      {loading && <Loader />}
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Box style={styles.headerContainer}>
+        <Box style={styles.header}>
           <Box ph={15} mt={15}>
             <Header back onPress={() => navigation.goBack()} />
             <Box mv={10}>
@@ -88,30 +142,29 @@ export default function SignUp({ navigation }: SignUpProps) {
         </Box>
         <Box ph={15}>
           <TextBox
-            onChangeText={(value: any) => handleOnChangeText(value, "fullname")}
+            onChangeText={setName}
             label={"Full Name*"}
-            value={fullname}
-            error={fullNameerror}
+            value={name}
+            error={errors?.name}
           />
           <TextBox
-            onChangeText={(value: any) => handleOnChangeText(value, "email")}
+            onChangeText={setEmail}
             label={"Email address*"}
             value={email}
             keyboardType={"email-address"}
-            error={emailError}
+            error={errors?.email}
           />
           <TextBox
-            onChangeText={(value: any) =>
-              handleOnChangeText(value, "phonenumber")
-            }
+            onChangeText={setPhoneNumber}
             label={"Phone Number*"}
-            value={phonenumber}
+            value={phoneNumber}
+            error={errors?.phone}
           />
           <TextBox
-            onChangeText={(value: any) => handleOnChangeText(value, "password")}
+            onChangeText={setPassword}
             label={"Password*"}
             value={password}
-            error={passwordError}
+            error={errors?.password}
             secureTextEntry={secureTextEntry}
             right={
               <TextInput.Icon
@@ -122,13 +175,11 @@ export default function SignUp({ navigation }: SignUpProps) {
             }
           />
           <TextBox
-            onChangeText={(value: any) =>
-              handleOnChangeText(value, "cpassword")
-            }
+            onChangeText={setCPassword}
             label={"Confirm Password*"}
             value={cpassword}
             secureTextEntry={secureTextEntry}
-            error={cpasswordError}
+            error={errors?.cpassword}
             right={
               <TextInput.Icon
                 forceTextInputFocus={secureTextEntry}
@@ -160,10 +211,7 @@ export default function SignUp({ navigation }: SignUpProps) {
           </Box>
 
           <Box mt={20}>
-            <PrimaryButton
-              label="Sign Up"
-              onPress={() => console.log("Hello")}
-            />
+            <PrimaryButton label="Sign Up" onPress={OnHandleRegister} />
           </Box>
           <Box flexDirection="row" justifyContent="space-around" mt={20}>
             {(Platform.OS === "android" ? androidImages : iosImages).map(
@@ -172,29 +220,32 @@ export default function SignUp({ navigation }: SignUpProps) {
                   <Image
                     key={index.toString()}
                     source={el}
-                    style={{ height: 65, width: 65 }}
+                    style={{
+                      height: pixelSizeVertical(60),
+                      width: pixelSizeHorizontal(60),
+                    }}
                   />
                 );
               }
             )}
           </Box>
-          <Box style={styles.bottomText}>
-            <CustomText
-              color={colors.appblack}
-              fontSize={14}
-              fontFamily="Inter-Bold"
-            >
-              Already have an account?
-            </CustomText>
-            <TextButton
-              label=" Sign In"
-              style={{ fontSize: 14, fontFamily: "Inter-Bold" }}
-              onPress={() => navigation.navigate("Login")}
-            />
-          </Box>
+        </Box>
+        <Box style={styles.bottomText}>
+          <CustomText
+            color={colors.appblack}
+            fontSize={14}
+            fontFamily="Inter-Bold"
+          >
+            Already have an account?
+          </CustomText>
+          <TextButton
+            label=" Sign In"
+            style={{ fontSize: 14, fontFamily: "Inter-Bold" }}
+            onPress={() => navigation.navigate("Login")}
+          />
         </Box>
       </ScrollView>
-    </SafeAreaView>
+    </LinearGradient>
   );
 }
 
@@ -202,16 +253,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
-    backgroundColor: "#EFECEC",
   },
-  headerContainer: {
-    backgroundColor: "#EFECEC",
-    // marginTop: Platform.OS === "ios" ? 50 : 0,
-  },
+
   bottomText: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: "auto",
+    paddingTop: pixelSizeVertical(20),
+  },
+  header: {
+    marginTop: Platform.OS === "ios" ? 30 : 0,
   },
 });

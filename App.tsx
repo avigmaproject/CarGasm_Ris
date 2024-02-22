@@ -6,32 +6,71 @@ import Login from "./app/views/auth/login/Login";
 import SignUp from "./app/views/auth/signup/SignUp";
 import Splash from "./app/views/splash/Splash";
 import Intro from "./app/views/intro/Intro";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import GlobalContext from "./app/contexts/GlobalContext";
+import Home from "./app/views/home/Home";
+import Profile from "./app/views/profile/Profile";
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
+  const [fromLogin, setFromLogin] = useState(false);
   const RootStack = createStackNavigator<RootStackParamList>();
-
-  console.log("authenticated", authenticated);
 
   return (
     <GlobalContext.Provider
       value={{
         setAuthenticated,
+        setFromLogin,
       }}
     >
-      {/* <SafeAreaView style={styles.container}> */}
       <NavigationContainer>
         <RootStack.Navigator screenOptions={{ headerShown: false }}>
-          <RootStack.Screen name="Splash" component={Splash} />
-          <RootStack.Screen name="Intro" component={Intro} />
-          <RootStack.Screen name="Welcome" component={Welcome} />
-          <RootStack.Screen name="Login" component={Login} />
-          <RootStack.Screen name="SignUp" component={SignUp} />
+          {!authenticated ? (
+            <>
+              <RootStack.Screen
+                name="Splash"
+                component={Splash}
+                options={{ headerShown: false }}
+              />
+              <RootStack.Screen
+                name="Intro"
+                component={Intro}
+                options={{ headerShown: false, gestureEnabled: false }}
+              />
+              <RootStack.Screen
+                name="Welcome"
+                component={Welcome}
+                options={{ headerShown: false, gestureEnabled: false }}
+              />
+              <RootStack.Screen
+                name="Login"
+                component={Login}
+                options={{ headerShown: false }}
+              />
+              <RootStack.Screen
+                name="SignUp"
+                component={SignUp}
+                options={{ headerShown: false }}
+              />
+            </>
+          ) : (
+            <>
+              {fromLogin && (
+                <RootStack.Screen
+                  name="Home"
+                  component={Home}
+                  options={{ headerShown: false }}
+                />
+              )}
+              <RootStack.Screen
+                name="Profile"
+                component={Profile}
+                options={{ headerShown: false }}
+              />
+            </>
+          )}
         </RootStack.Navigator>
       </NavigationContainer>
-      {/* </SafeAreaView> */}
     </GlobalContext.Provider>
   );
 };

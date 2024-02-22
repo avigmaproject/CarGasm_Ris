@@ -34,6 +34,7 @@ const colors = {
   appblack: "#677294",
   orange: "#FF7A00",
   lightOrange: "rgba(255, 122, 0, 0.1)",
+  lightPrimary: "rgba(48, 164, 224, 0.09)",
 };
 
 export default colors;

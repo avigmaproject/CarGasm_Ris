@@ -7,7 +7,7 @@ import {
   Pressable,
   Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppIntroSlider from "react-native-app-intro-slider";
 import Box from "../../components/Box";
 import CustomText from "../../components/CustomText";
@@ -15,6 +15,7 @@ import { IntroProps } from "../../types/propTypes";
 import Icon from "react-native-vector-icons/AntDesign";
 import colors from "../../utils/color";
 import GradientText from "../../components/GradientText";
+import { saveIsFirstTime } from "../../utils/localStorage";
 
 const slides = [
   {
@@ -42,6 +43,10 @@ const slides = [
 
 export default function Intro({ navigation }: IntroProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    saveIsFirstTime();
+  }, []);
 
   function renderNextButton() {
     return (

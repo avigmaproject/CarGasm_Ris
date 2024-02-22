@@ -1,40 +1,52 @@
 import { AxiosError } from "axios";
 import axiosInstance from "../../axios";
-import { LOGIN_SUBMIT } from "../../utils/api";
 import { AppDispatch } from "../store";
 import { postAuth } from "../../utils/helper";
+import { PASSWORD_FORGOT } from "../../utils/api";
 
-const LOGIN: LOGIN = "carGasm/login";
+const FORGOT_PASSWORD: FORGOT_PASSWORD = "carGasm/forgotPassword";
 
-const initialState: LoginState = {
+const initialState: ForgotPasswordState = {
   called: false,
   error: false,
   errorCode: "",
-  userToken: "",
+  device: null,
+  email_Url: "",
+  emailID: "",
+  type: null,
+  user_PkeyID: null,
+  userCode: "",
+  userID: null,
 };
 
-export default (state = initialState, action: LoginAction): LoginState => {
+export default (
+  state = initialState,
+  action: ForgotPasswordAction
+): ForgotPasswordState => {
   switch (action.type) {
-    case LOGIN:
+    case FORGOT_PASSWORD:
       return { ...state, ...action.payload };
     default:
       return { ...state, called: false };
   }
 };
 
-const loginAction = (res: LoginState): LoginAction => {
-  return { type: LOGIN, payload: { ...res, called: true } };
+const forgotPasswordAction = (
+  res: ForgotPasswordState
+): ForgotPasswordAction => {
+  return { type: FORGOT_PASSWORD, payload: { ...res, called: true } };
 };
 
-export const onLogin =
-  (User_Email: string, User_Password: string, Type: number) =>
+export const onForgotPassword =
+  (EmailID: string, Type: number, Device: number, Email_Url: string) =>
   async (dispatch: AppDispatch) => {
-    const url = LOGIN_SUBMIT;
+    const url = PASSWORD_FORGOT;
 
     let data = JSON.stringify({
-      User_Email: User_Email,
-      User_Password: User_Password,
+      EmailID: EmailID,
       Type: Type,
+      Device: Device,
+      Email_Url: Email_Url,
     });
 
     const config = {
@@ -46,7 +58,7 @@ export const onLogin =
     axiosInstance
       .post(url, data, config)
       .then((res) => {
-        dispatch(loginAction({ ...res.data, error: false }));
+        dispatch(forgotPasswordAction({ ...res.data, error: false }));
         if (res.data.userToken) {
           postAuth(res.data.userToken);
         }
@@ -54,7 +66,7 @@ export const onLogin =
       .catch((error: AxiosError) => {
         if (error.request._response) {
           dispatch(
-            loginAction({
+            forgotPasswordAction({
               ...JSON.parse(error.request._response),
               error: true,
               called: false,

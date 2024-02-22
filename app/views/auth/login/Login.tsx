@@ -31,6 +31,10 @@ import { onLogin } from "../../../redux/ducks/login";
 import { useAppSelector } from "../../../utils/hooks";
 import GlobalContext from "../../../contexts/GlobalContext";
 import Loader from "../../../components/Loader";
+import { snackBar } from "../../../utils/helper";
+import LinearGradient from "react-native-linear-gradient";
+import { pixelSizeVertical } from "../../../utils/responsive";
+import { gradient_android, gradient_ios } from "../../../utils/constant";
 
 const androidImages = [
   require("../../../assets/images/Facebook.png"),
@@ -52,7 +56,7 @@ export default function Login({ navigation }: LoginProps) {
   const [loading, setLoading] = useState(false);
   const actionSheetRef = useSheetRef();
   const selectLogin = useAppSelector((state) => state.login);
-  const { setAuthenticated } = useContext(GlobalContext);
+  const { setAuthenticated, setFromLogin } = useContext(GlobalContext);
 
   const dispatch = useDispatch<any>();
 
@@ -106,17 +110,24 @@ export default function Login({ navigation }: LoginProps) {
   useEffect(() => {
     if (selectLogin.called) {
       setLoading(false);
-      const { error, errorCode } = selectLogin;
-      if (!error) {
+      const { error, errorCode, userToken } = selectLogin;
+      if (errorCode === "1" && !error) {
+        snackBar("Login Succesfull !", "green");
         setAuthenticated(true);
+        setFromLogin(true);
+      } else {
+        snackBar(userToken, "red");
       }
     }
   }, [selectLogin]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <LinearGradient
+      style={styles.container}
+      colors={Platform.OS === "ios" ? gradient_ios : gradient_android}
+    >
       {loading && <Loader />}
-      <Box style={styles.headerContainer}>
+      <Box style={styles.header}>
         <Box ph={15} mt={15}>
           <Header back onPress={() => navigation.goBack()} />
           <Box mv={10}>
@@ -211,22 +222,21 @@ export default function Login({ navigation }: LoginProps) {
             }
           )}
         </Box>
-        <Box style={styles.bottomText}>
-          <CustomText
-            color={colors.appblack}
-            fontSize={14}
-            fontFamily="Inter-Bold"
-          >
-            Don't have an account?
-          </CustomText>
-          <TextButton
-            label=" Sign Up"
-            style={{ fontSize: 14, fontFamily: "Inter-Bold" }}
-            onPress={() => navigation.navigate("SignUp")}
-          />
-        </Box>
       </Box>
-
+      <Box style={styles.bottomText}>
+        <CustomText
+          color={colors.appblack}
+          fontSize={14}
+          fontFamily="Inter-Bold"
+        >
+          Don't have an account?
+        </CustomText>
+        <TextButton
+          label=" Sign Up"
+          style={{ fontSize: 14, fontFamily: "Inter-Bold" }}
+          onPress={() => navigation.navigate("SignUp")}
+        />
+      </Box>
       <ActionSheet
         ref={actionSheetRef}
         id="reset-password"
@@ -242,22 +252,23 @@ export default function Login({ navigation }: LoginProps) {
       >
         <ForgotPassword />
       </ActionSheet>
-    </SafeAreaView>
+    </LinearGradient>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
-    backgroundColor: "#EFECEC",
   },
-  headerContainer: {
-    backgroundColor: "#EFECEC",
-  },
+
   bottomText: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 25,
+    marginTop: "auto",
+    paddingBottom: pixelSizeVertical(30),
+  },
+  header: {
+    marginTop: Platform.OS === "ios" ? 50 : 20,
   },
 });

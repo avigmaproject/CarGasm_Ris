@@ -4,30 +4,36 @@ import { LOGIN_SUBMIT } from "../../utils/api";
 import { AppDispatch } from "../store";
 import { postAuth } from "../../utils/helper";
 
-const LOGIN: LOGIN = "carGasm/login";
+const SIGNUP: SIGNUP = "carGasm/signup";
 
-const initialState: LoginState = {
+const initialState: SignupState = {
   called: false,
   error: false,
   errorCode: "",
   userToken: "",
 };
 
-export default (state = initialState, action: LoginAction): LoginState => {
+export default (state = initialState, action: SignupAction): SignupState => {
   switch (action.type) {
-    case LOGIN:
+    case SIGNUP:
       return { ...state, ...action.payload };
     default:
       return { ...state, called: false };
   }
 };
 
-const loginAction = (res: LoginState): LoginAction => {
-  return { type: LOGIN, payload: { ...res, called: true } };
+const signupAction = (res: SignupState): SignupAction => {
+  return { type: SIGNUP, payload: { ...res, called: true } };
 };
 
-export const onLogin =
-  (User_Email: string, User_Password: string, Type: number) =>
+export const onRegister =
+  (
+    User_Email: string,
+    User_Password: string,
+    Type: number,
+    User_Name: string,
+    User_Phone: string
+  ) =>
   async (dispatch: AppDispatch) => {
     const url = LOGIN_SUBMIT;
 
@@ -35,6 +41,8 @@ export const onLogin =
       User_Email: User_Email,
       User_Password: User_Password,
       Type: Type,
+      User_Name: User_Name,
+      User_Phone: User_Phone,
     });
 
     const config = {
@@ -46,7 +54,7 @@ export const onLogin =
     axiosInstance
       .post(url, data, config)
       .then((res) => {
-        dispatch(loginAction({ ...res.data, error: false }));
+        dispatch(signupAction({ ...res.data, error: false }));
         if (res.data.userToken) {
           postAuth(res.data.userToken);
         }
@@ -54,7 +62,7 @@ export const onLogin =
       .catch((error: AxiosError) => {
         if (error.request._response) {
           dispatch(
-            loginAction({
+            signupAction({
               ...JSON.parse(error.request._response),
               error: true,
               called: false,

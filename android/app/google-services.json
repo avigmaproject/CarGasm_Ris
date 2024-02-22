@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "278711631399",
+    "project_id": "cargasm-1889e",
+    "storage_bucket": "cargasm-1889e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278711631399:android:8aaf50b6119f839ca89802",
+        "android_client_info": {
+          "package_name": "com.cargasmrn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABDnr6HPVaAfcb1bei3CazTp2jjDB01MM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

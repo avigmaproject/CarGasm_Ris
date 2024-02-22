@@ -1,5 +1,5 @@
 import { StyleSheet, Text, Animated } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 
 import {
   heightPercentageToDP as hp,
@@ -9,8 +9,11 @@ import { SplashProps } from "../../types/propTypes";
 import Box from "../../components/Box";
 import CustomText from "../../components/CustomText";
 import LinearGradient from "react-native-linear-gradient";
+import { getIsFirstTime, getUserToken } from "../../utils/localStorage";
+import GlobalContext from "../../contexts/GlobalContext";
 
 export default function Splash({ navigation }: SplashProps) {
+  const { setAuthenticated } = useContext(GlobalContext);
   const translateX = useRef(new Animated.Value(-wp("65%"))).current;
 
   useEffect(() => {
@@ -20,9 +23,29 @@ export default function Splash({ navigation }: SplashProps) {
       useNativeDriver: false,
     }).start(() => {
       // Animation completed, navigate to the next screen
-      navigation.navigate("Intro");
+      getToken();
     });
   }, [navigation, translateX]);
+
+  function onInvalidUser() {
+    getIsFirstTime().then((isFirstTime) => {
+      if (isFirstTime) {
+        navigation.navigate("Welcome");
+      } else {
+        navigation.navigate("Intro");
+      }
+    });
+  }
+
+  function getToken() {
+    getUserToken().then((token) => {
+      if (token) {
+        setAuthenticated(true);
+      } else {
+        onInvalidUser();
+      }
+    });
+  }
 
   return (
     <LinearGradient colors={["#09F0B9", "#4E6AFF"]} style={styles.container}>

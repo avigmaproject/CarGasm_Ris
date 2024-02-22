@@ -1,5 +1,5 @@
 import SInfo from "react-native-sensitive-info";
-import { TOKEN } from "./constant";
+import { TOKEN, IS_FIRST_TIME } from "./constant";
 
 export function saveUserToken(token: string): Promise<null> {
   return SInfo.setItem(TOKEN, token, {
@@ -20,4 +20,12 @@ export function deleteUserToken(): Promise<null> {
     sharedPreferencesName: "my_shared_prefs",
     keychainService: "my_keychain",
   });
+}
+
+export function saveIsFirstTime(): Promise<null> {
+  return SInfo.setItem(IS_FIRST_TIME, "true", {});
+}
+
+export function getIsFirstTime(): Promise<string | null> {
+  return SInfo.getItem(IS_FIRST_TIME, {});
 }
