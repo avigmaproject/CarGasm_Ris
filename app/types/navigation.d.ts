@@ -6,4 +6,5 @@ type RootStackParamList = {
   SignUp: undefined;
   Home: undefined;
   Profile: undefined;
+  Subscription: undefined;
 };

@@ -10,10 +10,12 @@ import { StyleSheet } from "react-native";
 import GlobalContext from "./app/contexts/GlobalContext";
 import Home from "./app/views/home/Home";
 import Profile from "./app/views/profile/Profile";
+import Subscription from "./app/views/subscription/Subscription";
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [fromLogin, setFromLogin] = useState(false);
+  const [globalUserName, setGlobalUserName] = useState("");
   const RootStack = createStackNavigator<RootStackParamList>();
 
   return (
@@ -21,6 +23,8 @@ const App = () => {
       value={{
         setAuthenticated,
         setFromLogin,
+        globalUserName,
+        setGlobalUserName,
       }}
     >
       <NavigationContainer>
@@ -55,16 +59,21 @@ const App = () => {
             </>
           ) : (
             <>
-              {fromLogin && (
+              {!fromLogin && (
                 <RootStack.Screen
-                  name="Home"
-                  component={Home}
+                  name="Profile"
+                  component={Profile}
                   options={{ headerShown: false }}
                 />
               )}
               <RootStack.Screen
-                name="Profile"
-                component={Profile}
+                name="Home"
+                component={Home}
+                options={{ headerShown: false }}
+              />
+              <RootStack.Screen
+                name="Subscription"
+                component={Subscription}
                 options={{ headerShown: false }}
               />
             </>

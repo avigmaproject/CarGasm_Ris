@@ -1,5 +1,5 @@
 import { View, StyleSheet, Platform, Image, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LinearGradient from "react-native-linear-gradient";
 import { dummyProfileUrl } from "../../utils/constant";
 import Header from "../../components/Header";
@@ -19,26 +19,72 @@ import ActionSheet, {
   useSheetRef,
 } from "react-native-actions-sheet";
 import ImagePicker from "../../components/ImagePicker";
+import GlobalContext from "../../contexts/GlobalContext";
+import { deleteUserToken, getUserToken } from "../../utils/localStorage";
+import { uploaddocumnetaws } from "../../utils/awsFile";
+import Loader from "../../components/Loader";
+import { useDispatch } from "react-redux";
+import { updateProfile } from "../../redux/ducks/profile";
+import { useAppSelector } from "../../utils/hooks";
+import { snackBar } from "../../utils/helper";
+import { isNameValid } from "../../utils/regex";
+import Label from "../../components/Label";
 
 export default function Profile({ navigation }: ProfileProps) {
   const actionSheetRef = useSheetRef();
-  const [selectedImage, setSelectedImage] = useState(dummyProfileUrl);
+  const { setFromLogin, globalUserName } = useContext(GlobalContext);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [bio, setBio] = useState("");
+  const [name, setName] = useState(globalUserName);
+  const dispatch = useDispatch<any>();
+  const [imageName, setImageName] = useState("");
+  const [nameError, setNameError] = useState("");
+  const selectUpdateProfile = useAppSelector((state) => state.profile);
+  // const userToken = getUserToken();
 
   function showActionSheet() {
     SheetManager.show("camera");
   }
-  function onSaveImage(uploadedImages: ImageData[] | null) {
+  async function onSaveImage(uploadedImages: ImageData[] | null) {
     if (uploadedImages) {
-      setSelectedImage(uploadedImages[0].uri);
+      setLoading(true);
+      setImageName(uploadedImages[0].name);
+      const res = await uploaddocumnetaws(uploadedImages[0]);
+      setSelectedImage(res.location);
       SheetManager.hide("camera");
+      setLoading(false);
     }
   }
+
+  function onSellItem() {
+    if (name.length !== 0 && isNameValid(name)) {
+      setLoading(true);
+      dispatch(updateProfile("", "", 2, selectedImage, bio, imageName, name));
+      setName("");
+    } else {
+      setNameError("Name is required");
+    }
+  }
+
+  useEffect(() => {
+    if (selectUpdateProfile.called) {
+      setLoading(false);
+      const { error } = selectUpdateProfile;
+      if (!error) {
+        snackBar("Profile Updated successfully", "green");
+        setFromLogin(true);
+        // navigation.navigate("Subscription");
+      }
+    }
+  }, [selectUpdateProfile]);
 
   return (
     <LinearGradient
       style={styles.container}
       colors={["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)"]}
     >
+      {loading && <Loader />}
       <Box style={styles.header}>
         <Header
           back={false}
@@ -72,25 +118,33 @@ export default function Profile({ navigation }: ProfileProps) {
           </Pressable>
           <Image
             source={{
-              uri: selectedImage,
+              uri: selectedImage.length !== 0 ? selectedImage : dummyProfileUrl,
             }}
             style={{ height: 110, width: 110, borderRadius: 55 }}
           />
         </View>
       </Box>
       <Box ph={20} pv={20}>
-        <Input label="User Name" />
+        <Input
+          label="User Name"
+          value={name}
+          onChangeText={setName}
+          error={nameError}
+        />
+
         <Box mt={10}>
           <Input
             label="Bio"
             multiline={true}
             numberOfLines={4}
             input={{ height: 150, paddingTop: 20 }}
+            value={bio}
+            onChangeText={setBio}
           />
         </Box>
       </Box>
       <Box style={styles.button}>
-        <PrimaryButton label="Sell Item" onPress={() => alert("Thank You")} />
+        <PrimaryButton label="Sell Item" onPress={onSellItem} />
       </Box>
       <ActionSheet ref={actionSheetRef} id="camera" headerAlwaysVisible>
         <ImagePicker onSaveImage={onSaveImage} />

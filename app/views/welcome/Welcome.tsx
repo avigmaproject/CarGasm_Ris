@@ -104,7 +104,7 @@ export default function Welcome({ navigation }: WelcomeProps) {
           <Box mt={20}>
             <PrimaryButton
               label="Hot Deals"
-              onPress={() => navigation.navigate("Login")}
+              onPress={() => alert("Under Construction")}
               varient="HotDeal"
             />
           </Box>

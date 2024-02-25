@@ -96,7 +96,12 @@ export default function ImagePicker({ onSaveImage }: ImagePickerProps) {
   }
 
   return (
-    <Box flexDirection="row" justifyContent="space-between">
+    <Box
+      flexDirection="row"
+      justifyContent={
+        Platform.OS === "android" ? "space-around" : "space-between"
+      }
+    >
       {(Platform.OS === "android" ? options : iosOptions).map((el, index) => {
         return (
           <Pressable

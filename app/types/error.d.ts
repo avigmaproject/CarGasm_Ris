@@ -10,3 +10,8 @@ type SignupErrors = {
   cpassword?: string;
   phone?: string;
 };
+
+type ResetPasswordErros = {
+  password?: string;
+  cpassword?: string;
+};

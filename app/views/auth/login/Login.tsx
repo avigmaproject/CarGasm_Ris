@@ -1,10 +1,4 @@
-import {
-  TouchableOpacity,
-  StyleSheet,
-  Platform,
-  SafeAreaView,
-  Keyboard,
-} from "react-native";
+import { TouchableOpacity, StyleSheet, Platform, Keyboard } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { TextInput } from "react-native-paper";
 import TextBox from "../../../components/TextBox";
@@ -18,13 +12,9 @@ import TextButton from "../../../components/TextButton";
 import PrimaryButton from "../../../components/PrimaryButton";
 import { Image } from "react-native";
 import { LoginProps } from "../../../types/propTypes";
-import ActionSheet, {
-  Route,
-  useSheetRef,
-  SheetManager,
-} from "react-native-actions-sheet";
+import ActionSheet, { Route, useSheetRef } from "react-native-actions-sheet";
 import ForgotPassword from "../component/ForgotPassword";
-import OtpPage from "../component/OtpPage";
+// import OtpPage from "../component/OtpPage";
 import ResetPassword from "../component/ResetPassword";
 import { useDispatch } from "react-redux";
 import { onLogin } from "../../../redux/ducks/login";
@@ -64,11 +54,12 @@ export default function Login({ navigation }: LoginProps) {
     {
       name: "route-a",
       component: ForgotPassword,
+      params: undefined,
     },
-    {
-      name: "route-b",
-      component: OtpPage,
-    },
+    // {
+    //   name: "route-b",
+    //   component: OtpPage,
+    // },
     {
       name: "route-c",
       component: ResetPassword,
@@ -82,8 +73,7 @@ export default function Login({ navigation }: LoginProps) {
   };
 
   function forgotPassSheet() {
-    // actionSheetRef.current?.show();
-    SheetManager.show("reset-password");
+    actionSheetRef.current?.show();
   }
 
   function validateInputs() {
@@ -238,10 +228,9 @@ export default function Login({ navigation }: LoginProps) {
         />
       </Box>
       <ActionSheet
-        ref={actionSheetRef}
         id="reset-password"
         headerAlwaysVisible
-        enableRouterBackNavigation={true}
+        enableRouterBackNavigation={false}
         routes={routes}
         initialRoute="route-a"
         indicatorStyle={{
@@ -249,9 +238,7 @@ export default function Login({ navigation }: LoginProps) {
           marginTop: 20,
           backgroundColor: "#C4C4C4",
         }}
-      >
-        <ForgotPassword />
-      </ActionSheet>
+      />
     </LinearGradient>
   );
 }

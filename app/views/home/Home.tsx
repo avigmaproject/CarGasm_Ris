@@ -13,10 +13,17 @@ export default function Home() {
   };
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text style={{ fontWeight: "600", color: "black", fontSize: 20 }}>
+      <Text
+        style={{
+          fontWeight: "600",
+          color: "black",
+          fontSize: 20,
+          marginBottom: 20,
+        }}
+      >
         Under Construction
       </Text>
-      <PrimaryButton label="Log Out" varient="Secondary" onPress={onLogout} />
+      <PrimaryButton label="Log Out" onPress={onLogout} />
     </View>
   );
 }

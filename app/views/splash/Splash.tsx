@@ -13,7 +13,7 @@ import { getIsFirstTime, getUserToken } from "../../utils/localStorage";
 import GlobalContext from "../../contexts/GlobalContext";
 
 export default function Splash({ navigation }: SplashProps) {
-  const { setAuthenticated } = useContext(GlobalContext);
+  const { setAuthenticated, setFromLogin } = useContext(GlobalContext);
   const translateX = useRef(new Animated.Value(-wp("65%"))).current;
 
   useEffect(() => {
@@ -41,6 +41,7 @@ export default function Splash({ navigation }: SplashProps) {
     getUserToken().then((token) => {
       if (token) {
         setAuthenticated(true);
+        setFromLogin(true);
       } else {
         onInvalidUser();
       }

@@ -101,6 +101,7 @@ type ResetPasswordProps = {
 
 type LoaderProps = {
   status?: string;
+  isSheet?: boolean;
 };
 
 type SnackProps = {
@@ -123,6 +124,7 @@ type ProfileProps = {
 type TextInProps = {
   label: string;
   input?: ViewStyle;
+  error?: string;
 };
 
 type ImagePickerProps = {

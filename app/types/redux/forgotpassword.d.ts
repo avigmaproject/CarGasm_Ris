@@ -15,5 +15,5 @@ type ForgotPasswordState = {
 
 type ForgotPasswordAction = {
   type: FORGOT_PASSWORD;
-  payload: ForgotPasswordState;
+  payload: ForgotPasswordState[];
 };

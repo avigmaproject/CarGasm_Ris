@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "../../../components/Box";
 import CustomText from "../../../components/CustomText";
 import TextBox from "../../../components/TextBox";
@@ -8,26 +8,40 @@ import dynamicLinks from "@react-native-firebase/dynamic-links";
 import { isEmailValid } from "../../../utils/regex";
 import { useDispatch } from "react-redux";
 import { onForgotPassword } from "../../../redux/ducks/forgotpassword";
+import { useAppSelector } from "../../../utils/hooks";
+import { snackBar } from "../../../utils/helper";
+import Loader from "../../../components/Loader";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("rish12@gmail.com");
   const [link, setLink] = useState("");
-  const router = useSheetRouter();
   const [emailError, setEmailError] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<any>();
+  const selectForgotPassword = useAppSelector((state) => state.forgotpassword);
+  const router = useSheetRouter("sheet-router");
 
   function onContinue() {
     if (isEmailValid(email)) {
       generateLink();
       setEmailError("");
-      if (link) {
-        dispatch(onForgotPassword(email, 1, 1, link));
-      }
+      setLoading(true);
+      dispatch(onForgotPassword(email, 1, 1, link));
     } else {
       setEmailError("Invalid Email");
     }
-    // router?.navigate("route-b");
   }
+
+  useEffect(() => {
+    if (selectForgotPassword.called) {
+      const { userCode, error } = selectForgotPassword[0];
+      if (!error && userCode === "Sucesss") {
+        setLoading(false);
+        snackBar("Email sent on your registered Email ID", "green");
+        router?.navigate("route-c", { email: email });
+      }
+    }
+  }, [selectForgotPassword]);
 
   const generateLink = async () => {
     const link = await dynamicLinks().buildShortLink({
@@ -52,6 +66,7 @@ export default function ForgotPassword() {
 
   return (
     <Box ph={20} pv={10}>
+      {loading && <Loader isSheet />}
       <Box mt={30}>
         <CustomText
           fontSize={24}

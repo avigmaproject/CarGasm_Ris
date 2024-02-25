@@ -54,7 +54,8 @@ export default function SignUp({ navigation }: SignUpProps) {
   const [loading, setLoading] = useState(false);
 
   const selectRegister = useAppSelector((state) => state.signup);
-  const { setAuthenticated, setFromLogin } = useContext(GlobalContext);
+  const { setAuthenticated, setFromLogin, setGlobalUserName } =
+    useContext(GlobalContext);
 
   const dispatch = useDispatch<any>();
 
@@ -102,6 +103,7 @@ export default function SignUp({ navigation }: SignUpProps) {
         snackBar("User Created Succesfully!", "green");
         setAuthenticated(true);
         setFromLogin(false);
+        setGlobalUserName(name);
       } else {
         snackBar(userToken, "red");
       }

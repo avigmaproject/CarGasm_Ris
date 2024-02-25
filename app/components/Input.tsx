@@ -15,7 +15,7 @@ import {
 } from "react-native-responsive-screen";
 
 export default function Input(props: TextInputProps & TextInProps) {
-  const { label, input } = props;
+  const { label, input, error } = props;
   return (
     <View>
       <CustomText
@@ -26,7 +26,15 @@ export default function Input(props: TextInputProps & TextInProps) {
       >
         {label}
       </CustomText>
-      <TextInput {...props} style={[styles.inputStyle, input]} />
+      <TextInput
+        {...props}
+        style={[styles.inputStyle, input, error && styles.error]}
+      />
+      {error && (
+        <CustomText color="red" fontSize={15}>
+          {error}
+        </CustomText>
+      )}
     </View>
   );
 }
@@ -43,5 +51,9 @@ const styles = StyleSheet.create({
     color: "#333B4B",
     fontFamily: "Inter-Medium",
     fontSize: 16,
+  },
+  error: {
+    borderColor: "red",
+    borderWidth: 1.5,
   },
 });
