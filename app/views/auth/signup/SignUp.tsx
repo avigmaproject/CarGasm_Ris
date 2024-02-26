@@ -89,9 +89,11 @@ export default function SignUp({ navigation }: SignUpProps) {
 
   const OnHandleRegister = () => {
     const isValid = validateInputs();
-    if (isValid) {
+    if (isValid && termcondition) {
       setLoading(true);
       dispatch(onRegister(email, password, 2, name, phoneNumber));
+    } else {
+      snackBar("Please agree terms and privacy policy", "red");
     }
   };
 

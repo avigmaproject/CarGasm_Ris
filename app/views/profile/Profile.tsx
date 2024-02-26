@@ -73,8 +73,8 @@ export default function Profile({ navigation }: ProfileProps) {
       const { error } = selectUpdateProfile;
       if (!error) {
         snackBar("Profile Updated successfully", "green");
-        setFromLogin(true);
-        // navigation.navigate("Subscription");
+        // setFromLogin(true);
+        navigation.navigate("Subscription");
       }
     }
   }, [selectUpdateProfile]);

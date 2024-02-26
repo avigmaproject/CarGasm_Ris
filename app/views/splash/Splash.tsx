@@ -29,9 +29,12 @@ export default function Splash({ navigation }: SplashProps) {
 
   function onInvalidUser() {
     getIsFirstTime().then((isFirstTime) => {
+      console.log("isFirstTime", isFirstTime);
       if (isFirstTime) {
+        console.log("Welcome");
         navigation.navigate("Welcome");
       } else {
+        console.log("Intro");
         navigation.navigate("Intro");
       }
     });
@@ -39,6 +42,7 @@ export default function Splash({ navigation }: SplashProps) {
 
   function getToken() {
     getUserToken().then((token) => {
+      console.log("token", token);
       if (token) {
         setAuthenticated(true);
         setFromLogin(true);

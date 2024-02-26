@@ -6,3 +6,12 @@ type ImageData = {
   type: string;
   uri: string;
 };
+
+type subscriptionType = {
+  id: number;
+  title: string;
+  price: string;
+  selected: boolean;
+  per: string;
+  points: string[];
+};

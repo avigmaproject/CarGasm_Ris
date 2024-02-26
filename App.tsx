@@ -60,20 +60,22 @@ const App = () => {
           ) : (
             <>
               {!fromLogin && (
-                <RootStack.Screen
-                  name="Profile"
-                  component={Profile}
-                  options={{ headerShown: false }}
-                />
+                <>
+                  <RootStack.Screen
+                    name="Profile"
+                    component={Profile}
+                    options={{ headerShown: false }}
+                  />
+                  <RootStack.Screen
+                    name="Subscription"
+                    component={Subscription}
+                    options={{ headerShown: false }}
+                  />
+                </>
               )}
               <RootStack.Screen
                 name="Home"
                 component={Home}
-                options={{ headerShown: false }}
-              />
-              <RootStack.Screen
-                name="Subscription"
-                component={Subscription}
                 options={{ headerShown: false }}
               />
             </>

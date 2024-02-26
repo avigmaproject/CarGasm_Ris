@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import axiosInstance from "../../axios";
 import { LOGIN_SUBMIT } from "../../utils/api";
 import { AppDispatch } from "../store";
-import { postAuth } from "../../utils/helper";
+import { handleError, postAuth } from "../../utils/helper";
 
 const LOGIN: LOGIN = "carGasm/login";
 
@@ -31,27 +31,22 @@ export const onLogin =
   async (dispatch: AppDispatch) => {
     const url = LOGIN_SUBMIT;
 
-    let data = JSON.stringify({
+    let body = JSON.stringify({
       User_Email: User_Email,
       User_Password: User_Password,
       Type: Type,
     });
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
     axiosInstance
-      .post(url, data, config)
+      .post(url, body)
       .then((res) => {
         dispatch(loginAction({ ...res.data, error: false }));
-        if (res.data.userToken) {
-          postAuth(res.data.userToken);
+        if (res.data.token) {
+          postAuth(res.data.token);
         }
       })
       .catch((error: AxiosError) => {
+        handleError(error, dispatch);
         if (error.request._response) {
           dispatch(
             loginAction({

@@ -1,4 +1,11 @@
-import { TouchableOpacity, StyleSheet, Platform, Keyboard } from "react-native";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+  Keyboard,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { TextInput } from "react-native-paper";
 import TextBox from "../../../components/TextBox";
@@ -25,6 +32,7 @@ import { snackBar } from "../../../utils/helper";
 import LinearGradient from "react-native-linear-gradient";
 import { pixelSizeVertical } from "../../../utils/responsive";
 import { gradient_android, gradient_ios } from "../../../utils/constant";
+import { getUserToken } from "../../../utils/localStorage";
 
 const androidImages = [
   require("../../../assets/images/Facebook.png"),
@@ -92,6 +100,7 @@ export default function Login({ navigation }: LoginProps) {
     Keyboard.dismiss();
     const isValid = validateInputs();
     if (isValid) {
+      console.log("called");
       setLoading(true);
       dispatch(onLogin(email, password, 1));
     }
@@ -117,116 +126,126 @@ export default function Login({ navigation }: LoginProps) {
       colors={Platform.OS === "ios" ? gradient_ios : gradient_android}
     >
       {loading && <Loader />}
-      <Box style={styles.header}>
-        <Box ph={15} mt={15}>
-          <Header back onPress={() => navigation.goBack()} />
-          <Box mv={10}>
-            <CustomText
-              fontFamily="Inter-Bold"
-              fontSize={26}
-              lineHeight={32}
-              color={colors.textColor}
-            >
-              Sign In 👋
-            </CustomText>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <Box style={styles.header}>
+            <Box ph={15} mt={15}>
+              <Header back onPress={() => navigation.goBack()} />
+              <Box mv={10}>
+                <CustomText
+                  fontFamily="Inter-Bold"
+                  fontSize={26}
+                  lineHeight={32}
+                  color={colors.textColor}
+                >
+                  Sign In 👋
+                </CustomText>
 
-            <CustomText
-              fontFamily="Inter-Regular"
-              fontSize={16}
-              lineHeight={20}
-              color={colors.appblack}
-              style={{ marginTop: 5 }}
-            >
-              Please sign in to enter in a app
-            </CustomText>
+                <CustomText
+                  fontFamily="Inter-Regular"
+                  fontSize={16}
+                  lineHeight={20}
+                  color={colors.appblack}
+                  style={{ marginTop: 5 }}
+                >
+                  Please sign in to enter in a app
+                </CustomText>
+              </Box>
+            </Box>
           </Box>
-        </Box>
-      </Box>
-      <Box ph={15}>
-        <TextBox
-          onChangeText={setEmail}
-          label={"Email address*"}
-          value={email}
-          keyboardType={"email-address"}
-          error={errors?.email}
-        />
-        <TextBox
-          onChangeText={setPassword}
-          label={"Password*"}
-          value={password}
-          secureTextEntry={secureTextEntry}
-          error={errors?.password}
-          right={
-            <TextInput.Icon
-              forceTextInputFocus={secureTextEntry}
-              icon={secureTextEntry ? "eye-off" : "eye"}
-              onPress={() => handleSecureEntry()}
+          <Box ph={15}>
+            <TextBox
+              onChangeText={setEmail}
+              label={"Email address*"}
+              value={email}
+              keyboardType={"email-address"}
+              error={errors?.email}
             />
-          }
-        />
-        <Box
-          flexDirection="row"
-          alignItems="center"
-          justifyContent="space-between"
-          pv={5}
-        >
-          <Box flexDirection="row" alignItems="center" mv={20}>
-            <TouchableOpacity onPress={() => onHandleRememberPassword()}>
-              <MaterialCommunityIcons
-                name={
-                  rememberpassword
-                    ? "checkbox-marked"
-                    : "checkbox-blank-outline"
-                }
-                size={25}
-                color={rememberpassword ? colors.primary : "#677294"}
-                style={{ marginRight: 5 }}
-              />
-            </TouchableOpacity>
-            <CustomText
-              fontFamily="Inter-Regular"
-              fontSize={12}
-              lineHeight={15}
-              color={"#677294"}
-            >
-              Remember Password
-            </CustomText>
-          </Box>
-          <Box>
-            <TextButton label="Forgot password?" onPress={forgotPassSheet} />
-          </Box>
-        </Box>
-        <Box mv={10}>
-          <PrimaryButton label="Sign In" onPress={onSubmit} />
-        </Box>
-        <Box flexDirection="row" justifyContent="space-around" mv={20}>
-          {(Platform.OS === "android" ? androidImages : iosImages).map(
-            (el, index) => {
-              return (
-                <Image
-                  key={index.toString()}
-                  source={el}
-                  style={{ height: 65, width: 65 }}
+            <TextBox
+              onChangeText={setPassword}
+              label={"Password*"}
+              value={password}
+              secureTextEntry={secureTextEntry}
+              error={errors?.password}
+              right={
+                <TextInput.Icon
+                  forceTextInputFocus={secureTextEntry}
+                  icon={secureTextEntry ? "eye-off" : "eye"}
+                  onPress={() => handleSecureEntry()}
                 />
-              );
-            }
-          )}
-        </Box>
-      </Box>
-      <Box style={styles.bottomText}>
-        <CustomText
-          color={colors.appblack}
-          fontSize={14}
-          fontFamily="Inter-Bold"
-        >
-          Don't have an account?
-        </CustomText>
-        <TextButton
-          label=" Sign Up"
-          style={{ fontSize: 14, fontFamily: "Inter-Bold" }}
-          onPress={() => navigation.navigate("SignUp")}
-        />
-      </Box>
+              }
+            />
+            <Box
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-between"
+              pv={5}
+            >
+              <Box flexDirection="row" alignItems="center" mv={20}>
+                <TouchableOpacity onPress={() => onHandleRememberPassword()}>
+                  <MaterialCommunityIcons
+                    name={
+                      rememberpassword
+                        ? "checkbox-marked"
+                        : "checkbox-blank-outline"
+                    }
+                    size={25}
+                    color={rememberpassword ? colors.primary : "#677294"}
+                    style={{ marginRight: 5 }}
+                  />
+                </TouchableOpacity>
+                <CustomText
+                  fontFamily="Inter-Regular"
+                  fontSize={12}
+                  lineHeight={15}
+                  color={"#677294"}
+                >
+                  Remember Password
+                </CustomText>
+              </Box>
+              <Box>
+                <TextButton
+                  label="Forgot password?"
+                  onPress={forgotPassSheet}
+                />
+              </Box>
+            </Box>
+            <Box mv={10}>
+              <PrimaryButton label="Sign In" onPress={onSubmit} />
+            </Box>
+            <Box flexDirection="row" justifyContent="space-around" mv={20}>
+              {(Platform.OS === "android" ? androidImages : iosImages).map(
+                (el, index) => {
+                  return (
+                    <Image
+                      key={index.toString()}
+                      source={el}
+                      style={{ height: 65, width: 65 }}
+                    />
+                  );
+                }
+              )}
+            </Box>
+          </Box>
+          <Box style={styles.bottomText}>
+            <CustomText
+              color={colors.appblack}
+              fontSize={14}
+              fontFamily="Inter-Bold"
+            >
+              Don't have an account?
+            </CustomText>
+            <TextButton
+              label=" Sign Up"
+              style={{ fontSize: 14, fontFamily: "Inter-Bold" }}
+              onPress={() => navigation.navigate("SignUp")}
+            />
+          </Box>
+        </ScrollView>
+      </KeyboardAvoidingView>
+
       <ActionSheet
         id="reset-password"
         headerAlwaysVisible
@@ -252,7 +271,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "auto",
+    marginTop: 100,
     paddingBottom: pixelSizeVertical(30),
   },
   header: {

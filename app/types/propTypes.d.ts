@@ -130,3 +130,12 @@ type TextInProps = {
 type ImagePickerProps = {
   onSaveImage: (images: Image[] | null) => void;
 };
+
+type SuscriptionButtonProps = {
+  data: subscriptionType;
+  onPress: () => void;
+};
+
+type SubscriptionProps = {
+  navigation: StackNavigationProp<RootStackParamList, "Subscription">;
+};

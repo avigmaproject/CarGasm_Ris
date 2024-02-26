@@ -1,9 +1,12 @@
 import axios from "axios";
 
-const BASE_URL = "http://apibtyb.ikaart.org/api";
+const BASE_URL = "https://apibuysell.ikaart.in/api";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 let CancelToken = axios.CancelToken;
