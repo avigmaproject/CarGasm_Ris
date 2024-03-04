@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import axiosInstance from "../../axios";
 import { LOGIN_SUBMIT } from "../../utils/api";
 import { AppDispatch } from "../store";
-import { postAuth } from "../../utils/helper";
+import { handleError, postAuth } from "../../utils/helper";
 
 const LOGIN: LOGIN = "carGasm/login";
 
@@ -18,7 +18,7 @@ export default (state = initialState, action: LoginAction): LoginState => {
     case LOGIN:
       return { ...state, ...action.payload };
     default:
-      return { ...state, called: false };
+      return { ...state };
   }
 };
 
@@ -31,27 +31,23 @@ export const onLogin =
   async (dispatch: AppDispatch) => {
     const url = LOGIN_SUBMIT;
 
-    let data = JSON.stringify({
+    let body = JSON.stringify({
       User_Email: User_Email,
       User_Password: User_Password,
       Type: Type,
     });
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
     axiosInstance
-      .post(url, data, config)
+      .post(url, body)
       .then((res) => {
         dispatch(loginAction({ ...res.data, error: false }));
         if (res.data.userToken) {
           postAuth(res.data.userToken);
         }
+        dispatch({ type: LOGIN, payload: { called: false } });
       })
       .catch((error: AxiosError) => {
+        handleError(error, dispatch);
         if (error.request._response) {
           dispatch(
             loginAction({

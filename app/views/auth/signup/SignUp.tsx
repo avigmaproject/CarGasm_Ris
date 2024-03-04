@@ -43,11 +43,11 @@ const iosImages = [
 ];
 
 export default function SignUp({ navigation }: SignUpProps) {
-  const [name, setName] = useState("Rish jain");
-  const [email, setEmail] = useState("ris@mail.com");
-  const [password, setPassword] = useState("hello");
-  const [cpassword, setCPassword] = useState("hello");
-  const [phoneNumber, setPhoneNumber] = useState("1234567890");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpassword, setCPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [secureTextEntry, setsecureTextEntry] = useState(true);
   const [termcondition, settermcondition] = useState(false);
   const [errors, setErrors] = useState<SignupErrors>();
@@ -80,7 +80,7 @@ export default function SignUp({ navigation }: SignUpProps) {
     if (!isNameValid(name)) {
       tempErrors.name = "Enter a valid name";
     }
-    if (phoneNumber.length === 0) {
+    if (phoneNumber.length < 10) {
       tempErrors.phone = "Enter a valid phone number";
     }
     setErrors(tempErrors);
@@ -89,9 +89,11 @@ export default function SignUp({ navigation }: SignUpProps) {
 
   const OnHandleRegister = () => {
     const isValid = validateInputs();
-    if (isValid) {
+    if (isValid && termcondition) {
       setLoading(true);
       dispatch(onRegister(email, password, 2, name, phoneNumber));
+    } else {
+      snackBar("Please agree terms and privacy policy", "red");
     }
   };
 
@@ -161,6 +163,7 @@ export default function SignUp({ navigation }: SignUpProps) {
             label={"Phone Number*"}
             value={phoneNumber}
             error={errors?.phone}
+            maxLength={10}
           />
           <TextBox
             onChangeText={setPassword}

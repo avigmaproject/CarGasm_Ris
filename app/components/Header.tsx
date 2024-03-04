@@ -12,24 +12,32 @@ export default function Header({ back, title, onPress }: HeaderProps) {
         height: 40,
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "center",
       }}
     >
       {back && (
         <Pressable
           style={{
-            backgroundColor: "#fff",
+            backgroundColor: "#FFFFFF",
             justifyContent: "center",
             alignItems: "center",
             height: 35,
             width: 35,
             borderRadius: 10,
+            position: "absolute",
+            left: 0,
+            elevation: 2,
+            shadowRadius: 2,
+            shadowColor: "rgba(0, 0, 0, 0.5)",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.2,
           }}
           onPress={onPress}
         >
           <AntDesign name={"left"} color={"black"} size={20} />
         </Pressable>
       )}
-      <View style={{ flex: 1, alignItems: "center", marginRight: 25 }}>
+      <View>
         {title && (
           <CustomText
             fontSize={22}

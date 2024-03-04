@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import axiosInstance from "../../axios";
 import { LOGIN_SUBMIT } from "../../utils/api";
 import { AppDispatch } from "../store";
-import { postAuth } from "../../utils/helper";
+import { handleError, postAuth } from "../../utils/helper";
 
 const SIGNUP: SIGNUP = "carGasm/signup";
 
@@ -45,14 +45,8 @@ export const onRegister =
       User_Phone: User_Phone,
     });
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
     axiosInstance
-      .post(url, data, config)
+      .post(url, data)
       .then((res) => {
         dispatch(signupAction({ ...res.data, error: false }));
         if (res.data.userToken) {
@@ -60,6 +54,7 @@ export const onRegister =
         }
       })
       .catch((error: AxiosError) => {
+        handleError(error, dispatch);
         if (error.request._response) {
           dispatch(
             signupAction({

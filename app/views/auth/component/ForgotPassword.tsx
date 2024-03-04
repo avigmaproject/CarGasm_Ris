@@ -13,7 +13,7 @@ import { snackBar } from "../../../utils/helper";
 import Loader from "../../../components/Loader";
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState("rish12@gmail.com");
+  const [email, setEmail] = useState("");
   const [link, setLink] = useState("");
   const [emailError, setEmailError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,12 +21,11 @@ export default function ForgotPassword() {
   const selectForgotPassword = useAppSelector((state) => state.forgotpassword);
   const router = useSheetRouter("sheet-router");
 
-  function onContinue() {
+  async function onContinue() {
     if (isEmailValid(email)) {
+      setLoading(true);
       generateLink();
       setEmailError("");
-      setLoading(true);
-      dispatch(onForgotPassword(email, 1, 1, link));
     } else {
       setEmailError("Invalid Email");
     }
@@ -34,11 +33,15 @@ export default function ForgotPassword() {
 
   useEffect(() => {
     if (selectForgotPassword.called) {
-      const { userCode, error } = selectForgotPassword[0];
-      if (!error && userCode === "Sucesss") {
-        setLoading(false);
+      setLoading(false);
+      const { error, userCode } = selectForgotPassword;
+      console.log("userCode", selectForgotPassword[0].userCode);
+
+      if (selectForgotPassword[0].userCode === "Sucesss") {
         snackBar("Email sent on your registered Email ID", "green");
         router?.navigate("route-c", { email: email });
+      } else {
+        snackBar("Email is not registered", "red");
       }
     }
   }, [selectForgotPassword]);
@@ -61,7 +64,7 @@ export default function ForgotPassword() {
       },
     });
     console.log(link);
-    setLink(link);
+    await dispatch(onForgotPassword(email, 1, 1, link));
   };
 
   return (

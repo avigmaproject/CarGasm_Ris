@@ -1,4 +1,12 @@
-import { View, StyleSheet, Platform, Image, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Platform,
+  Image,
+  Pressable,
+  ScrollView,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import LinearGradient from "react-native-linear-gradient";
 import { dummyProfileUrl } from "../../utils/constant";
@@ -36,12 +44,16 @@ export default function Profile({ navigation }: ProfileProps) {
   const [selectedImage, setSelectedImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [bio, setBio] = useState("");
-  const [name, setName] = useState(globalUserName);
+  const [name, setName] = useState("");
   const dispatch = useDispatch<any>();
   const [imageName, setImageName] = useState("");
   const [nameError, setNameError] = useState("");
   const selectUpdateProfile = useAppSelector((state) => state.profile);
   // const userToken = getUserToken();
+
+  useEffect(() => {
+    setName(globalUserName);
+  }, []);
 
   function showActionSheet() {
     SheetManager.show("camera");
@@ -73,8 +85,8 @@ export default function Profile({ navigation }: ProfileProps) {
       const { error } = selectUpdateProfile;
       if (!error) {
         snackBar("Profile Updated successfully", "green");
-        setFromLogin(true);
-        // navigation.navigate("Subscription");
+        // setFromLogin(true);
+        navigation.navigate("Subscription");
       }
     }
   }, [selectUpdateProfile]);
@@ -82,70 +94,75 @@ export default function Profile({ navigation }: ProfileProps) {
   return (
     <LinearGradient
       style={styles.container}
-      colors={["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)"]}
+      colors={["#FFFEF8", "rgba(255, 255, 255, 1)"]}
     >
       {loading && <Loader />}
-      <Box style={styles.header}>
-        <Header
-          back={false}
-          title="My Profile"
-          onPress={() => navigation.goBack()}
-        />
-      </Box>
-      <Box alignItems="center" mt={20}>
-        <View
-          style={{
-            borderWidth: 1,
-            borderRadius: 55,
-            borderColor: "#677294",
-          }}
-        >
-          <Pressable
-            style={{
-              borderWidth: 1,
-              position: "absolute",
-              borderRadius: 20,
-              padding: 5,
-              bottom: 0,
-              right: 0,
-              zIndex: 100,
-              backgroundColor: colors.secondary,
-              borderColor: colors.appblack,
-            }}
-            onPress={showActionSheet}
-          >
-            <Icon name="camera-outline" size={20} color={colors.appblack} />
-          </Pressable>
-          <Image
-            source={{
-              uri: selectedImage.length !== 0 ? selectedImage : dummyProfileUrl,
-            }}
-            style={{ height: 110, width: 110, borderRadius: 55 }}
-          />
-        </View>
-      </Box>
-      <Box ph={20} pv={20}>
-        <Input
-          label="User Name"
-          value={name}
-          onChangeText={setName}
-          error={nameError}
-        />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <Box ph={20} pv={20}>
+            <Header back={false} title="Profile" />
+          </Box>
+          <Box alignItems="center" mt={20}>
+            <View
+              style={{
+                borderWidth: 1,
+                borderRadius: 55,
+                borderColor: "#677294",
+              }}
+            >
+              <Pressable
+                style={{
+                  borderWidth: 1,
+                  position: "absolute",
+                  borderRadius: 20,
+                  padding: 5,
+                  bottom: 0,
+                  right: 0,
+                  zIndex: 100,
+                  backgroundColor: colors.secondary,
+                  borderColor: colors.appblack,
+                }}
+                onPress={showActionSheet}
+              >
+                <Icon name="camera-outline" size={20} color={colors.appblack} />
+              </Pressable>
+              <Image
+                source={{
+                  uri:
+                    selectedImage.length !== 0
+                      ? selectedImage
+                      : dummyProfileUrl,
+                }}
+                style={{ height: 110, width: 110, borderRadius: 55 }}
+              />
+            </View>
+          </Box>
+          <Box ph={20} pv={20}>
+            <Input
+              label="User Name"
+              value={name}
+              onChangeText={setName}
+              error={nameError}
+            />
 
-        <Box mt={10}>
-          <Input
-            label="Bio"
-            multiline={true}
-            numberOfLines={4}
-            input={{ height: 150, paddingTop: 20 }}
-            value={bio}
-            onChangeText={setBio}
-          />
-        </Box>
-      </Box>
-      <Box style={styles.button}>
-        <PrimaryButton label="Sell Item" onPress={onSellItem} />
-      </Box>
+            <Box mt={10}>
+              <Input
+                label="Bio"
+                multiline={true}
+                numberOfLines={4}
+                input={{ height: 150, paddingTop: 20 }}
+                value={bio}
+                onChangeText={setBio}
+              />
+            </Box>
+          </Box>
+          <Box style={styles.button}>
+            <PrimaryButton label="Sell Item" onPress={onSellItem} />
+          </Box>
+        </ScrollView>
+      </KeyboardAvoidingView>
       <ActionSheet ref={actionSheetRef} id="camera" headerAlwaysVisible>
         <ImagePicker onSaveImage={onSaveImage} />
       </ActionSheet>
@@ -165,7 +182,7 @@ const styles = StyleSheet.create({
   },
   button: {
     paddingHorizontal: wp(5),
-    marginTop: "auto",
+    marginTop: 100,
     paddingBottom: hp(5),
   },
 });

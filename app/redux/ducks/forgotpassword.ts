@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import axiosInstance from "../../axios";
 import { AppDispatch } from "../store";
-import { postAuth } from "../../utils/helper";
+import { handleError, postAuth } from "../../utils/helper";
 import { PASSWORD_FORGOT } from "../../utils/api";
 
 const FORGOT_PASSWORD: FORGOT_PASSWORD = "carGasm/forgotPassword";
@@ -25,7 +25,7 @@ export default (
 ): ForgotPasswordState => {
   switch (action.type) {
     case FORGOT_PASSWORD:
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, called: true };
     default:
       return { ...state, called: false };
   }
@@ -34,7 +34,7 @@ export default (
 const forgotPasswordAction = (
   res: ForgotPasswordState
 ): ForgotPasswordAction => {
-  return { type: FORGOT_PASSWORD, payload: { ...res, called: true } };
+  return { type: FORGOT_PASSWORD, payload: { ...res } };
 };
 
 export const onForgotPassword =
@@ -64,6 +64,7 @@ export const onForgotPassword =
         }
       })
       .catch((error: AxiosError) => {
+        handleError(error, dispatch);
         if (error.request._response) {
           dispatch(
             forgotPasswordAction({
