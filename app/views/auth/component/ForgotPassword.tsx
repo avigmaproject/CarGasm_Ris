@@ -13,7 +13,7 @@ import { snackBar } from "../../../utils/helper";
 import Loader from "../../../components/Loader";
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState("rish12@gmail.com");
+  const [email, setEmail] = useState("");
   const [link, setLink] = useState("");
   const [emailError, setEmailError] = useState("");
   const [loading, setLoading] = useState(false);

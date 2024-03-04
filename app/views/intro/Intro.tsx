@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  StyleSheet,
-  Pressable,
-  Platform,
-} from "react-native";
+import { Text, SafeAreaView, Image, StyleSheet, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import AppIntroSlider from "react-native-app-intro-slider";
 import Box from "../../components/Box";
@@ -160,6 +152,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 150,
     top: -50,
+    zIndex: 10,
   },
   headerText: {
     fontSize: 36,

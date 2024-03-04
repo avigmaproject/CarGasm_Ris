@@ -18,7 +18,7 @@ export default (state = initialState, action: LoginAction): LoginState => {
     case LOGIN:
       return { ...state, ...action.payload };
     default:
-      return { ...state, called: false };
+      return { ...state };
   }
 };
 
@@ -41,9 +41,10 @@ export const onLogin =
       .post(url, body)
       .then((res) => {
         dispatch(loginAction({ ...res.data, error: false }));
-        if (res.data.token) {
-          postAuth(res.data.token);
+        if (res.data.userToken) {
+          postAuth(res.data.userToken);
         }
+        dispatch({ type: LOGIN, payload: { called: false } });
       })
       .catch((error: AxiosError) => {
         handleError(error, dispatch);

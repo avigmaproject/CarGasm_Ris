@@ -7,4 +7,13 @@ type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
   Subscription: undefined;
+  BottomTabNavigations: undefined;
+};
+
+type BottomStackParamList = {
+  HomeStack: undefined;
+  ProfileStack: undefined;
+  AddVehicleStack: undefined;
+  SubscriptionStack: undefined;
+  MessageStack: undefined;
 };

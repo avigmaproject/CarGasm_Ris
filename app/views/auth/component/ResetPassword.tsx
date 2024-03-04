@@ -16,8 +16,8 @@ import { snackBar } from "../../../utils/helper";
 import Loader from "../../../components/Loader";
 
 export default function ResetPassword() {
-  const [password, setPassword] = useState("hello");
-  const [cpassword, setCPassword] = useState("hello");
+  const [password, setPassword] = useState("");
+  const [cpassword, setCPassword] = useState("");
   const [secureTextEntry, setsecureTextEntry] = useState(true);
   const [errors, setErrors] = useState<ResetPasswordErros>();
   const [loading, setLoading] = useState(false);

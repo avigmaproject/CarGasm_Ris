@@ -46,8 +46,8 @@ const iosImages = [
 ];
 
 export default function Login({ navigation }: LoginProps) {
-  const [email, setEmail] = useState("test1@gmail.com");
-  const [password, setPassword] = useState("Test@123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [secureTextEntry, setsecureTextEntry] = useState(true);
   const [rememberpassword, setrememberpassword] = useState(false);
   const [errors, setErrors] = useState<LoginErrors>();

@@ -6,17 +6,27 @@ import Login from "./app/views/auth/login/Login";
 import SignUp from "./app/views/auth/signup/SignUp";
 import Splash from "./app/views/splash/Splash";
 import Intro from "./app/views/intro/Intro";
-import { StyleSheet } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import GlobalContext from "./app/contexts/GlobalContext";
 import Home from "./app/views/home/Home";
 import Profile from "./app/views/profile/Profile";
 import Subscription from "./app/views/subscription/Subscription";
+import BottomNavigations from "./app/navigations/BottomNavigations";
+const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [fromLogin, setFromLogin] = useState(false);
   const [globalUserName, setGlobalUserName] = useState("");
   const RootStack = createStackNavigator<RootStackParamList>();
+
+  // const MyStatusBar = ({ backgroundColor, ...props }) => (
+  //   <View style={[styles.statusBar, { backgroundColor }]}>
+  //     <SafeAreaView>
+  //       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+  //     </SafeAreaView>
+  //   </View>
+  // );
 
   return (
     <GlobalContext.Provider
@@ -27,6 +37,8 @@ const App = () => {
         setGlobalUserName,
       }}
     >
+      {/* <View style={styles.container}> */}
+      {/* <MyStatusBar backgroundColor="#FFFEF8" barStyle="light-content" /> */}
       <NavigationContainer>
         <RootStack.Navigator screenOptions={{ headerShown: false }}>
           {!authenticated ? (
@@ -74,14 +86,15 @@ const App = () => {
                 </>
               )}
               <RootStack.Screen
-                name="Home"
-                component={Home}
                 options={{ headerShown: false }}
+                name="BottomTabNavigations"
+                component={BottomNavigations}
               />
             </>
           )}
         </RootStack.Navigator>
       </NavigationContainer>
+      {/* </View> */}
     </GlobalContext.Provider>
   );
 };
@@ -89,4 +102,7 @@ export default App;
 
 const styles = StyleSheet.create({
   container: { flex: 1, position: "relative" },
+  statusBar: {
+    height: STATUSBAR_HEIGHT,
+  },
 });

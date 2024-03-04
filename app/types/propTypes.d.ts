@@ -139,3 +139,7 @@ type SuscriptionButtonProps = {
 type SubscriptionProps = {
   navigation: StackNavigationProp<RootStackParamList, "Subscription">;
 };
+
+type CardProps = {
+  data: HOME_LIST;
+};
