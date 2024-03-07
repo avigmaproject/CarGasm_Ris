@@ -16,7 +16,13 @@ import Input from "../../components/Input"
 import PrimaryButton from "../../components/PrimaryButton"
 import DropDownPicker from "react-native-dropdown-picker"
 export default function categories(navigation) {
-  const [selectedValue, setSelectedValue] = useState(null)
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState(null)
+  const [items, setItems] = useState([
+    { label: "Auto Car", value: "Auto Car" },
+    { label: "Racer Car", value: "Racer Car" },
+    { label: "Sport Car", value: "Sport Car" }
+  ])
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader title={"product detail"} back />
@@ -35,22 +41,23 @@ export default function categories(navigation) {
               // error={nameError}
             />
           </Box>
-          <DropDownPicker
-            items={[
-              { label: "Item 1", value: "item1" },
-              { label: "Item 2", value: "item2" },
-              { label: "Item 3", value: "item3" }
-            ]}
-            defaultValue={selectedValue}
-            containerStyle={{ height: 20 }}
-            // style={{ backgroundColor: "#fafafa" }}
-            itemStyle={{
-              justifyContent: "flex-start"
-            }}
-            // dropDownStyle={{ backgroundColor: "#fafafa" }}
-            onChangeItem={(item) => setSelectedValue(item.value)}
-          />
-
+          <Box mt={10}>
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              style={{
+                borderColor: "rgba(103, 114, 148, 0.16)",
+                borderWidth: 1,
+                height: 50
+              }}
+              dropDownStyle={{ backgroundColor: "lightgray" }}
+              setValue={setValue}
+              setItems={setItems}
+              placeholder={"Auto"}
+            />
+          </Box>
           {/* <Box mt={20}>
             <PrimaryButton label="Next" />
           </Box> */}

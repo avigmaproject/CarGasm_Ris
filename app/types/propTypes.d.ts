@@ -149,3 +149,5 @@ type CardProps = {
 type HomeProps = {
   navigation: StackNavigationProp<RootStackParamList, "Home">;
 };
+
+
