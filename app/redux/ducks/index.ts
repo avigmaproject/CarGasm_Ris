@@ -5,6 +5,7 @@ import forgotpassword from "./forgotpassword";
 import profile from "./profile";
 import home from "./home";
 import updateLikes from "./updateLikes";
+import global from "./global";
 
 export default combineReducers({
   login,
@@ -13,4 +14,5 @@ export default combineReducers({
   profile,
   home,
   updateLikes,
+  global,
 });
