@@ -18,3 +18,10 @@ type BottomStackParamList = {
   SubscriptionStack: undefined;
   MessageStack: undefined;
 };
+
+type ProductsTabsParamList = {
+  DetailsPage: undefined;
+  Categories: undefined;
+  UploadImage: undefined;
+  Payment: undefined;
+};

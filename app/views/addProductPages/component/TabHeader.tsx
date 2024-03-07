@@ -1,23 +1,17 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ImageBackground,
-  Alert,
-  Platform
-} from "react-native"
-import Label from "./Label"
-import LinearGradient from "react-native-linear-gradient"
-import AntDesign from "react-native-vector-icons/AntDesign"
-import { useNavigation } from "@react-navigation/native"
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
-import colors from "../utils/color"
-import CustomText from "./CustomText"
-export default function Header({ title, cancel, back }) {
-  const navigation = useNavigation()
-
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import { useNavigation } from "@react-navigation/native";
+import CustomText from "../../../components/CustomText";
+import colors from "../../../utils/color";
+export default function TabHeader({
+  title,
+  cancel,
+  back,
+  onBack,
+  onCancel,
+}: TabHeaderProps) {
+  const navigation = useNavigation();
   return (
     <LinearGradient
       colors={["rgba(9, 240, 185, 0.5)", "#4E6AFF"]}
@@ -47,12 +41,11 @@ export default function Header({ title, cancel, back }) {
           </CustomText>
         )}
       </View>
-      {/* <Text style={styles.title}>{title}</Text> */}
       <View>
         {cancel && (
           <TouchableOpacity style={styles.cancelButton}>
             <AntDesign
-              // onPress={() => navigation.goBack()}
+              onPress={onCancel}
               name={"close"}
               size={30}
               color={"#fff"}
@@ -61,7 +54,7 @@ export default function Header({ title, cancel, back }) {
         )}
       </View>
     </LinearGradient>
-  )
+  );
 }
 const styles = StyleSheet.create({
   header: {
@@ -69,7 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
-    height: "15%"
+    height: "10%",
   },
   backButton: {
     backgroundColor: "#fff",
@@ -77,19 +70,19 @@ const styles = StyleSheet.create({
     width: 30,
     borderRadius: 8,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   title: {
     fontSize: 22,
     color: "#fff",
     fontWeight: "700",
     textAlign: "center",
-    flex: 1
+    flex: 1,
   },
   cancelButton: {
-    padding: 10
+    padding: 10,
   },
   buttonText: {
-    color: "#fff"
-  }
-})
+    color: "#fff",
+  },
+});

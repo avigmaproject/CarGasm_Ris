@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, Platform } from "react-native";
-import React, { useState } from "react";
+import { View, StyleSheet, Platform } from "react-native";
+import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image } from "react-native";
 import HomeStack from "./stacks/HomeStack";
@@ -9,16 +9,12 @@ import ProfileStack from "./stacks/ProfileStack";
 import SubscriptionStack from "./stacks/SubscriptionStack";
 import colors from "../utils/color";
 import { pixelSizeHorizontal, pixelSizeVertical } from "../utils/responsive";
+import { useAppSelector } from "../utils/hooks";
 
 const Tab = createBottomTabNavigator<BottomStackParamList>();
 
 export default function BottomNavigations() {
-  const [show, setShow] = useState(false);
-
-  function showBottomTab() {
-    setShow(true);
-  }
-
+  const selectGlobalState = useAppSelector((state) => state.global);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -34,11 +30,20 @@ export default function BottomNavigations() {
           marginLeft: 10,
           borderRadius: 10,
           padding: Platform.OS === "android" ? 0 : 30,
-          display: "flex",
+          display: !selectGlobalState.showBottomTabs ? "flex" : "none",
         },
       }}
     >
       <Tab.Screen
+        listeners={{
+          tabPress: selectGlobalState.isFormEdited
+            ? (e) => {
+                if (selectGlobalState.isFormEdited) {
+                  e.preventDefault();
+                }
+              }
+            : undefined,
+        }}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={focused && styles.active}>
@@ -53,6 +58,15 @@ export default function BottomNavigations() {
         component={HomeStack}
       />
       <Tab.Screen
+        listeners={{
+          tabPress: selectGlobalState.isFormEdited
+            ? (e) => {
+                if (selectGlobalState.isFormEdited) {
+                  e.preventDefault();
+                }
+              }
+            : undefined,
+        }}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={focused && styles.active}>
@@ -68,13 +82,15 @@ export default function BottomNavigations() {
       />
 
       <Tab.Screen
-        // listeners={{
-        //   tabPress: (e) => {
-        //     // Make sure showBottomTab is declared and defined
-        //     e.preventDefault();
-        //     showBottomTab();
-        //   },
-        // }}
+        listeners={{
+          tabPress: selectGlobalState.isFormEdited
+            ? (e) => {
+                if (selectGlobalState.isFormEdited) {
+                  e.preventDefault();
+                }
+              }
+            : undefined,
+        }}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={focused && styles.active}>
@@ -89,6 +105,15 @@ export default function BottomNavigations() {
         component={AddVehicleStack}
       />
       <Tab.Screen
+        listeners={{
+          tabPress: selectGlobalState.isFormEdited
+            ? (e) => {
+                if (selectGlobalState.isFormEdited) {
+                  e.preventDefault();
+                }
+              }
+            : undefined,
+        }}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={focused && styles.active}>
@@ -103,6 +128,15 @@ export default function BottomNavigations() {
         component={ProfileStack}
       />
       <Tab.Screen
+        listeners={{
+          tabPress: selectGlobalState.isFormEdited
+            ? (e) => {
+                if (selectGlobalState.isFormEdited) {
+                  e.preventDefault();
+                }
+              }
+            : undefined,
+        }}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={focused && styles.active}>
