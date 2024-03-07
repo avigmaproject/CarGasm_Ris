@@ -4,6 +4,7 @@ import signup from "./signup";
 import forgotpassword from "./forgotpassword";
 import profile from "./profile";
 import home from "./home";
+import updateLikes from "./updateLikes";
 
 export default combineReducers({
   login,
@@ -11,4 +12,5 @@ export default combineReducers({
   forgotpassword,
   profile,
   home,
+  updateLikes,
 });

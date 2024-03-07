@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import { CardProps } from "../../../types/propTypes";
 import Box from "../../../components/Box";
@@ -11,9 +11,9 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { truncateString } from "../../../utils/helper";
 
-export default function Card({ data }: CardProps) {
+export default function Card({ data, onPress, onPressLike }: CardProps) {
   return (
-    <Box style={styles.card}>
+    <Pressable style={styles.card} onPress={() => onPress(data.UP_PKeyID)}>
       <Box alignItems="center">
         <Image source={{ uri: data.UP_Poster_Img_Path }} style={styles.image} />
       </Box>
@@ -67,10 +67,13 @@ export default function Card({ data }: CardProps) {
           15
         </CustomText>
       </Box>
-      <Box style={styles.heart}>
+      <Pressable
+        style={styles.heart}
+        onPress={() => onPressLike(data.UP_PKeyID, data.UP_UserID)}
+      >
         <Icon name="heart-outline" color={colors.secondary} size={25} />
-      </Box>
-    </Box>
+      </Pressable>
+    </Pressable>
   );
 }
 

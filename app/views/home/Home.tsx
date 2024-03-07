@@ -1,6 +1,8 @@
 import {
   Dimensions,
   ListRenderItemInfo,
+  Platform,
+  RefreshControl,
   SafeAreaView,
   StyleSheet,
 } from "react-native";
@@ -13,24 +15,47 @@ import { useAppSelector } from "../../utils/hooks";
 import { FlashList } from "@shopify/flash-list";
 import CustomText from "../../components/CustomText";
 import Card from "./component/Card";
+import Loader from "../../components/Loader";
+import { HomeProps } from "../../types/propTypes";
+import { onUpdateLike } from "../../redux/ducks/updateLikes";
 
-export default function Home() {
+export default function Home({ navigation }: HomeProps) {
   const dispatch = useDispatch<any>();
   const selectHomeData = useAppSelector((state) => state.home);
   const [homeData, setHomeData] = useState<HOME_LIST[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(getHomeDataList(1, 0, "string", 1, 100, "string", 0));
   }, []);
 
   useEffect(() => {
     if (selectHomeData.called) {
+      setLoading(false);
+      setRefreshing(false);
       setHomeData(selectHomeData["0"]);
     }
   }, [selectHomeData]);
 
+  function onRefresh() {
+    setRefreshing(true);
+    dispatch(getHomeDataList(1, 0, "string", 1, 100, "string", 0));
+  }
+
+  function onGetProductDetails(id: number) {
+    navigation.navigate("Details");
+  }
+
+  function onLike(pId: number, uId: number) {
+    dispatch(onUpdateLike(0, "string", pId, uId, true, false, 1, 0));
+  }
+
   const renderItem = ({ item }: ListRenderItemInfo<HOME_LIST>) => {
-    return <Card data={item} />;
+    return (
+      <Card data={item} onPress={onGetProductDetails} onPressLike={onLike} />
+    );
   };
 
   return (
@@ -38,6 +63,7 @@ export default function Home() {
       <Box>
         <Header />
       </Box>
+      {loading && <Loader />}
       <Box style={styles.flat}>
         <FlashList
           data={homeData}
@@ -45,8 +71,12 @@ export default function Home() {
           keyExtractor={(_, index) => index.toString()}
           estimatedItemSize={200}
           numColumns={2}
-          // refreshing={refresh}
-          // onRefresh={Refresh}
+          contentContainerStyle={{
+            paddingBottom: Platform.OS === "android" ? 100 : 70,
+          }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       </Box>
     </SafeAreaView>
@@ -60,6 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F4F4F4",
   },
   flat: {
+    flex: 1,
     height: "100%",
     width: Dimensions.get("screen").width,
     marginLeft: 10,
