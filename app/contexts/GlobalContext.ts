@@ -4,7 +4,9 @@ const GlobalContext = React.createContext<AppContext>({
   setAuthenticated: () => {},
   setFromLogin: () => {},
   setGlobalUserName: () => {},
+
   globalUserName: "",
+
 });
 
 export default GlobalContext;
