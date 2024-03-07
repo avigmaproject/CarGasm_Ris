@@ -13,7 +13,7 @@ let CancelToken = axios.CancelToken;
 let source = CancelToken.source();
 
 export const Log = (tag: string, ...msg: any) => {
-  // console.log(tag, ...msg);
+  console.log(tag, ...msg);
 };
 
 // export async function checkTokenValidity(config: AxiosRequestConfig) {

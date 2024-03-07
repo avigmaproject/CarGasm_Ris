@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Platform } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image } from "react-native";
 import HomeStack from "./stacks/HomeStack";
@@ -13,6 +13,12 @@ import { pixelSizeHorizontal, pixelSizeVertical } from "../utils/responsive";
 const Tab = createBottomTabNavigator<BottomStackParamList>();
 
 export default function BottomNavigations() {
+  const [show, setShow] = useState(false);
+
+  function showBottomTab() {
+    setShow(true);
+  }
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -22,12 +28,13 @@ export default function BottomNavigations() {
           borderWidth: 1,
           backgroundColor: colors.tabColor,
           position: "absolute",
-          bottom: Platform.OS === "android" ? 20 : 30,
+          bottom: Platform.OS === "android" ? 5 : 20,
           height: 70,
           width: "95%",
           marginLeft: 10,
           borderRadius: 10,
           padding: Platform.OS === "android" ? 0 : 30,
+          display: "flex",
         },
       }}
     >
@@ -61,6 +68,13 @@ export default function BottomNavigations() {
       />
 
       <Tab.Screen
+        // listeners={{
+        //   tabPress: (e) => {
+        //     // Make sure showBottomTab is declared and defined
+        //     e.preventDefault();
+        //     showBottomTab();
+        //   },
+        // }}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={focused && styles.active}>

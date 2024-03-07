@@ -8,6 +8,7 @@ type RootStackParamList = {
   Profile: undefined;
   Subscription: undefined;
   BottomTabNavigations: undefined;
+  Details: undefined;
 };
 
 type BottomStackParamList = {

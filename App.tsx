@@ -12,6 +12,7 @@ import Home from "./app/views/home/Home";
 import Profile from "./app/views/profile/Profile";
 import Subscription from "./app/views/subscription/Subscription";
 import BottomNavigations from "./app/navigations/BottomNavigations";
+import Details from "./app/views/details/Details";
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 const App = () => {
@@ -89,6 +90,11 @@ const App = () => {
                 options={{ headerShown: false }}
                 name="BottomTabNavigations"
                 component={BottomNavigations}
+              />
+              <RootStack.Screen
+                options={{ headerShown: false }}
+                name="Details"
+                component={Details}
               />
             </>
           )}

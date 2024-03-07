@@ -142,4 +142,10 @@ type SubscriptionProps = {
 
 type CardProps = {
   data: HOME_LIST;
+  onPress: (id: number) => void;
+  onPressLike: (pId: number, uId: number) => void;
+};
+
+type HomeProps = {
+  navigation: StackNavigationProp<RootStackParamList, "Home">;
 };
