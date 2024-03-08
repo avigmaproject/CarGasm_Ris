@@ -1,3 +1,4 @@
+import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 type BoxProps = {
@@ -150,4 +151,11 @@ type HomeProps = {
   navigation: StackNavigationProp<RootStackParamList, "Home">;
 };
 
+<<<<<<< HEAD
 
+=======
+type DetailsPageProps = MaterialTopTabScreenProps<
+  ProductsTabsParamList,
+  "DetailsPage"
+>;
+>>>>>>> 4facaeebf2cd0d85f4e4e83e134ba0d8a72a2b1d

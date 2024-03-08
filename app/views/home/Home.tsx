@@ -18,6 +18,7 @@ import Card from "./component/Card";
 import Loader from "../../components/Loader";
 import { HomeProps } from "../../types/propTypes";
 import { onUpdateLike } from "../../redux/ducks/updateLikes";
+import { onGlobalChange } from "../../redux/ducks/global";
 
 export default function Home({ navigation }: HomeProps) {
   const dispatch = useDispatch<any>();
@@ -27,9 +28,17 @@ export default function Home({ navigation }: HomeProps) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    dispatch(getHomeDataList(1, 0, "string", 1, 100, "string", 0));
+    navigation.addListener("focus", onFocus);
+    return () => {
+      navigation.removeListener("focus", onFocus);
+    };
   }, []);
+
+  function onFocus() {
+    setLoading(true);
+    dispatch(onGlobalChange({ showBottomTabs: false }));
+    dispatch(getHomeDataList(1, 0, "string", 1, 100, "string", 0));
+  }
 
   useEffect(() => {
     if (selectHomeData.called) {

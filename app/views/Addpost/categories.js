@@ -11,7 +11,7 @@ import {
   Dimensions
 } from "react-native"
 import Box from "../../components/Box"
-import MainHeader from "../../components/MainHeader"
+// import MainHeader from "../../components/MainHeader"
 import Input from "../../components/Input"
 import PrimaryButton from "../../components/PrimaryButton"
 import DropDownPicker from "react-native-dropdown-picker"
@@ -25,7 +25,7 @@ export default function categories(navigation) {
   ])
   return (
     <SafeAreaView style={styles.container}>
-      <MainHeader title={"product detail"} back />
+      {/* <MainHeader title={"product detail"} back /> */}
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
