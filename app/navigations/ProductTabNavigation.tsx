@@ -14,6 +14,7 @@ import colors from "../utils/color";
 import {
   RouteProp,
   getFocusedRouteNameFromRoute,
+  useFocusEffect,
 } from "@react-navigation/native";
 const footerTitles = [
   { id: "DetailsPage", name: "Details" },
@@ -32,9 +33,11 @@ export default function ProductTabNavigation({
   const Tab = createMaterialTopTabNavigator<ProductsTabsParamList>();
   const dispatch = useDispatch<any>();
 
-  useEffect(() => {
-    dispatch(onGlobalChange({ showBottomTabs: true }));
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(onGlobalChange({ showBottomTabs: true }));
+    }, [dispatch])
+  );
 
   const getActiveTab = (
     route: RouteProp<Record<string, object | undefined>, string>
