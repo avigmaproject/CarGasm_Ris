@@ -1,10 +1,10 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-export default function Categories() {
+export default function Payment() {
   return (
     <View>
-      <Text>Categories</Text>
+      <Text>Payment</Text>
     </View>
   );
 }

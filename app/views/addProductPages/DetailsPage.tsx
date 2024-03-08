@@ -96,7 +96,7 @@ export default function DetailsPage({ navigation }: DetailsPageProps) {
           <Box mt={20}>
             <PrimaryButton
               label="Next"
-              // onPress={() => navigation.navigate("categories")}
+               onPress={() => navigation.navigate("Categories")}
             />
           </Box>
         </ScrollView>
