@@ -31,7 +31,7 @@ export default function Input(props: TextInputProps & TextInProps) {
         style={[styles.inputStyle, input, error && styles.error]}
       />
       {error && (
-        <CustomText color="red" fontSize={15}>
+        <CustomText color="red" fontSize={14} style={{ marginTop: 2 }}>
           {error}
         </CustomText>
       )}
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: colors.secondary,
     borderRadius: 8,
-    borderColor: "rgba(103, 114, 148, 0.16)",
+    borderColor: colors.borderColor,
     marginTop: 10,
     paddingHorizontal: wp("5%"),
     color: "#333B4B",

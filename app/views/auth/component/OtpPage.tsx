@@ -49,7 +49,7 @@ export default function OtpPage() {
             height: 50,
             width: 50,
             marginTop: 20,
-            borderColor: "rgba(103, 114, 148, 0.16)",
+            borderColor: colors.borderColor,
             borderRadius: 8,
             alignItems: "center",
             justifyContent: "center",

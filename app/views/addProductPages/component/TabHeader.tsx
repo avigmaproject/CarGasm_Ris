@@ -23,8 +23,8 @@ export default function TabHeader({
             <AntDesign
               onPress={() => navigation.goBack()}
               name={"left"}
-              size={20}
-              color={"#000"}
+              size={17}
+              color={colors.appblack}
             />
           </TouchableOpacity>
         )}
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
-    height: "10%",
+    paddingHorizontal: 15,
+    height: "12%",
   },
   backButton: {
     backgroundColor: "#fff",

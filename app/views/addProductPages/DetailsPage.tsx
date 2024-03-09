@@ -5,25 +5,61 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Box from "../../components/Box";
 import Input from "../../components/Input";
 import PrimaryButton from "../../components/PrimaryButton";
 import { DetailsPageProps } from "../../types/propTypes";
 import TabHeader from "./component/TabHeader";
+import { ProductContext } from "../../contexts/ProductTabContext";
 
 export default function DetailsPage({ navigation }: DetailsPageProps) {
-  const [form, setForm] = useState<any>({});
-  const { title, price, desc, location, condition } = form;
-
-  const handleOnChangeText = (value: string, fieldName: string) =>
-    setForm({ ...form, [fieldName]: value });
+  const {
+    title,
+    setTitle,
+    price,
+    setPrice,
+    description,
+    setDescription,
+    location,
+    setLocation,
+    condition,
+    setCondition,
+  } = useContext(ProductContext);
+  const [errors, setErrors] = useState<DetailsErrors>();
 
   function onCancelTab() {
-    console.log("Hello");
     navigation.navigate("HomeStack");
   }
+
+  function validateInputs() {
+    const tempErrors: DetailsErrors = {};
+    if (title.length === 0) {
+      tempErrors.titleError = "Enter a valid title";
+    }
+    if (price.length === 0) {
+      tempErrors.priceError = "Select a valid price";
+    }
+    if (description.length === 0) {
+      tempErrors.descError = "Select a valid description";
+    }
+    if (location.length === 0) {
+      tempErrors.locationError = "Select a valid location";
+    }
+    if (condition.length === 0) {
+      tempErrors.conditionError = "Select a valid condition";
+    }
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  }
+
+  const onNext = () => {
+    const isValid = validateInputs();
+    if (isValid) {
+      navigation.navigate("Categories");
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,20 +81,17 @@ export default function DetailsPage({ navigation }: DetailsPageProps) {
             <Input
               label="Item Title"
               value={title}
-              onChangeText={(value: string) =>
-                handleOnChangeText(value, "title")
-              }
-              // error={nameError}
+              onChangeText={setTitle}
+              error={errors?.titleError}
             />
           </Box>
           <Box mt={10}>
             <Input
               label="Item Price"
               value={price}
-              onChangeText={(value: string) =>
-                handleOnChangeText(value, "price")
-              }
-              // error={nameError}
+              onChangeText={setPrice}
+              error={errors?.priceError}
+              inputMode="numeric"
             />
           </Box>
           <Box mt={10}>
@@ -67,37 +100,29 @@ export default function DetailsPage({ navigation }: DetailsPageProps) {
               multiline={true}
               numberOfLines={4}
               input={{ height: 100, paddingTop: 20 }}
-              value={desc}
-              onChangeText={(value: string) =>
-                handleOnChangeText(value, "desc")
-              }
+              value={description}
+              onChangeText={setDescription}
+              error={errors?.descError}
             />
           </Box>
           <Box mt={10}>
             <Input
               label="Location"
               value={location}
-              onChangeText={(value: string) =>
-                handleOnChangeText(value, "location")
-              }
-              // error={nameError}
+              onChangeText={setLocation}
+              error={errors?.locationError}
             />
           </Box>
           <Box mt={10}>
             <Input
               label="Condition"
               value={condition}
-              onChangeText={(value: string) =>
-                handleOnChangeText(value, "condition")
-              }
-              // error={nameError}
+              onChangeText={setCondition}
+              error={errors?.conditionError}
             />
           </Box>
           <Box mt={20}>
-            <PrimaryButton
-              label="Next"
-              // onPress={() => navigation.navigate("categories")}
-            />
+            <PrimaryButton label="Next" onPress={onNext} />
           </Box>
         </ScrollView>
       </KeyboardAvoidingView>

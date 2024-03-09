@@ -13,7 +13,7 @@ export default function TextBox(props) {
         autoCapitalize="none"
         label={props.label}
         onChangeText={props.onChangeText}
-        outlineColor={"rgba(103, 114, 148, 0.16)"}
+        outlineColor={colors.borderColor}
         theme={{
           colors: {
             primary: colors.textColor,

@@ -155,3 +155,29 @@ type DetailsPageProps = MaterialTopTabScreenProps<
   ProductsTabsParamList,
   "DetailsPage"
 >;
+
+type CategoriesPrps = MaterialTopTabScreenProps<
+  ProductsTabsParamList,
+  "Categories"
+>;
+
+type CustomDropDownProps = {
+  selectedValue?: any;
+  onValueChange?: (itemValue: any, itemIndex: any) => void;
+  data: { label: string; value: string; enabled?: boolean }[];
+  enabled?: boolean;
+  title: string;
+  onPressCamera?: () => void;
+  selectPhoto?: string;
+  isMandatory?: boolean;
+  error?: string;
+  isRegister?: boolean;
+  placeholder?: string;
+};
+
+type UploadImageProps = MaterialTopTabScreenProps<
+  ProductsTabsParamList,
+  "UploadImage"
+>;
+
+type PaymentProps = MaterialTopTabScreenProps<ProductsTabsParamList, "Payment">;

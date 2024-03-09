@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import DetailsPage from "../views/addProductPages/DetailsPage";
 import Categories from "../views/addProductPages/Categories";
@@ -16,6 +16,7 @@ import {
   getFocusedRouteNameFromRoute,
   useFocusEffect,
 } from "@react-navigation/native";
+import { ProductContext } from "../contexts/ProductTabContext";
 const footerTitles = [
   { id: "DetailsPage", name: "Details" },
   { id: "Categories", name: "Categories" },
@@ -32,7 +33,15 @@ export default function ProductTabNavigation({
 }: ProductTabNavigationProps) {
   const Tab = createMaterialTopTabNavigator<ProductsTabsParamList>();
   const dispatch = useDispatch<any>();
-
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
+  const [condition, setCondition] = useState("");
+  const [brand, setBrand] = useState("");
+  const [categ, setCateg] = useState("");
+  const [subCateg, setSubCateg] = useState("");
+  const [productImage, setProductImage] = useState("");
   useFocusEffect(
     React.useCallback(() => {
       dispatch(onGlobalChange({ showBottomTabs: true }));
@@ -48,53 +57,86 @@ export default function ProductTabNavigation({
   const activeTab = getActiveTab(route);
 
   return (
-    <Box style={{ flex: 1 }}>
-      <Tab.Navigator
-        style={{ backgroundColor: "transparent" }}
-        screenOptions={{
-          swipeEnabled: false,
-          lazy: true,
-          animationEnabled: true,
-          tabBarStyle: { height: 0 },
-        }}
-        backBehavior="order"
-      >
-        <Tab.Screen name="DetailsPage" component={DetailsPage} />
-        <Tab.Screen name="Categories" component={Categories} />
-        <Tab.Screen name="UploadImage" component={UploadImage} />
-        <Tab.Screen name="Payment" component={Payment} />
-      </Tab.Navigator>
-      <Box style={styles.footer}>
-        {footerTitles.map((el, index) => {
-          const isActive = activeTab === el.id;
-          return (
-            <Box
-              key={index.toString()}
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <CustomText
-                fontFamily={isActive ? "Inter-SemiBold" : "Inter-Regular"}
-                fontSize={14}
-                lineHeight={17}
-                color={isActive ? colors.primary : colors.appblack}
+    <ProductContext.Provider
+      value={{
+        title,
+        setTitle,
+        price,
+        setPrice,
+        description,
+        setDescription,
+        location,
+        setLocation,
+        condition,
+        setCondition,
+        brand,
+        setBrand,
+        categ,
+        setCateg,
+        subCateg,
+        setSubCateg,
+        productImage,
+        setProductImage,
+      }}
+    >
+      <Box style={{ flex: 1 }}>
+        <Tab.Navigator
+          style={{ backgroundColor: "transparent" }}
+          screenOptions={{
+            swipeEnabled: false,
+            lazy: true,
+            animationEnabled: true,
+            tabBarStyle: { height: 0 },
+          }}
+          backBehavior="order"
+        >
+          <Tab.Screen name="DetailsPage" component={DetailsPage} />
+          <Tab.Screen name="Categories" component={Categories} />
+          <Tab.Screen name="UploadImage" component={UploadImage} />
+          <Tab.Screen name="Payment" component={Payment} />
+        </Tab.Navigator>
+        <Box style={styles.footer}>
+          {footerTitles.map((el, index) => {
+            const isActive = activeTab === el.id;
+            const isBeforeCategories =
+              index < footerTitles.findIndex((item) => item.id === el.name);
+            return (
+              <Box
+                key={index.toString()}
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="center"
               >
-                {el.name}
-              </CustomText>
-              {index !== 3 && (
-                <Icon
-                  name="arrow-right-thin"
-                  size={20}
-                  color={colors.appblack}
-                  style={{ marginLeft: Platform.OS === "ios" ? 2 : 5 }}
-                />
-              )}
-            </Box>
-          );
-        })}
+                <CustomText
+                  fontFamily={
+                    isActive || isBeforeCategories
+                      ? "Inter-SemiBold"
+                      : "Inter-Regular"
+                  }
+                  fontSize={14}
+                  lineHeight={17}
+                  color={
+                    isActive || isBeforeCategories
+                      ? colors.primary
+                      : colors.appblack
+                  }
+                >
+                  {el.name}
+                </CustomText>
+                {index !== 3 && (
+                  <Icon
+                    name="arrow-right-thin"
+                    size={20}
+                    color={colors.appblack}
+                    style={{ marginLeft: Platform.OS === "ios" ? 2 : 5 }}
+                  />
+                )}
+              </Box>
+            );
+          })}
+        </Box>
       </Box>
-    </Box>
+    </ProductContext.Provider>
   );
 }
 
