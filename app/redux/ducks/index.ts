@@ -8,6 +8,7 @@ import updateLikes from "./updateLikes";
 import global from "./global";
 import getCategories from "./getCategories";
 import getSubCategories from "./getSubCategories";
+import getPostedItems from "./getPostedItems";
 
 export default combineReducers({
   login,
@@ -19,4 +20,5 @@ export default combineReducers({
   global,
   getCategories,
   getSubCategories,
+  getPostedItems,
 });

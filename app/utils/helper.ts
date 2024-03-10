@@ -3,6 +3,7 @@ import { deleteUserToken, saveUserToken } from "./localStorage";
 import { Log, cancelRequest } from "../axios";
 import { requestMultiple } from "react-native-permissions";
 import { Permission } from "../types";
+import { Alert } from "react-native";
 
 export const postAuth = async (token: string) => {
   await saveUserToken(token);

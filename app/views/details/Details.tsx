@@ -8,7 +8,12 @@ export default function Details() {
   return (
     <SafeAreaView style={{ flex: 1, flexGrow: 1 }}>
       <Box>
-        <CustomHeader />
+        <CustomHeader
+          title="Product Details"
+          iconName="heart-outline"
+          isDetail
+          back
+        />
         <ScrollView>
           <CustomText>Hello</CustomText>
         </ScrollView>

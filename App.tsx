@@ -9,10 +9,11 @@ import Intro from "./app/views/intro/Intro";
 import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import GlobalContext from "./app/contexts/GlobalContext";
 import Home from "./app/views/home/Home";
-import Profile from "./app/views/profile/Profile";
 import Subscription from "./app/views/subscription/Subscription";
 import BottomNavigations from "./app/navigations/BottomNavigations";
 import Details from "./app/views/details/Details";
+import EditProfile from "./app/views/profile/EditProfile";
+import Setting from "./app/views/settings/Setting";
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 const App = () => {
@@ -75,8 +76,8 @@ const App = () => {
               {!fromLogin && (
                 <>
                   <RootStack.Screen
-                    name="Profile"
-                    component={Profile}
+                    name="EditProfile"
+                    component={EditProfile}
                     options={{ headerShown: false }}
                   />
                   <RootStack.Screen
@@ -95,6 +96,11 @@ const App = () => {
                 options={{ headerShown: false }}
                 name="Details"
                 component={Details}
+              />
+              <RootStack.Screen
+                options={{ headerShown: false }}
+                name="Setting"
+                component={Setting}
               />
             </>
           )}

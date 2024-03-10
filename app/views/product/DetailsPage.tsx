@@ -13,6 +13,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { DetailsPageProps } from "../../types/propTypes";
 import TabHeader from "./component/TabHeader";
 import { ProductContext } from "../../contexts/ProductTabContext";
+import CustomAlertBox from "../../components/CustomAlertBox";
 
 export default function DetailsPage({ navigation }: DetailsPageProps) {
   const {
@@ -28,9 +29,14 @@ export default function DetailsPage({ navigation }: DetailsPageProps) {
     setCondition,
   } = useContext(ProductContext);
   const [errors, setErrors] = useState<DetailsErrors>();
+  const [showAlertBox, setShowAlertBox] = useState(false);
 
   function onCancelTab() {
-    navigation.navigate("HomeStack");
+    setShowAlertBox(true);
+  }
+
+  function onCloseAlertBox() {
+    setShowAlertBox(false);
   }
 
   function validateInputs() {
@@ -61,6 +67,15 @@ export default function DetailsPage({ navigation }: DetailsPageProps) {
     }
   };
 
+  const onCancel = () => {
+    onCloseAlertBox();
+  };
+
+  const onSaveDraft = () => {
+    onCloseAlertBox();
+    navigation.navigate("HomeStack");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TabHeader
@@ -69,13 +84,22 @@ export default function DetailsPage({ navigation }: DetailsPageProps) {
         back={false}
         onCancel={onCancelTab}
       />
+      <CustomAlertBox
+        onClose={onCloseAlertBox}
+        visible={showAlertBox}
+        title="Your Draft, Your Choice"
+        buttonLabel1="Save Draft"
+        buttonLabel2="Cancel"
+        onPressFirstButton={onSaveDraft}
+        onPressSecondButton={onCancel}
+      />
+
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          scrollEnabled={true}
-          style={{ paddingHorizontal: 20, marginTop: 20 }}
+          style={{ paddingHorizontal: 20, marginTop: 20, marginBottom: 100 }}
         >
           <Box>
             <Input

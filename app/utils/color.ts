@@ -8,6 +8,7 @@ const colors = {
   lightPrimary: "rgba(48, 164, 224, 0.09)",
   tabColor: "#0A395B",
   borderColor: "rgba(103, 114, 148, 0.16)",
+  red: "#FF6666",
 };
 
 export default colors;

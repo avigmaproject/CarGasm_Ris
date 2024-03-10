@@ -1,10 +1,10 @@
 import { StyleSheet, Platform } from "react-native";
 import React, { useState } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import DetailsPage from "../views/addProductPages/DetailsPage";
-import Categories from "../views/addProductPages/Categories";
-import Payment from "../views/addProductPages/Payment";
-import UploadImage from "../views/addProductPages/UploadImage";
+import DetailsPage from "../views/product/DetailsPage";
+import Categories from "../views/product/Categories";
+import Payment from "../views/product/Payment";
+import UploadImage from "../views/product/UploadImage";
 import { useDispatch } from "react-redux";
 import { onGlobalChange } from "../redux/ducks/global";
 import Box from "../components/Box";
