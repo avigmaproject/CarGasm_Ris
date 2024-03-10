@@ -1,10 +1,21 @@
-import { View, Text } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
+import Profile from "../../views/profile/profiletab";
 
-export default function ProfileStack() {
+const ProfileStackNav = createStackNavigator();
+
+export default function HomeStack() {
   return (
-    <View>
-      <Text>ProfileStack</Text>
-    </View>
+    <ProfileStackNav.Navigator>
+      <ProfileStackNav.Screen
+        component={Profile}
+        options={() => {
+          return {
+            headerShown: false,
+          };
+        }}
+        name="Profile"
+      />
+    </ProfileStackNav.Navigator>
   );
 }

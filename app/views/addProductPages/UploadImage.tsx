@@ -53,7 +53,7 @@ const UploadImage: React.FC<{ navigation: any }> = ({ navigation }) => {
               }}>
 {selectedImage.length == 0 ?
               <Pressable onPress={showActionSheet}>
-                <Image source={require('../../assets/images/Upload.png')} style={{ height: 190, width: 300 }} />
+                <Image source={require('../../assets/images/Uploadimage.png')} style={{ height: 190, width: 300 }} />
               </Pressable>:
               <Image
                 source={{

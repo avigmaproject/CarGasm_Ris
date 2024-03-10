@@ -13,6 +13,7 @@ export default function Box({
   ph,
   mt,
   mb,
+ml,
   ...props
 }: BoxProps & ViewProps) {
   const height = useMemo(() => {
@@ -33,6 +34,7 @@ export default function Box({
           paddingHorizontal: ph,
           marginTop: mt,
           marginBottom: mb,
+          marginLeft:ml,
         },
         props.style,
       ]}
