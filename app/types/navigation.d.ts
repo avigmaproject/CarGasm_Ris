@@ -5,10 +5,12 @@ type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   Home: undefined;
-  Profile: undefined;
+  EditProfile: undefined;
   Subscription: undefined;
   BottomTabNavigations: undefined;
   Details: undefined;
+  Profile: undefined;
+  Setting: undefined;
 };
 
 type BottomStackParamList = {
@@ -24,4 +26,9 @@ type ProductsTabsParamList = {
   Categories: undefined;
   UploadImage: undefined;
   Payment: undefined;
+};
+
+type ProfileTabParamList = {
+  LikedItemsPage: undefined;
+  PostedItemsPage: undefined;
 };

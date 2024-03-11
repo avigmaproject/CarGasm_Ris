@@ -6,6 +6,9 @@ import profile from "./profile";
 import home from "./home";
 import updateLikes from "./updateLikes";
 import global from "./global";
+import getCategories from "./getCategories";
+import getSubCategories from "./getSubCategories";
+import getPostedItems from "./getPostedItems";
 
 export default combineReducers({
   login,
@@ -15,4 +18,7 @@ export default combineReducers({
   home,
   updateLikes,
   global,
+  getCategories,
+  getSubCategories,
+  getPostedItems,
 });

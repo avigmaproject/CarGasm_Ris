@@ -13,12 +13,22 @@ export default function PrimaryButton({
   varient = "Primary",
   disabled = false,
 }: PrimaryButtonProps) {
+  const color =
+    varient === "Secondary"
+      ? colors.primary
+      : varient === "HotDeal"
+      ? colors.orange
+      : varient === "Alert"
+      ? colors.textColor
+      : colors.secondary;
+
   return (
     <Pressable
       style={[
         styles.buttonContainer,
         varient === "Secondary" && styles.buttonSecondary,
         varient === "HotDeal" && styles.hotDealButton,
+        varient === "Alert" && styles.alertButton,
         disabled && styles.disbaled,
         buttonStyle,
       ]}
@@ -33,13 +43,7 @@ export default function PrimaryButton({
       )}
       <CustomText
         fontSize={18}
-        color={
-          varient === "Secondary"
-            ? colors.primary
-            : varient === "HotDeal"
-            ? colors.orange
-            : colors.secondary
-        }
+        color={color}
         fontFamily="Poppins-SemiBold"
         lineHeight={27}
         style={[styles.label, labelStyle]}
@@ -81,5 +85,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.orange,
     flexDirection: "row",
+  },
+  alertButton: {
+    backgroundColor: "rgba(103, 114, 148, 0.1)",
   },
 });

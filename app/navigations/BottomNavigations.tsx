@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image } from "react-native";
 import HomeStack from "./stacks/HomeStack";
 import MessageStack from "./stacks/MessageStack";
-import AddVehicleStack from "./stacks/AddVehicleStack";
+import AddVehicleStack from "./stacks/ProductStack";
 import ProfileStack from "./stacks/ProfileStack";
 import SubscriptionStack from "./stacks/SubscriptionStack";
 import colors from "../utils/color";

@@ -1,37 +1,61 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
 import React from "react";
 import LinearGradient from "react-native-linear-gradient";
 import CustomText from "./CustomText";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../utils/color";
 import { Image } from "react-native";
+import { CustomHeaderProps } from "../types/propTypes";
+import Box from "./Box";
+import { useNavigation } from "@react-navigation/native";
+import { pixelSizeVertical } from "../utils/responsive";
+const height = Dimensions.get("window").height;
 
-export default function CustomHeader() {
+export default function CustomHeader({
+  title,
+  isDetail = false,
+  iconName,
+  back = false,
+  onPressIconName,
+  isSecondIcon = false,
+  isProfile = false,
+}: CustomHeaderProps) {
+  const navigation = useNavigation();
   return (
     <LinearGradient
       colors={["rgba(9, 240, 185, 0.5)", "#4E6AFF"]}
-      style={styles.container}
+      style={[styles.container, isProfile && styles.height]}
     >
-      <Pressable style={styles.back}>
-        <Icon name="chevron-left" size={30} color={colors.appblack} />
-      </Pressable>
+      {back && (
+        <Pressable style={styles.back} onPress={() => navigation.goBack()}>
+          <Icon name="chevron-left" size={30} color={colors.appblack} />
+        </Pressable>
+      )}
       <CustomText
         fontFamily="Inter-Bold"
         fontSize={22}
         lineHeight={27}
         color={colors.secondary}
+        style={{ right: isDetail ? 15 : 0 }}
       >
-        Product Details
+        {title}
       </CustomText>
-      <Pressable style={[styles.circle, { left: 20 }]}>
-        <Image
-          source={require("../assets/images/Arrow.png")}
-          style={{ height: 22, width: 22, resizeMode: "contain" }}
-        />
-      </Pressable>
-      <Pressable style={styles.circle}>
-        <Icon name="heart-outline" color={colors.secondary} size={22} />
-      </Pressable>
+
+      <Box style={[styles.icon, isProfile && styles.iconProfile]}>
+        {isDetail && (
+          <Pressable style={[styles.circle, { right: 10 }]}>
+            <Image
+              source={require("../assets/images/Arrow.png")}
+              style={{ height: 22, width: 22, resizeMode: "contain" }}
+            />
+          </Pressable>
+        )}
+        {isSecondIcon && (
+          <Pressable style={styles.circle} onPress={onPressIconName}>
+            <Icon name={iconName} color={colors.secondary} size={22} />
+          </Pressable>
+        )}
+      </Box>
     </LinearGradient>
   );
 }
@@ -42,11 +66,13 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   back: {
     backgroundColor: colors.secondary,
     borderRadius: 8,
+    position: "absolute",
+    left: 20,
   },
   circle: {
     padding: 8,
@@ -54,5 +80,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+  },
+  icon: {
+    position: "absolute",
+    right: 20,
+    flexDirection: "row",
+  },
+  height: {
+    paddingBottom: pixelSizeVertical(70),
+  },
+  iconProfile: {
+    top: 22,
   },
 });

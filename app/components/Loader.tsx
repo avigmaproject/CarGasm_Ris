@@ -8,23 +8,22 @@ import {
 } from "react-native";
 import colors from "../utils/color";
 import { LoaderProps } from "../types/propTypes";
-
+import Modal from "react-native-modalbox";
 const { height, width } = Dimensions.get("screen");
 
 export default function Loader({ status, isSheet = false }: LoaderProps) {
   return (
-    <View style={[!isSheet ? styles.container : styles.sheetContainer]}>
+    <Modal isOpen backdrop style={styles.container} coverScreen>
       <View style={!isSheet ? styles.card : styles.sheetCard}>
         <ActivityIndicator size="large" color={colors.primary} />
         {status && <Text style={styles.status}>{status}</Text>}
       </View>
-    </View>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0, 0 ,0, 0.5)",
     zIndex: 10,
     alignItems: "center",

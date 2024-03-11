@@ -3,6 +3,7 @@ import {
   StyleSheet,
   ListRenderItemInfo,
   Platform,
+StatusBar
 } from "react-native";
 import React, { useContext, useState } from "react";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -78,7 +79,9 @@ export default function Subscription({ navigation }: SubscriptionProps) {
   }
 
   return (
+
     <Box style={styles.container}>
+  <StatusBar backgroundColor="transparent" translucent={true} />
       <Box ph={20} pv={Platform.OS === "ios" ? 50 : 20}>
         <Header back title="Subscriptions" />
 
@@ -87,6 +90,7 @@ export default function Subscription({ navigation }: SubscriptionProps) {
           keyExtractor={(_, index: number) => index.toString()}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
+ ListFooterComponent={() => <Box style={{height: 100}}></Box>}
         />
       </Box>
       {selectedSub && (
