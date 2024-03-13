@@ -73,6 +73,7 @@ export const onRegister =
       });
   };
 export const getFcmToken = async () => {
+
   await messaging().deleteToken();
   const fcmToken = await firebase.messaging().getToken();
   console.log('fcmToken', fcmToken);

@@ -22,6 +22,7 @@ import { useAppSelector } from "../../../utils/hooks"
 import GlobalContext from "../../../contexts/GlobalContext"
 import { useDispatch } from "react-redux"
 import { isEmailValid, isNameValid } from "../../../utils/regex"
+import firestore from "@react-native-firebase/firestore"
 import { onLogin } from "../../../redux/ducks/login"
 import Loader from "../../../components/Loader"
 import { snackBar } from "../../../utils/helper"
@@ -111,14 +112,22 @@ export default function SignUp({ navigation }: SignUpProps) {
     setErrors(tempErrors)
     return Object.keys(tempErrors).length === 0
   }
-
+  const newuser = async (id, email, fcmtoken, name) => {
+    await firestore().collection("users").doc(id).set({
+      name: name,
+      email: email,
+      uid: id,
+      token: fcmtoken,
+      userid: 0
+    })
+  }
   const OnHandleRegister = () => {
     const id = Date.now().toString()
     console.log("fcmmmm id...", fcmtoken)
-    return 0
     const isValid = validateInputs()
     if (isValid && termcondition) {
       setLoading(true)
+      newuser(id, email, fcmtoken, name)
       dispatch(onRegister(email, password, 2, name, phoneNumber, fcmtoken, id))
     } else {
       snackBar("Please agree terms and privacy policy", "red")

@@ -144,8 +144,12 @@ type SubscriptionProps = {
 
 type CardProps = {
   data: HOME_LIST;
-  onPress: (id: number) => void;
+  onPress: (id: number,imagpath:string,title:string,location:string,price:string) => void;
   onPressLike: (pId: number, uId: number) => void;
+};
+type QAProps = {
+  data: QA_LIST;
+  
 };
 
 type HomeProps = {
