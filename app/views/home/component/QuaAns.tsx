@@ -16,7 +16,7 @@ export default function QuaAns({ data }: QAProps) {
     <Box>
       <Box flexDirection="row" alignItems="center" mt={10}>
         <CustomText
-          fontFamily="Inter-Regular"
+          fontFamily="Inter-SemiBold"
           fontSize={16}
           color={colors.textColor}
           lineHeight={22}
@@ -32,7 +32,7 @@ export default function QuaAns({ data }: QAProps) {
           {data.que}
         </CustomText>
       </Box>
-      <Box>
+      <Box flexDirection="row" alignItems="center" mt={10}>
         <CustomText
           fontFamily="Inter-Regular"
           fontSize={16}
@@ -42,7 +42,7 @@ export default function QuaAns({ data }: QAProps) {
           Ans:-{" "}
         </CustomText>
         <CustomText
-          fontFamily="Inter-SemiBold"
+          fontFamily="Inter-Regular"
           fontSize={16}
           color={colors.textColor}
           lineHeight={22}

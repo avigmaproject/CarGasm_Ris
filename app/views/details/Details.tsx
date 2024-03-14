@@ -139,11 +139,13 @@ export default function Details({ ...props }) {
             >
               {"Q & A"}
             </CustomText>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={queans}
-              renderItem={renderItem}
-            />
+            <Box pb={50} height={pixelSizeVertical(130)}>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={queans}
+                renderItem={renderItem}
+              />
+            </Box>
           </Box>
           <Box style={styles.button}>
             <PrimaryButton label="Send message to seller" />
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
     borderRadius: 8
   },
   button: {
-    marginTop: "auto",
-    marginBottom: 50
+    marginTop: 20,
+    marginBottom: 60
   }
 })
