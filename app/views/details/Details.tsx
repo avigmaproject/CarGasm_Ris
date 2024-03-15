@@ -17,7 +17,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import PrimaryButton from "../../components/PrimaryButton"
 import QuaAns from "../home/component/QuaAns"
 import colors from "../../utils/color"
-export default function Details({ ...props }) {
+export default function Details({ navigation, ...props }) {
   const [id, setId] = useState(props.route.params.id)
   const [price, setPrice] = useState(props.route.params.price)
   const [title, setTitle] = useState(props.route.params.title)
@@ -148,7 +148,15 @@ export default function Details({ ...props }) {
             </Box>
           </Box>
           <Box style={styles.button}>
-            <PrimaryButton label="Send message to seller" />
+            <PrimaryButton
+              label="Send message to seller"
+              onPress={() =>
+                navigation.navigate("SellerProfile", {
+                  imagpath: imgth,
+                  title: title
+                })
+              }
+            />
           </Box>
         </ScrollView>
       </Box>

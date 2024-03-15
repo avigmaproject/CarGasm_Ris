@@ -1,15 +1,15 @@
-import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
-import React from "react";
-import LinearGradient from "react-native-linear-gradient";
-import CustomText from "./CustomText";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import colors from "../utils/color";
-import { Image } from "react-native";
-import { CustomHeaderProps } from "../types/propTypes";
-import Box from "./Box";
-import { useNavigation } from "@react-navigation/native";
-import { pixelSizeVertical } from "../utils/responsive";
-const height = Dimensions.get("window").height;
+import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native"
+import React from "react"
+import LinearGradient from "react-native-linear-gradient"
+import CustomText from "./CustomText"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import colors from "../utils/color"
+import { Image } from "react-native"
+import { CustomHeaderProps } from "../types/propTypes"
+import Box from "./Box"
+import { useNavigation } from "@react-navigation/native"
+import { pixelSizeVertical } from "../utils/responsive"
+const height = Dimensions.get("window").height
 
 export default function CustomHeader({
   title,
@@ -19,12 +19,16 @@ export default function CustomHeader({
   onPressIconName,
   isSecondIcon = false,
   isProfile = false,
+  isSellerprofile = false
 }: CustomHeaderProps) {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
   return (
     <LinearGradient
       colors={["rgba(9, 240, 185, 0.5)", "#4E6AFF"]}
-      style={[styles.container, isProfile && styles.height]}
+      style={[
+        isSellerprofile ? styles.sellerheight : styles.container,
+        isProfile && styles.height
+      ]}
     >
       {back && (
         <Pressable style={styles.back} onPress={() => navigation.goBack()}>
@@ -34,7 +38,6 @@ export default function CustomHeader({
       <CustomText
         fontFamily="Inter-Bold"
         fontSize={22}
-        lineHeight={27}
         color={colors.secondary}
         style={{ right: isDetail ? 15 : 0 }}
       >
@@ -57,7 +60,7 @@ export default function CustomHeader({
         )}
       </Box>
     </LinearGradient>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -66,30 +69,38 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   back: {
     backgroundColor: colors.secondary,
     borderRadius: 8,
     position: "absolute",
-    left: 20,
+    left: 20
   },
   circle: {
     padding: 8,
     backgroundColor: "rgba(80,152,239,0.5)",
     borderRadius: 20,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   icon: {
     position: "absolute",
     right: 20,
-    flexDirection: "row",
+    flexDirection: "row"
   },
   height: {
-    paddingBottom: pixelSizeVertical(70),
+    paddingBottom: pixelSizeVertical(70)
   },
   iconProfile: {
-    top: 22,
+    top: 22
   },
-});
+  margintop: {
+    marginTop: 10
+  },
+  sellerheight: {
+    paddingBottom: pixelSizeVertical(170),
+    flexDirection: "row",
+    justifyContent: "center"
+  }
+})

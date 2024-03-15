@@ -11,6 +11,7 @@ type RootStackParamList = {
   Details: undefined;
   Profile: undefined;
   Setting: undefined;
+  SellerProfile:undefined;
 };
 
 type BottomStackParamList = {
