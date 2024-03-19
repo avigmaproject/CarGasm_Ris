@@ -1,8 +1,8 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import React from "react";
-import Home from "../../views/home/Home";
+import { createStackNavigator } from "@react-navigation/stack"
+import React from "react"
+import Home from "../../views/home/Home"
 
-const HomeStackNav = createStackNavigator();
+const HomeStackNav = createStackNavigator()
 
 export default function HomeStack() {
   return (
@@ -11,11 +11,11 @@ export default function HomeStack() {
         component={Home}
         options={() => {
           return {
-            headerShown: false,
-          };
+            headerShown: false
+          }
         }}
         name="Home"
       />
     </HomeStackNav.Navigator>
-  );
+  )
 }

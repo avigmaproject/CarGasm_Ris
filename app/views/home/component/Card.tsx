@@ -1,19 +1,30 @@
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
-import React from "react";
-import { CardProps } from "../../../types/propTypes";
-import Box from "../../../components/Box";
-import CustomText from "../../../components/CustomText";
-import colors from "../../../utils/color";
+import { View, Text, Image, StyleSheet, Pressable } from "react-native"
+import React from "react"
+import { CardProps } from "../../../types/propTypes"
+import Box from "../../../components/Box"
+import CustomText from "../../../components/CustomText"
+import colors from "../../../utils/color"
 import {
   pixelSizeHorizontal,
-  pixelSizeVertical,
-} from "../../../utils/responsive";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { truncateString } from "../../../utils/helper";
+  pixelSizeVertical
+} from "../../../utils/responsive"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import { truncateString } from "../../../utils/helper"
 
 export default function Card({ data, onPress, onPressLike }: CardProps) {
   return (
-    <Pressable style={styles.card} onPress={() => onPress(data.UP_PKeyID)}>
+    <Pressable
+      style={styles.card}
+      onPress={() =>
+        onPress(
+          data.UP_PKeyID,
+          data.UP_Poster_Img_Path,
+          data.UP_Title,
+          data.UP_Location,
+          data.UP_Price
+        )
+      }
+    >
       <Box alignItems="center">
         <Image source={{ uri: data.UP_Poster_Img_Path }} style={styles.image} />
       </Box>
@@ -74,7 +85,7 @@ export default function Card({ data, onPress, onPressLike }: CardProps) {
         <Icon name="heart-outline" color={colors.secondary} size={25} />
       </Pressable>
     </Pressable>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -85,14 +96,14 @@ const styles = StyleSheet.create({
     width: pixelSizeHorizontal(160),
     marginTop: 10,
     borderColor: "#ECECEC",
-    borderRadius: 6,
+    borderRadius: 6
   },
   image: {
     height: pixelSizeVertical(100),
     width: pixelSizeHorizontal(140),
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    marginTop: 5,
+    marginTop: 5
   },
   heart: { position: "absolute", right: 15, top: 10 },
   wave: {
@@ -104,6 +115,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 5,
     paddingVertical: 3,
-    borderRadius: 16,
-  },
-});
+    borderRadius: 16
+  }
+})

@@ -5,6 +5,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   ScrollView,
+StatusBar
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { TextInput } from "react-native-paper";
@@ -121,10 +122,12 @@ export default function Login({ navigation }: LoginProps) {
   }, [selectLogin]);
 
   return (
+
     <LinearGradient
       style={styles.container}
       colors={Platform.OS === "ios" ? gradient_ios : gradient_android}
     >
+   <StatusBar backgroundColor="transparent" translucent={true} />
       {loading && <Loader />}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}

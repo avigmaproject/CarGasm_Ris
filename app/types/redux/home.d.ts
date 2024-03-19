@@ -24,7 +24,10 @@ type HOME_LIST = {
   User_Email: string;
   User_Image_Path: string;
 };
-
+type QA_LIST = {
+    Quation:string;
+    Answer:string;
+  }
 type GetHomeDataState = {
   called: boolean;
   error: boolean;

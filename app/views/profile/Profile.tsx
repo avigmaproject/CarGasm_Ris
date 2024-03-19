@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: colors.secondary,
     borderWidth: 1,
-    borderColor: colors.borderColor,
+    borderColor: "#4F70B7",
     borderRadius: 8,
     flexDirection: "row",
     justifyContent: "space-around",
