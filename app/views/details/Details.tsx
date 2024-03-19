@@ -3,27 +3,33 @@ import {
   Text,
   ScrollView,
   SafeAreaView,
-  StyleSheet,
   Image,
-  ListRenderItemInfo,
-  FlatList
-} from "react-native"
-import React, { useState, useEffect } from "react"
-import Box from "../../components/Box"
-import CustomText from "../../components/CustomText"
-import CustomHeader from "../../components/CustomHeader"
-import { pixelSizeVertical } from "../../utils/responsive"
-import Icon from "react-native-vector-icons/MaterialCommunityIcons"
-import PrimaryButton from "../../components/PrimaryButton"
-import QuaAns from "../home/component/QuaAns"
-import colors from "../../utils/color"
-export default function Details({ navigation, ...props }) {
-  const [id, setId] = useState(props.route.params.id)
-  const [price, setPrice] = useState(props.route.params.price)
-  const [title, setTitle] = useState(props.route.params.title)
-  const [imgth, setImgpath] = useState(props.route.params.imagpath)
-  const [location, setLocation] = useState(props.route.params.location)
-  const [queans, setQuaAns] = useState([
+  StyleSheet,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import Box from "../../components/Box";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
+import CustomText from "../../components/CustomText";
+import CustomHeader from "../../components/CustomHeader";
+import { useDispatch } from "react-redux";
+import { getPostedItemsList } from "../../redux/ducks/getPostedItems";
+import { DetailsProps } from "../../types/propTypes";
+import { useAppSelector } from "../../utils/hooks";
+import { pixelSizeHorizontal, pixelSizeVertical } from "../../utils/responsive";
+import colors from "../../utils/color";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import PrimaryButton from "../../components/PrimaryButton";
+    
+    
+export default function Details({ route }: DetailsProps) {
+  // const Id = route.params.Id;
+  const selectProductDetail = useAppSelector((state) => state.getPostedItems);
+  const dispatch = useDispatch<any>();
+  const [detailsData, setDetailsData] = useState<POSTED_ITEMS>();
+   const [queans, setQuaAns] = useState([
     {
       no: 1,
       que: "What is Lorem Ipsum?",
@@ -37,13 +43,22 @@ export default function Details({ navigation, ...props }) {
     },
     { no: 4, que: "Where does it come from?", ans: "U.S.A" }
   ])
-  console.log("props.route.params", id, price, location)
-  const renderItem = ({ item }: ListRenderItemInfo<QA_LIST>) => {
-    console.log("homedata", item)
-    return <QuaAns data={item} />
-  }
+
+
+  useEffect(() => {
+    dispatch(
+      getPostedItemsList(2, route.params.Id, 1, "string", 1, 100, "string", 0)
+    );
+  }, []);
+
+  useEffect(() => {
+    if (selectProductDetail.called) {
+      setDetailsData(selectProductDetail[0][0][0]);
+    }
+  }, [selectProductDetail]);
+
   return (
-    <SafeAreaView style={{ flex: 1, flexGrow: 1 }}>
+    <SafeAreaView style={styles.container}>
       <Box>
         <CustomHeader
           title="Product Details"
@@ -52,113 +67,114 @@ export default function Details({ navigation, ...props }) {
           back
           isSecondIcon
         />
-        <ScrollView style={{ paddingHorizontal: 20 }}>
-          <Box pv={20}>
-            <Image source={{ uri: imgth }} style={styles.image} />
-            <Box pv={20}>
+        <ScrollView style={styles.onScroll}>
+          <Box style={styles.imageBox}>
+            <Image
+              source={{ uri: detailsData?.UP_Poster_Img_Path }}
+              style={styles.image}
+            />
+          </Box>
+          <Box pv={10}>
+            <CustomText
+              fontSize={20}
+              lineHeight={24}
+              color={colors.textColor}
+              fontFamily="Inter-SemiBold"
+            >
+              {detailsData?.UP_Title}
+            </CustomText>
+            <CustomText
+              fontSize={16}
+              lineHeight={22}
+              color={colors.appblack}
+              fontFamily="Inter-Regular"
+              style={{ marginTop: 10 }}
+            >
+              {detailsData?.UP_Coll_Desc}
+            </CustomText>
+            <Box flexDirection="row" alignItems="center" mt={10}>
+              <Icon
+                name="map-marker-outline"
+                size={25}
+                color={colors.appblack}
+                style={{ right: 3 }}
+              />
+
               <CustomText
-                fontFamily="Inter-SemiBold"
-                fontSize={20}
+                fontFamily="Inter-Regular"
+                fontSize={12}
                 color={colors.textColor}
-                lineHeight={24}
+                lineHeight={18}
               >
-                {title}
+                {detailsData?.UP_Location}
               </CustomText>
+            </Box>
+            <Box flexDirection="row" alignItems="center" mt={10}>
               <CustomText
                 fontFamily="Inter-Regular"
                 fontSize={16}
                 color={colors.textColor}
                 lineHeight={22}
-                style={{ marginTop: 10 }}
               >
-                {
-                  "Lorem Ipsum has been the industry's standard dummy text ever."
-                }
+                Conditon:{" "}
               </CustomText>
-              <Box flexDirection="row" alignItems="center" mt={10}>
-                <Icon
-                  name="map-marker-outline"
-                  size={25}
-                  color={colors.appblack}
-                  style={{ right: 3 }}
-                />
-
-                <CustomText
-                  fontFamily="Inter-Regular"
-                  fontSize={12}
-                  color={colors.textColor}
-                  lineHeight={18}
-                >
-                  {location}
-                </CustomText>
-              </Box>
-              <Box flexDirection="row" alignItems="center" mt={10}>
-                <CustomText
-                  fontFamily="Inter-Regular"
-                  fontSize={16}
-                  color={colors.textColor}
-                  lineHeight={22}
-                >
-                  Conditon:{" "}
-                </CustomText>
-                <CustomText
-                  fontFamily="Inter-SemiBold"
-                  fontSize={16}
-                  color={colors.textColor}
-                  lineHeight={22}
-                >
-                  {" Brand New"}
-                </CustomText>
-              </Box>
-              <Box flexDirection="row" alignItems="center" mt={10}>
-                <CustomText
-                  fontFamily="Inter-Regular"
-                  fontSize={16}
-                  color={colors.textColor}
-                  lineHeight={22}
-                >
-                  Price:{" "}
-                </CustomText>
-                <CustomText
-                  fontFamily="Inter-Bold"
-                  fontSize={16}
-                  color={colors.primary}
-                  lineHeight={22}
-                >
-                  ${Number(price).toFixed(2)}
-                </CustomText>
-              </Box>
+              <CustomText
+                fontFamily="Inter-SemiBold"
+                fontSize={16}
+                color={colors.textColor}
+                lineHeight={22}
+              >
+                Brand New
+              </CustomText>
             </Box>
-          </Box>
-          <Box>
-            <CustomText
-              fontFamily="Inter-SemiBold"
-              fontSize={16}
-              color={colors.textColor}
-              lineHeight={22}
-            >
-              {"Q & A"}
-            </CustomText>
-            <Box pb={50} height={pixelSizeVertical(130)}>
-              <FlatList
-                showsVerticalScrollIndicator={false}
-                data={queans}
-                renderItem={renderItem}
+            <Box flexDirection="row" alignItems="center" mt={10}>
+              <Image
+                source={{ uri: detailsData?.User_Image_Path }}
+                style={styles.userImage}
               />
+              <CustomText
+                fontFamily="Inter-Regular"
+                fontSize={16}
+                color={colors.appblack}
+                lineHeight={22}
+                style={{ left: 10 }}
+              >
+                {detailsData?.User_Name}
+              </CustomText>
             </Box>
-          </Box>
-          <Box style={styles.button}>
-            <PrimaryButton
-              label="Send message to seller"
-              onPress={() =>
-                navigation.navigate("SellerProfile", {
-                  imagpath: imgth,
-                  title: title
-                })
-              }
-            />
+            <Box flexDirection="row" alignItems="center" mt={15}>
+              <CustomText
+                fontFamily="Inter-Regular"
+                fontSize={18}
+                color={colors.textColor}
+                lineHeight={22}
+              >
+                Price:{" "}
+              </CustomText>
+              <CustomText
+                fontFamily="Inter-Bold"
+                fontSize={18}
+                color={colors.primary}
+                lineHeight={22}
+              >
+                ${Number(detailsData?.UP_Price).toFixed(2)}
+              </CustomText>
+            </Box>
+            <Box mt={20}>
+              <CustomText
+                fontFamily="Inter-SemiBold"
+                fontSize={16}
+                color={colors.appblack}
+                lineHeight={22}
+              >
+                Q & A
+              </CustomText>
+            </Box>
           </Box>
         </ScrollView>
+      </Box>
+      <Box style={styles.button}>
+        <PrimaryButton label="Send Message to Seller" />
       </Box>
     </SafeAreaView>
   )
@@ -168,15 +184,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
-    backgroundColor: "#F4F4F4"
+    backgroundColor: "#F4F4F4",
   },
   image: {
     height: pixelSizeVertical(200),
     width: "100%",
-    borderRadius: 8
+    borderRadius: 4,
+  },
+  imageBox: {
+    borderWidth: 1,
+    alignItems: "center",
+    padding: 5,
+    borderColor: colors.borderColor,
+    borderRadius: 4,
+    backgroundColor: colors.secondary,
+  },
+  onScroll: {
+    paddingHorizontal: wp("5%"),
+    paddingVertical: hp("2%"),
+  },
+  userImage: {
+    height: 50,
+    width: 50,
+    borderRadius: 25,
   },
   button: {
-    marginTop: 20,
-    marginBottom: 60
-  }
-})
+    marginTop: "auto",
+    padding: 20,
+    backgroundColor: colors.secondary,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+});

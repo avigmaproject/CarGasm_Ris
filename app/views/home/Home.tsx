@@ -55,21 +55,8 @@ export default function Home({ navigation }: HomeProps) {
     dispatch(getHomeDataList(1, 0, "string", 1, 100, "string", 0))
   }
 
-  function onGetProductDetails(
-    id: number,
-    imagpath: string,
-    title: string,
-    location: string,
-    price: string
-  ) {
-    console.log("id", imagpath)
-    navigation.navigate("Details", {
-      id: id,
-      imagpath: imagpath,
-      title: title,
-      location: location,
-      price: price
-    })
+  function onGetProductDetails(id: number) {
+    navigation.navigate("Details", { Id: id });
   }
 
   function onLike(pId: number, uId: number) {

@@ -9,6 +9,7 @@ import global from "./global";
 import getCategories from "./getCategories";
 import getSubCategories from "./getSubCategories";
 import getPostedItems from "./getPostedItems";
+import createPost from "./createPost";
 
 export default combineReducers({
   login,
@@ -21,4 +22,5 @@ export default combineReducers({
   getCategories,
   getSubCategories,
   getPostedItems,
+  createPost,
 });
