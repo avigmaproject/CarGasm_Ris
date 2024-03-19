@@ -22,28 +22,25 @@ import { pixelSizeHorizontal, pixelSizeVertical } from "../../utils/responsive";
 import colors from "../../utils/color";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PrimaryButton from "../../components/PrimaryButton";
-    
-    
+
 export default function Details({ route }: DetailsProps) {
-  // const Id = route.params.Id;
   const selectProductDetail = useAppSelector((state) => state.getPostedItems);
   const dispatch = useDispatch<any>();
   const [detailsData, setDetailsData] = useState<POSTED_ITEMS>();
-   const [queans, setQuaAns] = useState([
+  const [queans, setQuaAns] = useState([
     {
       no: 1,
       que: "What is Lorem Ipsum?",
-      ans: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+      ans: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
     },
     { no: 2, que: "Where does it come from?", ans: "U.S.A" },
     {
       no: 3,
       que: "What is Lorem Ipsum?",
-      ans: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+      ans: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
     },
-    { no: 4, que: "Where does it come from?", ans: "U.S.A" }
-  ])
-
+    { no: 4, que: "Where does it come from?", ans: "U.S.A" },
+  ]);
 
   useEffect(() => {
     dispatch(
@@ -177,7 +174,7 @@ export default function Details({ route }: DetailsProps) {
         <PrimaryButton label="Send Message to Seller" />
       </Box>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
