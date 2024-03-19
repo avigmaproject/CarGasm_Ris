@@ -54,7 +54,7 @@ export default function Home({ navigation }: HomeProps) {
   }
 
   function onGetProductDetails(id: number) {
-    navigation.navigate("Details");
+    navigation.navigate("Details", { Id: id });
   }
 
   function onLike(pId: number, uId: number) {

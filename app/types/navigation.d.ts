@@ -8,7 +8,7 @@ type RootStackParamList = {
   EditProfile: undefined;
   Subscription: undefined;
   BottomTabNavigations: undefined;
-  Details: undefined;
+  Details: { Id: number };
   Profile: undefined;
   Setting: undefined;
 };

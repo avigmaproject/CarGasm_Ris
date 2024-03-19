@@ -206,12 +206,15 @@ type CustomHeaderProps = {
 type ProfileProps = {
   navigation: StackNavigationProp<RootStackParamList, "Profile">;
   route: RouteProp<RootStackParamList, "Profile">;
-  showModal: boolean;
-  onClosedModal: () => void;
 };
 
 type PostedCardProps = {
   data: POSTED_ITEMS;
   onPress: (id: number) => void;
   onPressDots: (id: number) => void;
+};
+
+type DetailsProps = {
+  navigation: StackNavigationProp<RootStackParamList, "Details">;
+  route: RouteProp<RootStackParamList, "Details">;
 };
