@@ -11,6 +11,7 @@ import Box from "../../components/Box"
 import Header from "./component/Header"
 import { useDispatch } from "react-redux"
 import { getHomeDataList } from "../../redux/ducks/home"
+
 import { useAppSelector } from "../../utils/hooks"
 import { FlashList } from "@shopify/flash-list"
 import CustomText from "../../components/CustomText"
@@ -20,16 +21,18 @@ import { HomeProps } from "../../types/propTypes"
 import { onUpdateLike } from "../../redux/ducks/updateLikes"
 import { onGlobalChange } from "../../redux/ducks/global"
 import { ImagePickerIOS } from "react-native"
+import { getUserMasterList } from "../../redux/ducks/getUserMasterData"
 
 export default function Home({ navigation }: HomeProps) {
   const dispatch = useDispatch<any>()
   const selectHomeData = useAppSelector((state) => state.home)
+  const selectUserData = useAppSelector((state) => state.getUserMasterData)
   const [homeData, setHomeData] = useState<HOME_LIST[]>([])
+  const [userData, setUserData] = useState<GET_USER_LIST[]>([])
   const [refreshing, setRefreshing] = useState(false)
   const [loading, setLoading] = useState(false)
-
+  console.log("userdataaaa", userData)
   useEffect(() => {
-    console.log("homedata", homeData)
     navigation.addListener("focus", onFocus)
     return () => {
       navigation.removeListener("focus", onFocus)
@@ -40,6 +43,7 @@ export default function Home({ navigation }: HomeProps) {
     setLoading(true)
     dispatch(onGlobalChange({ showBottomTabs: false }))
     dispatch(getHomeDataList(1, 0, "string", 1, 100, "string", 0))
+    dispatch(getUserMasterList(2, 1, 0, "string", 0, 0, "string", 0))
   }
 
   useEffect(() => {
@@ -48,7 +52,10 @@ export default function Home({ navigation }: HomeProps) {
       setRefreshing(false)
       setHomeData(selectHomeData["0"])
     }
-  }, [selectHomeData])
+    if (selectUserData.called) {
+      setUserData(selectUserData["0"]["0"])
+    }
+  }, [selectHomeData, selectUserData])
 
   function onRefresh() {
     setRefreshing(true)
@@ -56,7 +63,7 @@ export default function Home({ navigation }: HomeProps) {
   }
 
   function onGetProductDetails(id: number) {
-    navigation.navigate("Details", { Id: id });
+    navigation.navigate("Details", { Id: id })
   }
 
   function onLike(pId: number, uId: number) {
@@ -64,7 +71,6 @@ export default function Home({ navigation }: HomeProps) {
   }
 
   const renderItem = ({ item }: ListRenderItemInfo<HOME_LIST>) => {
-    console.log("homedata", item)
     return (
       <Card data={item} onPress={onGetProductDetails} onPressLike={onLike} />
     )

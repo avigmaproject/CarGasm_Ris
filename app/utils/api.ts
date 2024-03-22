@@ -7,6 +7,7 @@ const GET_CATEGORIES_API = "/BuySell/GetCategoryMasterData";
 const GET_SUB_CATEGORIES_API = "/BuySell/GetSubCategoryMasterData";
 const GET_POSTED_ITEMS = "/BuySell/GetUserPostData";
 const CREATE_USER_POST_DATA = "/BuySell/CreateUpdateUserPostData";
+const GET_USER_MASTER_DATA = "/BuySell/GetUserMasterData";
 
 //const getpostdetails=  GetUserPostData
 
@@ -22,4 +23,5 @@ export {
   GET_SUB_CATEGORIES_API,
   GET_POSTED_ITEMS,
   CREATE_USER_POST_DATA,
+GET_USER_MASTER_DATA
 };

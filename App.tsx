@@ -15,6 +15,7 @@ import Details from "./app/views/details/Details"
 import EditProfile from "./app/views/profile/EditProfile"
 import Setting from "./app/views/settings/Setting"
 import SellerProfile from "./app/views/home/SellerProfile"
+import Chat from "./app/views/chat/Chat"
 const STATUSBAR_HEIGHT = StatusBar.currentHeight
 
 const App = () => {
@@ -107,6 +108,11 @@ const App = () => {
                 options={{ headerShown: false }}
                 name="SellerProfile"
                 component={SellerProfile}
+              />
+              <RootStack.Screen
+                options={{ headerShown: false }}
+                name="Chat"
+                component={Chat}
               />
             </>
           )}

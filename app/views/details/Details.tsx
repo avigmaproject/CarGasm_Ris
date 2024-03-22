@@ -4,32 +4,31 @@ import {
   ScrollView,
   SafeAreaView,
   Image,
-  StyleSheet,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import Box from "../../components/Box";
+  StyleSheet
+} from "react-native"
+import React, { useEffect, useState } from "react"
+import Box from "../../components/Box"
 import {
   heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
-import CustomText from "../../components/CustomText";
-import CustomHeader from "../../components/CustomHeader";
-import { useDispatch } from "react-redux";
-import { getPostedItemsList } from "../../redux/ducks/getPostedItems";
-import { DetailsProps } from "../../types/propTypes";
-import { useAppSelector } from "../../utils/hooks";
-import { pixelSizeHorizontal, pixelSizeVertical } from "../../utils/responsive";
-import colors from "../../utils/color";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import PrimaryButton from "../../components/PrimaryButton";
-    
-    
-export default function Details({ route }: DetailsProps) {
+  widthPercentageToDP as wp
+} from "react-native-responsive-screen"
+import CustomText from "../../components/CustomText"
+import CustomHeader from "../../components/CustomHeader"
+import { useDispatch } from "react-redux"
+import { getPostedItemsList } from "../../redux/ducks/getPostedItems"
+import { DetailsProps } from "../../types/propTypes"
+import { useAppSelector } from "../../utils/hooks"
+import { pixelSizeHorizontal, pixelSizeVertical } from "../../utils/responsive"
+import colors from "../../utils/color"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import PrimaryButton from "../../components/PrimaryButton"
+
+export default function Details({ route, navigation }: DetailsProps) {
   // const Id = route.params.Id;
-  const selectProductDetail = useAppSelector((state) => state.getPostedItems);
-  const dispatch = useDispatch<any>();
-  const [detailsData, setDetailsData] = useState<POSTED_ITEMS>();
-   const [queans, setQuaAns] = useState([
+  const selectProductDetail = useAppSelector((state) => state.getPostedItems)
+  const dispatch = useDispatch<any>()
+  const [detailsData, setDetailsData] = useState<POSTED_ITEMS>()
+  const [queans, setQuaAns] = useState([
     {
       no: 1,
       que: "What is Lorem Ipsum?",
@@ -44,18 +43,17 @@ export default function Details({ route }: DetailsProps) {
     { no: 4, que: "Where does it come from?", ans: "U.S.A" }
   ])
 
-
   useEffect(() => {
     dispatch(
       getPostedItemsList(2, route.params.Id, 1, "string", 1, 100, "string", 0)
-    );
-  }, []);
+    )
+  }, [])
 
   useEffect(() => {
     if (selectProductDetail.called) {
-      setDetailsData(selectProductDetail[0][0][0]);
+      setDetailsData(selectProductDetail[0][0][0])
     }
-  }, [selectProductDetail]);
+  }, [selectProductDetail])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -174,7 +172,12 @@ export default function Details({ route }: DetailsProps) {
         </ScrollView>
       </Box>
       <Box style={styles.button}>
-        <PrimaryButton label="Send Message to Seller" />
+        <PrimaryButton
+          label="Send Message to Seller"
+          onPress={() =>
+            navigation.navigate("SellerProfile", { detailsdata: detailsData })
+          }
+        />
       </Box>
     </SafeAreaView>
   )
@@ -184,12 +187,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
-    backgroundColor: "#F4F4F4",
+    backgroundColor: "#F4F4F4"
   },
   image: {
     height: pixelSizeVertical(200),
     width: "100%",
-    borderRadius: 4,
+    borderRadius: 4
   },
   imageBox: {
     borderWidth: 1,
@@ -197,22 +200,22 @@ const styles = StyleSheet.create({
     padding: 5,
     borderColor: colors.borderColor,
     borderRadius: 4,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.secondary
   },
   onScroll: {
     paddingHorizontal: wp("5%"),
-    paddingVertical: hp("2%"),
+    paddingVertical: hp("2%")
   },
   userImage: {
     height: 50,
     width: 50,
-    borderRadius: 25,
+    borderRadius: 25
   },
   button: {
     marginTop: "auto",
     padding: 20,
     backgroundColor: colors.secondary,
     borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-  },
-});
+    borderTopRightRadius: 16
+  }
+})
