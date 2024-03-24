@@ -130,7 +130,14 @@ type TextInProps = {
 };
 
 type ImagePickerProps = {
+  title: string;
+  isOpen: boolean;
+  multiple: boolean;
+  fileTypes?: DocumentPickerOptions<"android" | "ios" | "windows">;
   onSaveImage: (images: Image[] | null) => void;
+  onClose: () => void;
+  size?: number;
+  position?: string;
 };
 
 type SuscriptionButtonProps = {
@@ -144,12 +151,17 @@ type SubscriptionProps = {
 
 type CardProps = {
   data: HOME_LIST;
-  onPress: (id: number,imagpath:string,title:string,location:string,price:string) => void;
+  onPress: (
+    id: number,
+    imagpath: string,
+    title: string,
+    location: string,
+    price: string
+  ) => void;
   onPressLike: (pId: number, uId: number) => void;
 };
 type QAProps = {
   data: QA_LIST;
-  
 };
 
 type HomeProps = {
@@ -169,7 +181,7 @@ type CategoriesPrps = MaterialTopTabScreenProps<
 type CustomDropDownProps = {
   selectedValue?: any;
   onValueChange?: (itemValue: any, itemIndex: any) => void;
-  data: { label: string; value: string; enabled?: boolean }[];
+  data: { label: string; value: string }[];
   enabled?: boolean;
   title: string;
   onPressCamera?: () => void;

@@ -28,7 +28,6 @@ export default function Home({ navigation }: HomeProps) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("homedata", homeData);
     navigation.addListener("focus", onFocus);
     return () => {
       navigation.removeListener("focus", onFocus);
@@ -63,7 +62,6 @@ export default function Home({ navigation }: HomeProps) {
   }
 
   const renderItem = ({ item }: ListRenderItemInfo<HOME_LIST>) => {
-    console.log("homedata", item);
     return (
       <Card data={item} onPress={onGetProductDetails} onPressLike={onLike} />
     );

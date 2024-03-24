@@ -41,7 +41,7 @@ export default function ProductTabNavigation({
   const [brand, setBrand] = useState("");
   const [categ, setCateg] = useState("");
   const [subCateg, setSubCateg] = useState("");
-  const [productImage, setProductImage] = useState("");
+  const [productImage, setProductImage] = useState<[]>([]);
   useFocusEffect(
     React.useCallback(() => {
       dispatch(onGlobalChange({ showBottomTabs: true }));

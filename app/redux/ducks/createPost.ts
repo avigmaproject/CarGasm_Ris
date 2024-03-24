@@ -57,22 +57,16 @@ export const onCreatePostData =
     UP_Poster_Img_Path: string,
     UP_Duration: number,
     UP_Product_Name: string,
-    UP_Product_Price: number,
+    UP_Product_Price: string,
     UP_Address: string,
     UP_Web_URL: string,
     UP_No_Stripe_PriceID: string,
     UP_No_Stripe_ProductID: string,
-    UP_CM_PkeyID: number,
-    UP_SCM_PkeyID: number,
+    UP_CM_PkeyID: string,
+    UP_SCM_PkeyID: string,
     UP_Condition: string,
     UP_Brand: string,
-    User_Image_Post_DTO: {
-      UI_PKeyID: number;
-      UI_Name: string;
-      UI_File_Name: string;
-      UI_File_Path: string;
-      UI_File_Type: string;
-    }
+    User_Image_Post_DTO: []
   ) =>
   async (dispatch: AppDispatch) => {
     const url = CREATE_USER_POST_DATA;
@@ -122,7 +116,7 @@ export const onCreatePostData =
       UP_SCM_PkeyID: UP_SCM_PkeyID,
       UP_Condition: UP_Condition,
       UP_Brand: UP_Brand,
-      // User_Image_Post_DTO:
+      User_Image_Post_DTO: JSON.stringify(User_Image_Post_DTO),
     });
 
     axiosInstance

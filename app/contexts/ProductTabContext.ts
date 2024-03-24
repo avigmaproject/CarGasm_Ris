@@ -17,6 +17,6 @@ export const ProductContext = React.createContext<ProductContextType>({
   setCateg: () => {},
   subCateg: "",
   setSubCateg: () => {},
-  productImage: "",
+  productImage: [],
   setProductImage: () => {},
 });

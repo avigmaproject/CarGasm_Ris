@@ -7,10 +7,7 @@ const GET_CATEGORIES_API = "/BuySell/GetCategoryMasterData";
 const GET_SUB_CATEGORIES_API = "/BuySell/GetSubCategoryMasterData";
 const GET_POSTED_ITEMS = "/BuySell/GetUserPostData";
 const CREATE_USER_POST_DATA = "/BuySell/CreateUpdateUserPostData";
-
-//const getpostdetails=  GetUserPostData
-
-// Create Product CreateUpdateUserPostData
+const GET_BRAND_DATA = "/BuySell/GetBrandMasterData";
 
 export {
   LOGIN_SUBMIT,
@@ -22,4 +19,5 @@ export {
   GET_SUB_CATEGORIES_API,
   GET_POSTED_ITEMS,
   CREATE_USER_POST_DATA,
+  GET_BRAND_DATA,
 };

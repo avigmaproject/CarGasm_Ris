@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, Image } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import TabHeader from "./component/TabHeader";
 import { ProductContext } from "../../contexts/ProductTabContext";
 import Box from "../../components/Box";
@@ -8,8 +8,14 @@ import CustomText from "../../components/CustomText";
 import colors from "../../utils/color";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PrimaryButton from "../../components/PrimaryButton";
+import { useDispatch } from "react-redux";
+import { onCreatePostData } from "../../redux/ducks/createPost";
+import { useAppSelector } from "../../utils/hooks";
+import { snackBar } from "../../utils/helper";
+import { PaymentProps } from "../../types/propTypes";
 
-export default function Payment() {
+export default function Payment({ navigation }: PaymentProps) {
+  const dispatch = useDispatch<any>();
   const {
     brand,
     title,
@@ -18,12 +24,73 @@ export default function Payment() {
     location,
     condition,
     price,
+    categ,
+    subCateg,
   } = useContext(ProductContext);
+  const selectPostProduct = useAppSelector((state) => state.createPost);
+
+  const postProduct = () => {
+    dispatch(
+      onCreatePostData(
+        0,
+        "string",
+        0,
+        "string",
+        true,
+        0,
+        0,
+        true,
+        false,
+        1,
+        0,
+        "string",
+        description,
+        true,
+        location,
+        "string",
+        "string",
+        "string",
+        title,
+        "string",
+        price,
+        "string",
+        true,
+        "Poster",
+        "Path",
+        15.88,
+        "PName",
+        price,
+        "Address",
+        "",
+        "",
+        "",
+        categ,
+        subCateg,
+        condition,
+        brand,
+        productImage
+      )
+    );
+  };
+
+  useEffect(() => {
+    if (selectPostProduct.called) {
+      const { error } = selectPostProduct;
+      if (!error) {
+        snackBar("Product Created Successfully", "green");
+        navigation.navigate("Home");
+      }
+    }
+  }, [selectPostProduct]);
+
   return (
     <SafeAreaView style={styles.container}>
       <TabHeader title={"Post Product"} back cancel={false} />
       <Box ph={20} pv={20}>
-        <Image source={{ uri: productImage }} style={styles.image} />
+        <Image
+          source={{ uri: productImage[0].UI_File_Path }}
+          style={styles.image}
+        />
         <Box pv={20}>
           <CustomText
             fontFamily="Inter-SemiBold"
@@ -98,7 +165,7 @@ export default function Payment() {
         </Box>
       </Box>
       <Box style={styles.button}>
-        <PrimaryButton label="Post" />
+        <PrimaryButton label="Post" onPress={postProduct} />
       </Box>
     </SafeAreaView>
   );

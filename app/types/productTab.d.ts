@@ -23,8 +23,8 @@ type ProductContextType = {
   setCateg: (value: string) => void;
   subCateg: string;
   setSubCateg: (value: string) => void;
-  productImage: string;
-  setProductImage: (value: string) => void;
+  productImage: [];
+  setProductImage: (value: []) => void;
 };
 
 type CategoriesErrors = {

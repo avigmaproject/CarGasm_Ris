@@ -10,6 +10,7 @@ import getCategories from "./getCategories";
 import getSubCategories from "./getSubCategories";
 import getPostedItems from "./getPostedItems";
 import createPost from "./createPost";
+import getBrandList from "./getBrandList";
 
 export default combineReducers({
   login,
@@ -23,4 +24,5 @@ export default combineReducers({
   getSubCategories,
   getPostedItems,
   createPost,
+  getBrandList,
 });

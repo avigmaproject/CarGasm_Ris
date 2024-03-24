@@ -29,8 +29,6 @@ export default function CustomDropDown({
   placeholder,
 }: CustomDropDownProps) {
   function onOpenSheet() {
-    console.log("called");
-
     ActionSheetIOS.showActionSheetWithOptions(
       {
         options: ["Cancel", ...data.map((el) => el.label)],
@@ -76,6 +74,11 @@ export default function CustomDropDown({
               selectedValue={selectedValue}
               placeholder={placeholder}
             >
+              <Picker.Item
+                label="Select"
+                value={0}
+                style={[styles.item, { color: "#111111" }]}
+              />
               {data.map((el, index) => {
                 return (
                   <Picker.Item
@@ -83,7 +86,6 @@ export default function CustomDropDown({
                     key={index}
                     label={el.label}
                     value={el.value}
-                    enabled={el.enabled === undefined ? true : el.enabled}
                   />
                 );
               })}
