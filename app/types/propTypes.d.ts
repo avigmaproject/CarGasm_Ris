@@ -234,3 +234,7 @@ type DetailsProps = {
   navigation: StackNavigationProp<RootStackParamList, "Details">;
   route: RouteProp<RootStackParamList, "Details">;
 };
+
+type HomeHeaderProps = {
+  onLoginPress?: () => void;
+};

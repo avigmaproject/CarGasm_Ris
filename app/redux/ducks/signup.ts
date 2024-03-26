@@ -3,8 +3,6 @@ import axiosInstance from "../../axios";
 import { LOGIN_SUBMIT } from "../../utils/api";
 import { AppDispatch } from "../store";
 import { handleError, postAuth } from "../../utils/helper";
-import messaging from '@react-native-firebase/messaging';
-import firebase from '@react-native-firebase/app';
 
 const SIGNUP: SIGNUP = "carGasm/signup";
 
@@ -35,8 +33,8 @@ export const onRegister =
     Type: number,
     User_Name: string,
     User_Phone: string,
- User_Token_val: string,
-        User_Firebase_UID: string,
+    User_Token_val: string,
+    User_Firebase_UID: string
   ) =>
   async (dispatch: AppDispatch) => {
     const url = LOGIN_SUBMIT;
@@ -72,23 +70,3 @@ export const onRegister =
         }
       });
   };
-export const getFcmToken = async () => {
-
-  await messaging().deleteToken();
-  const fcmToken = await firebase.messaging().getToken();
-  console.log('fcmToken', fcmToken);
-  return fcmToken;
-
-};
-export const requestUserPermission = async () => {
-  let authStatus = await firebase.messaging().hasPermission();
-  if (
-    authStatus !== firebase.messaging.AuthorizationStatus.AUTHORIZED ||
-    messaging.AuthorizationStatus.PROVISIONAL
-  ) {
-    authStatus = await firebase.messaging().requestPermission();
-  }
-  if (authStatus === firebase.messaging.AuthorizationStatus.AUTHORIZED) {
-    return authStatus;
-  }
-};

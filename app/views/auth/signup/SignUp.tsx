@@ -5,112 +5,112 @@ import {
   Platform,
   StyleSheet,
   Image,
-  Alert
-} from "react-native"
-import React, { useContext, useEffect, useState } from "react"
-import { TextInput } from "react-native-paper"
-import TextBox from "../../../components/TextBox"
-import Header from "../../../components/Header"
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
-import Box from "../../../components/Box"
-import CustomText from "../../../components/CustomText"
-import TextButton from "../../../components/TextButton"
-import PrimaryButton from "../../../components/PrimaryButton"
-import colors from "../../../utils/color"
-import { SignUpProps } from "../../../types/propTypes"
-import { useAppSelector } from "../../../utils/hooks"
-import GlobalContext from "../../../contexts/GlobalContext"
-import { useDispatch } from "react-redux"
-import { isEmailValid, isNameValid } from "../../../utils/regex"
-import firestore from "@react-native-firebase/firestore"
-import { onLogin } from "../../../redux/ducks/login"
-import Loader from "../../../components/Loader"
-import { snackBar } from "../../../utils/helper"
+  Alert,
+} from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { TextInput } from "react-native-paper";
+import TextBox from "../../../components/TextBox";
+import Header from "../../../components/Header";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Box from "../../../components/Box";
+import CustomText from "../../../components/CustomText";
+import TextButton from "../../../components/TextButton";
+import PrimaryButton from "../../../components/PrimaryButton";
+import colors from "../../../utils/color";
+import { SignUpProps } from "../../../types/propTypes";
+import { useAppSelector } from "../../../utils/hooks";
+import GlobalContext from "../../../contexts/GlobalContext";
+import { useDispatch } from "react-redux";
+import { isEmailValid, isNameValid } from "../../../utils/regex";
+import firestore from "@react-native-firebase/firestore";
+import { onLogin } from "../../../redux/ducks/login";
+import Loader from "../../../components/Loader";
 import {
-  onRegister,
+  getFcmToken,
   requestUserPermission,
-  getFcmToken
-} from "../../../redux/ducks/signup"
-import LinearGradient from "react-native-linear-gradient"
+  snackBar,
+} from "../../../utils/helper";
+import { onRegister } from "../../../redux/ducks/signup";
+import LinearGradient from "react-native-linear-gradient";
 import {
   pixelSizeHorizontal,
-  pixelSizeVertical
-} from "../../../utils/responsive"
-import { gradient_android, gradient_ios } from "../../../utils/constant"
+  pixelSizeVertical,
+} from "../../../utils/responsive";
+import { gradient_android, gradient_ios } from "../../../utils/constant";
 const androidImages = [
   require("../../../assets/images/Facebook.png"),
-  require("../../../assets/images/Google.png")
-]
+  require("../../../assets/images/Google.png"),
+];
 
 const iosImages = [
   require("../../../assets/images/Facebook.png"),
   require("../../../assets/images/Google.png"),
-  require("../../../assets/images/Apple.png")
-]
+  require("../../../assets/images/Apple.png"),
+];
 
 export default function SignUp({ navigation }: SignUpProps) {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [cpassword, setCPassword] = useState("")
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [secureTextEntry, setsecureTextEntry] = useState(true)
-  const [termcondition, settermcondition] = useState(false)
-  const [errors, setErrors] = useState<SignupErrors>()
-  const [loading, setLoading] = useState(false)
-  const [fcmtoken, setfcmtoken] = useState("")
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpassword, setCPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [secureTextEntry, setsecureTextEntry] = useState(true);
+  const [termcondition, settermcondition] = useState(false);
+  const [errors, setErrors] = useState<SignupErrors>();
+  const [loading, setLoading] = useState(false);
+  const [fcmtoken, setfcmtoken] = useState("");
 
-  const selectRegister = useAppSelector((state) => state.signup)
+  const selectRegister = useAppSelector((state) => state.signup);
   const { setAuthenticated, setFromLogin, setGlobalUserName } =
-    useContext(GlobalContext)
+    useContext(GlobalContext);
 
-  const dispatch = useDispatch<any>()
+  const dispatch = useDispatch<any>();
 
   const handleSecureEntry = () => {
-    setsecureTextEntry(!secureTextEntry)
-  }
+    setsecureTextEntry(!secureTextEntry);
+  };
   const onHandleTermsAndCondition = () => {
-    settermcondition(!termcondition)
-  }
+    settermcondition(!termcondition);
+  };
   useEffect(() => {
-    console.log("fcmm message", fcmtoken)
-    FcmMessage()
-  }, [])
-  const FcmMessage = async () => {
-    const authStatus = await requestUserPermission()
+    console.log("fcmm message", fcmtoken);
+    FcmMessage();
+  }, []);
 
+  const FcmMessage = async () => {
+    const authStatus = await requestUserPermission();
     if (authStatus) {
-      const fcmtoken = await getFcmToken()
-      console.log("authstatusss.....", fcmtoken)
+      const fcmtoken = await getFcmToken();
+      console.log("authstatusss.....", fcmtoken);
       if (fcmtoken) {
-        setfcmtoken(fcmtoken)
+        setfcmtoken(fcmtoken);
       } else {
-        console.log("else")
+        console.log("else");
         Alert.alert(
           "Please enable notifications to receive time-critical updates"
-        )
+        );
       }
     }
-  }
+  };
   function validateInputs() {
-    const tempErrors: SignupErrors = {}
+    const tempErrors: SignupErrors = {};
     if (!isEmailValid(email)) {
-      tempErrors.email = "Enter a valid email"
+      tempErrors.email = "Enter a valid email";
     }
     if (password.length === 0) {
-      tempErrors.password = "Enter a valid password"
+      tempErrors.password = "Enter a valid password";
     }
     if (password !== cpassword) {
-      tempErrors.cpassword = "Password did not match"
+      tempErrors.cpassword = "Password did not match";
     }
     if (!isNameValid(name)) {
-      tempErrors.name = "Enter a valid name"
+      tempErrors.name = "Enter a valid name";
     }
     if (phoneNumber.length < 10) {
-      tempErrors.phone = "Enter a valid phone number"
+      tempErrors.phone = "Enter a valid phone number";
     }
-    setErrors(tempErrors)
-    return Object.keys(tempErrors).length === 0
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
   }
   const newuser = async (id, email, fcmtoken, name) => {
     await firestore().collection("users").doc(id).set({
@@ -118,36 +118,36 @@ export default function SignUp({ navigation }: SignUpProps) {
       email: email,
       uid: id,
       token: fcmtoken,
-      userid: 0
-    })
-  }
+      userid: 0,
+    });
+  };
   const OnHandleRegister = () => {
-    const id = Date.now().toString()
-    console.log("fcmmmm id...", fcmtoken)
-    const isValid = validateInputs()
+    const id = Date.now().toString();
+    console.log("fcmmmm id...", fcmtoken);
+    const isValid = validateInputs();
     if (isValid && termcondition) {
-      setLoading(true)
-      newuser(id, email, fcmtoken, name)
-      dispatch(onRegister(email, password, 2, name, phoneNumber, fcmtoken, id))
+      setLoading(true);
+      newuser(id, email, fcmtoken, name);
+      dispatch(onRegister(email, password, 2, name, phoneNumber, fcmtoken, id));
     } else {
-      snackBar("Please agree terms and privacy policy", "red")
+      snackBar("Please agree terms and privacy policy", "red");
     }
-  }
+  };
 
   useEffect(() => {
     if (selectRegister.called) {
-      setLoading(false)
-      const { error, errorCode, userToken } = selectRegister
+      setLoading(false);
+      const { error, errorCode, userToken } = selectRegister;
       if (errorCode === "1" && !error) {
-        snackBar("User Created Succesfully!", "green")
-        setAuthenticated(true)
-        setFromLogin(false)
-        setGlobalUserName(name)
+        snackBar("User Created Succesfully!", "green");
+        setAuthenticated(true);
+        setFromLogin(false);
+        setGlobalUserName(name);
       } else {
-        snackBar(userToken, "red")
+        snackBar(userToken, "red");
       }
     }
-  }, [selectRegister])
+  }, [selectRegister]);
 
   return (
     <LinearGradient
@@ -264,10 +264,10 @@ export default function SignUp({ navigation }: SignUpProps) {
                     source={el}
                     style={{
                       height: pixelSizeVertical(60),
-                      width: pixelSizeHorizontal(60)
+                      width: pixelSizeHorizontal(60),
                     }}
                   />
-                )
+                );
               }
             )}
           </Box>
@@ -288,13 +288,13 @@ export default function SignUp({ navigation }: SignUpProps) {
         </Box>
       </ScrollView>
     </LinearGradient>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexGrow: 1
+    flexGrow: 1,
   },
 
   bottomText: {
@@ -302,9 +302,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: "auto",
-    paddingTop: pixelSizeVertical(20)
+    paddingTop: pixelSizeVertical(20),
   },
   header: {
-    marginTop: Platform.OS === "ios" ? 30 : 0
-  }
-})
+    marginTop: Platform.OS === "ios" ? 30 : 0,
+  },
+});

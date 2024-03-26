@@ -23,6 +23,7 @@ import { Dimensions } from "react-native"
 import colors from "../../utils/color"
 import Card from "./component/Card"
 import { HomeProps } from "../../types/propTypes"
+import { dummyProfileUrl } from "../../utils/constant"
 import PostedItemsPage from "../profile/components/PostedItemsPage"
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import {
@@ -33,10 +34,12 @@ import { useAppSelector } from "../../utils/hooks"
 const height = Dimensions.get("window").height
 const width = Dimensions.get("window").width
 
-export default function SellerProfile({ ...props }: HomeProps) {
+export default function SellerProfile({ navigation, ...props }: HomeProps) {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [title, setTitle] = useState(props.route.params.title)
-  const [imgth, setImgpath] = useState(props.route.params.imagpath)
+  const [detailsData, setDetailsDatae] = useState(
+    props.route.params.detailsdata
+  )
+
   const selectHomeData = useAppSelector((state) => state.home)
   const [homeData, setHomeData] = useState<HOME_LIST[]>([])
   console.log("homeeeeeee444444", homeData)
@@ -76,9 +79,17 @@ export default function SellerProfile({ ...props }: HomeProps) {
         <Pressable style={{ justifyContent: "center", alignItems: "center" }}>
           <Image
             source={{
-              uri: imgth
+              uri: detailsData.User_Image_Path
+                ? detailsData.User_Image_Path
+                : dummyProfileUrl
             }}
-            style={{ height: 160, width: 160, borderRadius: 130 }}
+            style={{
+              height: 160,
+              width: 160,
+              borderRadius: 130,
+              borderWidth: 2,
+              borderColor: "#FFF"
+            }}
           />
         </Pressable>
         <Box style={styles.name}>
@@ -88,7 +99,7 @@ export default function SellerProfile({ ...props }: HomeProps) {
             color={colors.textColor}
             lineHeight={24}
           >
-            {title}
+            {detailsData.User_Name}
           </CustomText>
           <CustomText
             fontFamily="Inter-Regular"
@@ -122,7 +133,12 @@ export default function SellerProfile({ ...props }: HomeProps) {
           />
         </Box>
         <Box ph={20} mt={30}>
-          <PrimaryButton label="Send message to seller" />
+          <PrimaryButton
+            label="Send message to seller"
+            onPress={() =>
+              navigation.navigate("Chat", { detailsdata: detailsData })
+            }
+          />
         </Box>
       </Box>
     </SafeAreaView>

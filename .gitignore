@@ -71,3 +71,6 @@ src/assets/Images/ic_launcher.zip
 src/btyb-a06df-firebase-adminsdk-tbblt-3016327438.json
 src/screens/Post/LikedVideo.js
 src/screens/Setting
+temp_auto_push.bat
+temp_interactive_push.bat
+branch_structure.json

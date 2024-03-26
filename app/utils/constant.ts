@@ -1,6 +1,8 @@
 export const TOKEN = "auth/token";
 export const IS_FIRST_TIME = "user/is-first-time";
 
+export const NOTIFICATION_CHANNEL = "basic-notification";
+
 export const gradient_ios = [
   "rgba(255, 122, 0, 0.09)",
   "rgba(255, 255, 255, 1)",
@@ -14,4 +16,4 @@ export const gradient_android = [
 ];
 
 export const dummyProfileUrl =
-  "https://s3-alpha-sig.figma.com/img/da40/aa1f/fede794ad93bbb734b5aced8036bf4fb?Expires=1709510400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=BOtEIk3GsmW8P86ON~GFDijHYq5WUaYO6JeN8pbrneXDHERGoKUhRCwf~0jAVx0yus62RkrwVwdemquO-pS-ZpUmteimE6ympTFjnWLZ2oospBb3C012GdEV4WEXNnr2Sz~e7c8rkN~LwvOG22VCwtXa9PI~JmlAgq7pqv7nq1n1R1xYkYemvpvaQjLORP7BbeFLisqhnOAwGUOfWIt55O2uUZftAz~AE6BHppSlDIMV9hcljKtzXjk4ElTEW5-~my~GxOsAWtJmCsGNHv1s5TfWVf2vr8u5-55DleIbJsi5l1EIC02J~tXtdY0MELvJmXssN84tnFfpZZp7ZvF5sA__";
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/1200px-Unknown_person.jpg";

@@ -19,7 +19,10 @@ export default function CustomHeader({
   onPressIconName,
   isSecondIcon = false,
   isProfile = false,
-  isSellerprofile = false
+  isSellerprofile = false,
+  ischat,
+  userimg,
+  ischaticon
 }: CustomHeaderProps) {
   const navigation = useNavigation()
   return (
@@ -34,6 +37,18 @@ export default function CustomHeader({
         <Pressable style={styles.back} onPress={() => navigation.goBack()}>
           <Icon name="chevron-left" size={30} color={colors.appblack} />
         </Pressable>
+      )}
+      {ischat && (
+        <Image
+          source={{ uri: userimg }}
+          style={{
+            height: 40,
+            width: 40,
+            resizeMode: "contain",
+            borderRadius: 20,
+            marginRight: 10
+          }}
+        />
       )}
       <CustomText
         fontFamily="Inter-Bold"
@@ -58,6 +73,11 @@ export default function CustomHeader({
             <Icon name={iconName} color={colors.secondary} size={22} />
           </Pressable>
         )}
+        {ischaticon && (
+          <Pressable style={styles.menu} onPress={() => console.log("Hello")}>
+            <Icon name="dots-vertical" color={colors.secondary} size={26} />
+          </Pressable>
+        )}
       </Box>
     </LinearGradient>
   )
@@ -80,6 +100,12 @@ const styles = StyleSheet.create({
   circle: {
     padding: 8,
     backgroundColor: "rgba(80,152,239,0.5)",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  menu: {
+    backgroundColor: colors.lightPrimary,
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center"

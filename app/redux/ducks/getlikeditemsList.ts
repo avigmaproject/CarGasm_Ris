@@ -1,58 +1,62 @@
 import { AxiosError } from "axios";
 import axiosInstance from "../../axios";
 import { AppDispatch } from "../store";
-import { GET_SUB_CATEGORIES_API } from "../../utils/api";
+import { GET_POSTED_ITEMS } from "../../utils/api";
+import { getUserToken } from "../../utils/localStorage";
 
-const GET_SUB_CATEGORIES: GET_SUB_CATEGORIES = "carGasm/getSubCategoriesList";
+const GET_POSTED: GET_POSTED = "carGasm/getPostedItem";
 
-const initialState: GetSubCategoriesState = {
+const initialState: GetPostedItemState = {
   called: false,
   error: false,
 };
 
 export default (
   state = initialState,
-  action: GetSubCategoriesAction
-): GetSubCategoriesState => {
+  action: GetPostedItemAction
+): GetPostedItemState => {
   switch (action.type) {
-    case GET_SUB_CATEGORIES:
+    case GET_POSTED:
       return { ...state, ...action.payload };
     default:
       return { ...state, called: false };
   }
 };
 
-const getSubCategoriesAction = (
-  res: GetSubCategoriesState
-): GetSubCategoriesAction => {
-  return { type: GET_SUB_CATEGORIES, payload: { ...res, called: true } };
+const getPostedItemAction = (res: GetPostedItemState): GetPostedItemAction => {
+  return { type: GET_POSTED, payload: { ...res, called: true } };
 };
 
-export const getSubCategoriesData =
+export const getlikeditemsList =
   (
-    SCM_PkeyID: string,
+    Type: number,
+    UP_PkeyID: number,
+    UP_UserID: number,
     WhereClause: string,
     PageNumber: number,
     NoofRows: number,
     Orderby: string,
-    Type: number,
     UserID: number
   ) =>
   async (dispatch: AppDispatch) => {
-    const url = GET_SUB_CATEGORIES_API;
+    const url = GET_POSTED_ITEMS;
 
     let data = JSON.stringify({
-      SCM_PkeyID: SCM_PkeyID,
+      Type: Type,
+      UP_PkeyID: UP_PkeyID,
+      UP_UserID: UP_UserID,
       WhereClause: WhereClause,
       PageNumber: PageNumber,
       NoofRows: NoofRows,
       Orderby: Orderby,
-      Type: Type,
       UserID: UserID,
     });
 
+    const token = await getUserToken();
+
     const config = {
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     };
@@ -60,12 +64,12 @@ export const getSubCategoriesData =
     axiosInstance
       .post(url, data, config)
       .then((res) => {
-        dispatch(getSubCategoriesAction({ ...res.data, error: false }));
+        dispatch(getPostedItemAction({ ...res.data, error: false }));
       })
       .catch((error: AxiosError) => {
         if (error.request._response) {
           dispatch(
-            getSubCategoriesAction({
+            getPostedItemAction({
               ...JSON.parse(error.request._response),
               error: true,
               called: false,

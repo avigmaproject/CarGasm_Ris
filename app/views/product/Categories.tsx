@@ -6,7 +6,6 @@ import {
   StyleSheet,
 } from "react-native";
 import Box from "../../components/Box";
-import Input from "../../components/Input";
 import PrimaryButton from "../../components/PrimaryButton";
 import TabHeader from "./component/TabHeader";
 import { CategoriesPrps } from "../../types/propTypes";
@@ -16,6 +15,7 @@ import { getCategoriesData } from "../../redux/ducks/getCategories";
 import { ProductContext } from "../../contexts/ProductTabContext";
 import { useAppSelector } from "../../utils/hooks";
 import { getBrandsData } from "../../redux/ducks/getBrandList";
+import { getSubCategoriesData } from "../../redux/ducks/getSubCategories";
 
 const data = [
   { label: "Auto Car", value: 1 },
@@ -92,6 +92,11 @@ export default function Categories({ navigation }: CategoriesPrps) {
     }
   };
 
+  const onCateCalled = (value: string) => {
+    setCateg(value);
+    dispatch(getSubCategoriesData(categ, "", 1, 100, "", 1, 0));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TabHeader title={"Post Product"} back cancel={false} />
@@ -112,7 +117,7 @@ export default function Categories({ navigation }: CategoriesPrps) {
               data={categories}
               title="Select Categories"
               selectedValue={categ}
-              onValueChange={setCateg}
+              onValueChange={onCateCalled}
               error={errors?.categoriesError}
             />
             {+categ !== 0 && (

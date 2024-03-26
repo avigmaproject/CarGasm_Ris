@@ -6,7 +6,7 @@ import Login from "./app/views/auth/login/Login";
 import SignUp from "./app/views/auth/signup/SignUp";
 import Splash from "./app/views/splash/Splash";
 import Intro from "./app/views/intro/Intro";
-import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import GlobalContext from "./app/contexts/GlobalContext";
 import Home from "./app/views/home/Home";
 import Subscription from "./app/views/subscription/Subscription";
@@ -15,7 +15,10 @@ import Details from "./app/views/details/Details";
 import EditProfile from "./app/views/profile/EditProfile";
 import Setting from "./app/views/settings/Setting";
 import SellerProfile from "./app/views/home/SellerProfile";
-import messaging from "@react-native-firebase/messaging";
+import messaging, { firebase } from "@react-native-firebase/messaging";
+import Chat from "./app/views/chat/Chat";
+import { PERMISSIONS } from "react-native-permissions";
+import PushNotification from "react-native-push-notification";
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 const App = () => {
@@ -25,13 +28,27 @@ const App = () => {
   const RootStack = createStackNavigator<RootStackParamList>();
 
   const getFirebaseToken = async () => {
-    const token = await messaging().getToken();
-    console.log("token=>>>>>", token);
+    // Get the token
+    const fcmToken = await firebase.messaging().getToken();
+    console.log("token=>>>>>", fcmToken);
   };
 
   useEffect(() => {
     getFirebaseToken();
+  }, [messaging]);
+
+  useEffect(() => {
+    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+      console.log("Message handled in the background!", remoteMessage);
+    });
   }, []);
+
+  PushNotification.configure({
+    onNotification: function (notification) {
+      console.log("NOTIFICATION:", notification);
+    },
+    // requestPermissions: Platform.OS === 'ios'
+  });
 
   // const MyStatusBar = ({ backgroundColor, ...props }) => (
   //   <View style={[styles.statusBar, { backgroundColor }]}>
@@ -67,8 +84,8 @@ const App = () => {
                 options={{ headerShown: false, gestureEnabled: false }}
               />
               <RootStack.Screen
-                name="Welcome"
-                component={Welcome}
+                name="Home"
+                component={Home}
                 options={{ headerShown: false, gestureEnabled: false }}
               />
               <RootStack.Screen
@@ -117,6 +134,11 @@ const App = () => {
                 options={{ headerShown: false }}
                 name="SellerProfile"
                 component={SellerProfile}
+              />
+              <RootStack.Screen
+                options={{ headerShown: false }}
+                name="Chat"
+                component={Chat}
               />
             </>
           )}
