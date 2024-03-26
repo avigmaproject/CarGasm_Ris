@@ -7,17 +7,35 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LinearGradient from "react-native-linear-gradient";
 import CustomText from "../../../components/CustomText";
 import Box from "../../../components/Box";
 import colors from "../../../utils/color";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import { getUserToken } from "../../../utils/localStorage";
+import { HomeHeaderProps } from "../../../types/propTypes";
 const InstantSearches = ["Browse", "For you", "Cars", "WTB", "Saved Searches"];
 
-export default function Header() {
+export default function Header({ onLoginPress }: HomeHeaderProps) {
   const [search, setSearch] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
+
+  function getToken() {
+    getUserToken().then((token) => {
+      if (token) {
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
+    });
+  }
+
+  useEffect(() => {
+    getToken();
+  }, []);
+
   return (
     <LinearGradient colors={["rgba(9, 240, 185, 0.5)", "#4E6AFF"]}>
       <Box style={styles.headerComp}>
@@ -30,12 +48,23 @@ export default function Header() {
           Car<Text style={{ fontFamily: "Inter-Regular" }}>Gasm</Text>
         </CustomText>
         <Box flexDirection="row">
-          <Pressable style={[styles.iconBg, { marginRight: 20 }]}>
-            <Icon name="bell" size={25} color={colors.secondary} />
-          </Pressable>
-          <Pressable style={styles.iconBg}>
-            <Icon name="cog-outline" size={25} color={colors.secondary} />
-          </Pressable>
+          {!isLogin ? (
+            <Pressable
+              style={[styles.iconBg, { marginRight: 20 }]}
+              onPress={onLoginPress}
+            >
+              <Icon name="login" size={25} color={colors.secondary} />
+            </Pressable>
+          ) : (
+            <>
+              <Pressable style={[styles.iconBg, { marginRight: 20 }]}>
+                <Icon name="bell" size={25} color={colors.secondary} />
+              </Pressable>
+              <Pressable style={styles.iconBg}>
+                <Icon name="cog-outline" size={25} color={colors.secondary} />
+              </Pressable>
+            </>
+          )}
         </Box>
       </Box>
       <Box style={styles.inputCont}>

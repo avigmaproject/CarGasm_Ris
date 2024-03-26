@@ -23,7 +23,7 @@ import colors from "../../utils/color";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PrimaryButton from "../../components/PrimaryButton";
 
-export default function Details({ route }: DetailsProps) {
+export default function Details({ route, navigation }: DetailsProps) {
   const selectProductDetail = useAppSelector((state) => state.getPostedItems);
   const dispatch = useDispatch<any>();
   const [detailsData, setDetailsData] = useState<POSTED_ITEMS>();
@@ -171,7 +171,12 @@ export default function Details({ route }: DetailsProps) {
         </ScrollView>
       </Box>
       <Box style={styles.button}>
-        <PrimaryButton label="Send Message to Seller" />
+        <PrimaryButton
+          label="Send Message to Seller"
+          onPress={() =>
+            navigation.navigate("SellerProfile", { detailsdata: detailsData })
+          }
+        />
       </Box>
     </SafeAreaView>
   );

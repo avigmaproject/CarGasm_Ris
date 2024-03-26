@@ -32,7 +32,7 @@ export default function Splash({ navigation }: SplashProps) {
       console.log("isFirstTime", isFirstTime);
       if (isFirstTime) {
         console.log("Welcome");
-        navigation.navigate("Welcome");
+        navigation.navigate("Home");
       } else {
         console.log("Intro");
         navigation.navigate("Intro");

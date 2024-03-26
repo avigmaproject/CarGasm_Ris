@@ -92,7 +92,7 @@ export default function Intro({ navigation }: IntroProps) {
     );
   }
   function onDone() {
-    navigation.navigate("Welcome");
+    navigation.navigate("Home");
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>

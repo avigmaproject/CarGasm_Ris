@@ -4,6 +4,8 @@ import { Log, cancelRequest } from "../axios";
 import { requestMultiple } from "react-native-permissions";
 import { Permission } from "../types";
 import { Alert } from "react-native";
+import messaging from "@react-native-firebase/messaging";
+import firebase from "@react-native-firebase/app";
 
 export const postAuth = async (token: string) => {
   await saveUserToken(token);
@@ -94,4 +96,24 @@ export const truncateString = (value: string, limit?: number) => {
   }
 
   return value;
+};
+
+export const getFcmToken = async () => {
+  await messaging().deleteToken();
+  const fcmToken = await firebase.messaging().getToken();
+  console.log("fcmToken", fcmToken);
+  return fcmToken;
+};
+
+export const requestUserPermission = async () => {
+  let authStatus = await firebase.messaging().hasPermission();
+  if (
+    authStatus !== firebase.messaging.AuthorizationStatus.AUTHORIZED ||
+    messaging.AuthorizationStatus.PROVISIONAL
+  ) {
+    authStatus = await firebase.messaging().requestPermission();
+  }
+  if (authStatus === firebase.messaging.AuthorizationStatus.AUTHORIZED) {
+    return authStatus;
+  }
 };

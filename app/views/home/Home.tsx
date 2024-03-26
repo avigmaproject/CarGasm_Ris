@@ -11,6 +11,7 @@ import Box from "../../components/Box";
 import Header from "./component/Header";
 import { useDispatch } from "react-redux";
 import { getHomeDataList } from "../../redux/ducks/home";
+
 import { useAppSelector } from "../../utils/hooks";
 import { FlashList } from "@shopify/flash-list";
 import CustomText from "../../components/CustomText";
@@ -19,14 +20,16 @@ import Loader from "../../components/Loader";
 import { HomeProps } from "../../types/propTypes";
 import { onUpdateLike } from "../../redux/ducks/updateLikes";
 import { onGlobalChange } from "../../redux/ducks/global";
+import { getUserMasterList } from "../../redux/ducks/getUserMasterData";
 
 export default function Home({ navigation }: HomeProps) {
   const dispatch = useDispatch<any>();
   const selectHomeData = useAppSelector((state) => state.home);
+  const selectUserData = useAppSelector((state) => state.getUserMasterData);
   const [homeData, setHomeData] = useState<HOME_LIST[]>([]);
+  const [userData, setUserData] = useState<GET_USER_LIST[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     navigation.addListener("focus", onFocus);
     return () => {
@@ -38,6 +41,7 @@ export default function Home({ navigation }: HomeProps) {
     setLoading(true);
     dispatch(onGlobalChange({ showBottomTabs: false }));
     dispatch(getHomeDataList(1, 0, "string", 1, 100, "string", 0));
+    dispatch(getUserMasterList(2, 1, 0, "string", 0, 0, "string", 0));
   }
 
   useEffect(() => {
@@ -46,7 +50,10 @@ export default function Home({ navigation }: HomeProps) {
       setRefreshing(false);
       setHomeData(selectHomeData["0"]);
     }
-  }, [selectHomeData]);
+    if (selectUserData.called) {
+      setUserData(selectUserData["0"]["0"]);
+    }
+  }, [selectHomeData, selectUserData]);
 
   function onRefresh() {
     setRefreshing(true);
@@ -70,7 +77,7 @@ export default function Home({ navigation }: HomeProps) {
   return (
     <SafeAreaView style={styles.container}>
       <Box>
-        <Header />
+        <Header onLoginPress={() => navigation.navigate("Login")} />
       </Box>
       {loading && <Loader />}
       <Box style={styles.flat}>
