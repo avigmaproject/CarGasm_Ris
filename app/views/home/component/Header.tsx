@@ -5,39 +5,39 @@ import {
   Pressable,
   TextInput,
   Image,
-  ScrollView,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import LinearGradient from "react-native-linear-gradient";
-import CustomText from "../../../components/CustomText";
-import Box from "../../../components/Box";
-import colors from "../../../utils/color";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import { getUserToken } from "../../../utils/localStorage";
-import { HomeHeaderProps } from "../../../types/propTypes";
-const InstantSearches = ["Browse", "For you", "Cars", "WTB", "Saved Searches"];
+  ScrollView
+} from "react-native"
+import React, { useEffect, useState } from "react"
+import LinearGradient from "react-native-linear-gradient"
+import CustomText from "../../../components/CustomText"
+import Box from "../../../components/Box"
+import colors from "../../../utils/color"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import AntDesign from "react-native-vector-icons/AntDesign"
+import { getUserToken } from "../../../utils/localStorage"
+import { HomeHeaderProps } from "../../../types/propTypes"
+const InstantSearches = ["Browse", "For you", "Cars", "WTB", "Saved Searches"]
 
 export default function Header({ onLoginPress }: HomeHeaderProps) {
-  const [search, setSearch] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
+  const [search, setSearch] = useState("")
+  const [isLogin, setIsLogin] = useState(false)
 
   function getToken() {
     getUserToken().then((token) => {
       if (token) {
-        setIsLogin(true);
+        setIsLogin(true)
       } else {
-        setIsLogin(false);
+        setIsLogin(false)
       }
-    });
+    })
   }
 
   useEffect(() => {
-    getToken();
-  }, []);
+    getToken()
+  }, [])
 
   return (
-    <LinearGradient colors={["rgba(9, 240, 185, 0.5)", "#4E6AFF"]}>
+    <LinearGradient colors={["rgba(9, 128, 185, 0.5)", "#4E6AFF"]}>
       <Box style={styles.headerComp}>
         <CustomText
           fontFamily="Inter-Bold"
@@ -99,12 +99,12 @@ export default function Header({ onLoginPress }: HomeHeaderProps) {
                   {el}
                 </CustomText>
               </Pressable>
-            );
+            )
           })}
         </Box>
       </ScrollView>
     </LinearGradient>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 20,
-    marginTop: 20,
+    marginTop: 20
   },
   iconBg: { backgroundColor: "#46AAE5", borderRadius: 20, padding: 5 },
   inputCont: {
@@ -121,14 +121,14 @@ const styles = StyleSheet.create({
     height: 50,
     alignSelf: "center",
     marginBottom: 20,
-    marginTop: 15,
+    marginTop: 15
   },
   inputStyle: {
     height: 50,
     backgroundColor: colors.secondary,
     borderRadius: 6,
     paddingStart: 40,
-    color: colors.textColor,
+    color: colors.textColor
   },
   searchIcon: { position: "absolute", top: 15, left: 10 },
   saveIcon: { position: "absolute", top: 15, right: 10 },
@@ -141,6 +141,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 8,
     marginRight: 10,
-    borderRadius: 8,
-  },
-});
+    borderRadius: 8
+  }
+})

@@ -4,56 +4,57 @@ import {
   ScrollView,
   SafeAreaView,
   Image,
-  StyleSheet,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import Box from "../../components/Box";
+  StyleSheet
+} from "react-native"
+import React, { useEffect, useState } from "react"
+import Box from "../../components/Box"
 import {
   heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
-import CustomText from "../../components/CustomText";
-import CustomHeader from "../../components/CustomHeader";
-import { useDispatch } from "react-redux";
-import { getPostedItemsList } from "../../redux/ducks/getPostedItems";
-import { DetailsProps } from "../../types/propTypes";
-import { useAppSelector } from "../../utils/hooks";
-import { pixelSizeHorizontal, pixelSizeVertical } from "../../utils/responsive";
-import colors from "../../utils/color";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import PrimaryButton from "../../components/PrimaryButton";
+  widthPercentageToDP as wp
+} from "react-native-responsive-screen"
+import CustomText from "../../components/CustomText"
+import CustomHeader from "../../components/CustomHeader"
+import { useDispatch } from "react-redux"
+import { getPostedItemsList } from "../../redux/ducks/getPostedItems"
+import { DetailsProps } from "../../types/propTypes"
+import { useAppSelector } from "../../utils/hooks"
+import { pixelSizeHorizontal, pixelSizeVertical } from "../../utils/responsive"
+import colors from "../../utils/color"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import PrimaryButton from "../../components/PrimaryButton"
+import { dummyProfileUrl } from "../../utils/constant"
 
 export default function Details({ route, navigation }: DetailsProps) {
-  const selectProductDetail = useAppSelector((state) => state.getPostedItems);
-  const dispatch = useDispatch<any>();
-  const [detailsData, setDetailsData] = useState<POSTED_ITEMS>();
+  const selectProductDetail = useAppSelector((state) => state.getPostedItems)
+  const dispatch = useDispatch<any>()
+  const [detailsData, setDetailsData] = useState<POSTED_ITEMS>()
   const [queans, setQuaAns] = useState([
     {
       no: 1,
       que: "What is Lorem Ipsum?",
-      ans: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      ans: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
     },
     { no: 2, que: "Where does it come from?", ans: "U.S.A" },
     {
       no: 3,
       que: "What is Lorem Ipsum?",
-      ans: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      ans: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
     },
-    { no: 4, que: "Where does it come from?", ans: "U.S.A" },
-  ]);
+    { no: 4, que: "Where does it come from?", ans: "U.S.A" }
+  ])
 
   useEffect(() => {
     dispatch(
       getPostedItemsList(2, route.params.Id, 1, "string", 1, 100, "string", 0)
-    );
-  }, []);
+    )
+  }, [])
 
   useEffect(() => {
     if (selectProductDetail.called) {
-      setDetailsData(selectProductDetail[0][0][0]);
+      setDetailsData(selectProductDetail[0][0][0])
     }
-  }, [selectProductDetail]);
-
+  }, [selectProductDetail])
+  console.log("detailllll", detailsData?.User_Image_Path)
   return (
     <SafeAreaView style={styles.container}>
       <Box>
@@ -67,7 +68,7 @@ export default function Details({ route, navigation }: DetailsProps) {
         <ScrollView style={styles.onScroll}>
           <Box style={styles.imageBox}>
             <Image
-              source={{ uri: detailsData?.UP_Poster_Img_Path }}
+              source={{ uri: detailsData?.UP_ImagePath }}
               style={styles.image}
             />
           </Box>
@@ -126,7 +127,11 @@ export default function Details({ route, navigation }: DetailsProps) {
             </Box>
             <Box flexDirection="row" alignItems="center" mt={10}>
               <Image
-                source={{ uri: detailsData?.User_Image_Path }}
+                source={{
+                  uri: detailsData?.User_Image_Path
+                    ? detailsData?.User_Image_Path
+                    : dummyProfileUrl
+                }}
                 style={styles.userImage}
               />
               <CustomText
@@ -179,19 +184,19 @@ export default function Details({ route, navigation }: DetailsProps) {
         />
       </Box>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
-    backgroundColor: "#F4F4F4",
+    backgroundColor: "#F4F4F4"
   },
   image: {
     height: pixelSizeVertical(200),
     width: "100%",
-    borderRadius: 4,
+    borderRadius: 4
   },
   imageBox: {
     borderWidth: 1,
@@ -199,22 +204,22 @@ const styles = StyleSheet.create({
     padding: 5,
     borderColor: colors.borderColor,
     borderRadius: 4,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.secondary
   },
   onScroll: {
     paddingHorizontal: wp("5%"),
-    paddingVertical: hp("2%"),
+    paddingVertical: hp("2%")
   },
   userImage: {
-    height: 50,
-    width: 50,
-    borderRadius: 25,
+    height: 40,
+    width: 40,
+    borderRadius: 25
   },
   button: {
     marginTop: "auto",
     padding: 20,
     backgroundColor: colors.secondary,
     borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-  },
-});
+    borderTopRightRadius: 16
+  }
+})

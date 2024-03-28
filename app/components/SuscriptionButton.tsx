@@ -15,7 +15,7 @@ export default function SuscriptionButton({
     <LinearGradient
       colors={
         data.selected
-          ? ["rgba(9, 240, 185, 0.5)", "#4E6AFF"]
+          ? ["rgba(9, 128, 185, 0.5)", "#4E6AFF"]
           : ["rgba(9, 240, 185, 0.1)", "rgba(30, 108, 243, 0.1)"]
       }
       style={styles.container}

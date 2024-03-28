@@ -1,36 +1,36 @@
-import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
-import { RouteProp } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs"
+import { RouteProp } from "@react-navigation/native"
+import { StackNavigationProp } from "@react-navigation/stack"
 
 type BoxProps = {
-  children: React.ReactNode;
-  flexDirection?: "row" | "column";
-  justifyContent?: "center" | "space-between" | "space-around" | "space-evenly";
-  alignItems?: "center" | "space-between";
-  alignSelf?: "center";
-  height?: number | string;
-  width?: number | string;
-  p?: Spacing;
-  m?: Spacing;
-  pv?: Spacing;
-  ph?: Spacing;
-  mv?: Spacing;
-  mh?: Spacing;
-  pt?: Spacing;
-  pb?: Spacing;
-  pl?: Spacing;
-  pr?: Spacing;
-  mt?: Spacing;
-  mb?: Spacing;
-  ml?: Spacing;
-  mr?: Spacing;
-  style?: any;
-};
+  children: React.ReactNode
+  flexDirection?: "row" | "column"
+  justifyContent?: "center" | "space-between" | "space-around" | "space-evenly"
+  alignItems?: "center" | "space-between"
+  alignSelf?: "center"
+  height?: number | string
+  width?: number | string
+  p?: Spacing
+  m?: Spacing
+  pv?: Spacing
+  ph?: Spacing
+  mv?: Spacing
+  mh?: Spacing
+  pt?: Spacing
+  pb?: Spacing
+  pl?: Spacing
+  pr?: Spacing
+  mt?: Spacing
+  mb?: Spacing
+  ml?: Spacing
+  mr?: Spacing
+  style?: any
+}
 
 type CustomTextProps = {
-  fontSize?: FontSize;
-  color?: AppColors;
-  lineHeight?: number;
+  fontSize?: FontSize
+  color?: AppColors
+  lineHeight?: number
   fontFamily?:
     | "Poppins-Regular"
     | "Poppins-Medium"
@@ -39,202 +39,202 @@ type CustomTextProps = {
     | "Inter-Bold"
     | "Inter-SemiBold"
     | "Inter-Medium"
-    | "Inter-Regular";
-};
+    | "Inter-Regular"
+}
 
 type TextButtonProps = {
-  label: string;
-  onPress?: () => void;
-  color?: string;
-  borderColor?: string;
-  fontSize?: string;
-  containerStyles?: EStyleSheet.AnyObject;
-  labelStyles?: EStyleSheet.AnyObject;
-};
+  label: string
+  onPress?: () => void
+  color?: string
+  borderColor?: string
+  fontSize?: string
+  containerStyles?: EStyleSheet.AnyObject
+  labelStyles?: EStyleSheet.AnyObject
+}
 
 type InputProps = {
-  disableCopyPaste?: boolean;
-  callOnFocus?: () => any;
-  textButton?: TextButtonProps;
-  showTextButton?: boolean;
-  error?: string;
-  noMargin?: boolean;
-  endIcon?: IconDefinition;
-  endIconPress?: () => void;
-  renderEndIcon?: () => any;
-  label?: string;
-  propsStyle?: ViewStyle;
-  labelStyle?: ViewStyle;
-  input?: ViewStyle;
-};
+  disableCopyPaste?: boolean
+  callOnFocus?: () => any
+  textButton?: TextButtonProps
+  showTextButton?: boolean
+  error?: string
+  noMargin?: boolean
+  endIcon?: IconDefinition
+  endIconPress?: () => void
+  renderEndIcon?: () => any
+  label?: string
+  propsStyle?: ViewStyle
+  labelStyle?: ViewStyle
+  input?: ViewStyle
+}
 
 type PrimaryButtonProps = {
-  onPress: () => void;
-  label: string;
-  buttonStyle?: ViewStyle;
-  labelStyle?: EStyleSheet.AnyObject;
-  varient?: "Primary" | "Secondary" | "HotDeal" | "Alert";
-  disabled?: boolean;
-};
+  onPress: () => void
+  label: string
+  buttonStyle?: ViewStyle
+  labelStyle?: EStyleSheet.AnyObject
+  varient?: "Primary" | "Secondary" | "HotDeal" | "Alert"
+  disabled?: boolean
+}
 
 type SignUpProps = {
-  navigation: StackNavigationProp<RootStackParamList, "SignUp">;
-};
+  navigation: StackNavigationProp<RootStackParamList, "SignUp">
+}
 
 type LoginProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Login">;
-};
+  navigation: StackNavigationProp<RootStackParamList, "Login">
+}
 
 type SplashProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Splash">;
-};
+  navigation: StackNavigationProp<RootStackParamList, "Splash">
+}
 
 type IntroProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Intro">;
-};
+  navigation: StackNavigationProp<RootStackParamList, "Intro">
+}
 
 type WelcomeProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Welcome">;
-};
+  navigation: StackNavigationProp<RootStackParamList, "Welcome">
+}
 
 type ResetPasswordProps = {
-  onPress: () => void;
-};
+  onPress: () => void
+}
 
 type LoaderProps = {
-  status?: string;
-  isSheet?: boolean;
-};
+  status?: string
+  isSheet?: boolean
+}
 
 type SnackProps = {
-  title: string | null;
-  mode: SnackMode;
-  close: (delay: number) => void;
-  setTimer: (timer: NodeJS.Timer) => void;
-};
+  title: string | null
+  mode: SnackMode
+  close: (delay: number) => void
+  setTimer: (timer: NodeJS.Timer) => void
+}
 
 type HeaderProps = {
-  back: boolean;
-  title?: string;
-  onPress?: () => void;
-};
+  back: boolean
+  title?: string
+  onPress?: () => void
+}
 
 type EditProfileProps = {
-  navigation: StackNavigationProp<RootStackParamList, "EditProfile">;
-};
+  navigation: StackNavigationProp<RootStackParamList, "EditProfile">
+}
 
 type TextInProps = {
-  label: string;
-  input?: ViewStyle;
-  error?: string;
-};
+  label: string
+  input?: ViewStyle
+  error?: string
+}
 
 type ImagePickerProps = {
-  title: string;
-  isOpen: boolean;
-  multiple: boolean;
-  fileTypes?: DocumentPickerOptions<"android" | "ios" | "windows">;
-  onSaveImage: (images: Image[] | null) => void;
-  onClose: () => void;
-  size?: number;
-  position?: string;
-};
+  title: string
+  isOpen: boolean
+  multiple: boolean
+  fileTypes?: DocumentPickerOptions<"android" | "ios" | "windows">
+  onSaveImage: (images: Image[] | null) => void
+  onClose: () => void
+  size?: number
+  position?: string
+}
 
 type SuscriptionButtonProps = {
-  data: subscriptionType;
-  onPress: () => void;
-};
+  data: subscriptionType
+  onPress: () => void
+}
 
 type SubscriptionProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Subscription">;
-};
+  navigation: StackNavigationProp<RootStackParamList, "Subscription">
+}
 
 type CardProps = {
-  data: HOME_LIST;
+  data: HOME_LIST
   onPress: (
     id: number,
     imagpath: string,
     title: string,
     location: string,
     price: string
-  ) => void;
-  onPressLike: (pId: number, uId: number) => void;
-};
+  ) => void
+  onPressLike: (pId: number, uId: number, like: boolean) => void
+}
 type QAProps = {
-  data: QA_LIST;
-};
+  data: QA_LIST
+}
 
 type HomeProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Home">;
-};
+  navigation: StackNavigationProp<RootStackParamList, "Home">
+}
 
 type DetailsPageProps = MaterialTopTabScreenProps<
   ProductsTabsParamList,
   "DetailsPage"
->;
+>
 
 type CategoriesPrps = MaterialTopTabScreenProps<
   ProductsTabsParamList,
   "Categories"
->;
+>
 
 type CustomDropDownProps = {
-  selectedValue?: any;
-  onValueChange?: (itemValue: any, itemIndex: any) => void;
-  data: { label: string; value: string }[];
-  enabled?: boolean;
-  title: string;
-  onPressCamera?: () => void;
-  selectPhoto?: string;
-  isMandatory?: boolean;
-  error?: string;
-  isRegister?: boolean;
-  placeholder?: string;
-};
+  selectedValue?: any
+  onValueChange?: (itemValue: any, itemIndex: any) => void
+  data: { label: string; value: string }[]
+  enabled?: boolean
+  title: string
+  onPressCamera?: () => void
+  selectPhoto?: string
+  isMandatory?: boolean
+  error?: string
+  isRegister?: boolean
+  placeholder?: string
+}
 
 type UploadImageProps = MaterialTopTabScreenProps<
   ProductsTabsParamList,
   "UploadImage"
->;
+>
 
-type PaymentProps = MaterialTopTabScreenProps<ProductsTabsParamList, "Payment">;
+type PaymentProps = MaterialTopTabScreenProps<ProductsTabsParamList, "Payment">
 
 type CustomAlertBoxProps = {
-  visible: boolean;
-  onClose: () => void;
-  title: string;
-  buttonLabel1: string;
-  buttonLabel2: string;
-  onPressFirstButton: () => void;
-  onPressSecondButton: () => void;
-};
+  visible: boolean
+  onClose: () => void
+  title: string
+  buttonLabel1: string
+  buttonLabel2: string
+  onPressFirstButton: () => void
+  onPressSecondButton: () => void
+}
 
 type CustomHeaderProps = {
-  title: string;
-  iconName: string;
-  isDetail?: boolean;
-  back?: boolean;
-  onPressIconName?: () => void;
-  isSecondIcon?: boolean;
-  isProfile?: boolean;
-};
+  title: string
+  iconName: string
+  isDetail?: boolean
+  back?: boolean
+  onPressIconName?: () => void
+  isSecondIcon?: boolean
+  isProfile?: boolean
+}
 
 type ProfileProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Profile">;
-  route: RouteProp<RootStackParamList, "Profile">;
-};
+  navigation: StackNavigationProp<RootStackParamList, "Profile">
+  route: RouteProp<RootStackParamList, "Profile">
+}
 
 type PostedCardProps = {
-  data: POSTED_ITEMS;
-  onPress: (id: number) => void;
-  onPressDots: (id: number) => void;
-};
+  data: POSTED_ITEMS
+  onPress: (id: number) => void
+  onPressDots: (id: number) => void
+}
 
 type DetailsProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Details">;
-  route: RouteProp<RootStackParamList, "Details">;
-};
+  navigation: StackNavigationProp<RootStackParamList, "Details">
+  route: RouteProp<RootStackParamList, "Details">
+}
 
 type HomeHeaderProps = {
-  onLoginPress?: () => void;
-};
+  onLoginPress?: () => void
+}

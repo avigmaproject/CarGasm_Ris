@@ -27,7 +27,7 @@ export default function CustomHeader({
   const navigation = useNavigation()
   return (
     <LinearGradient
-      colors={["rgba(9, 240, 185, 0.5)", "#4E6AFF"]}
+      colors={["rgba(9,128, 185, 0.5)", "#4E6AFF"]}
       style={[
         isSellerprofile ? styles.sellerheight : styles.container,
         isProfile && styles.height

@@ -17,7 +17,7 @@ const { width } = Dimensions.get("screen");
 export default function TopTabs({ tabs, activeIndex }: TopTabsProps) {
   return (
     <LinearGradient
-      colors={["rgba(9, 240, 185, 0.5)", "#4E6AFF"]}
+      colors={["rgba(9, 128, 185, 0.5)", "#4E6AFF"]}
       style={styles.row}
     >
       {tabs.map((el, idx) => {

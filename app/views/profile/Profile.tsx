@@ -4,45 +4,70 @@ import {
   ScrollView,
   StyleSheet,
   Pressable,
-} from "react-native";
-import React, { useState } from "react";
-import Box from "../../components/Box";
-import CustomText from "../../components/CustomText";
-import CustomHeader from "../../components/CustomHeader";
-import { ProfileProps } from "../../types/propTypes";
-import { Dimensions } from "react-native";
-import colors from "../../utils/color";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+  Image
+} from "react-native"
+import React, { useState, useEffect } from "react"
+import Box from "../../components/Box"
+import CustomText from "../../components/CustomText"
+import CustomHeader from "../../components/CustomHeader"
+import { ProfileProps } from "../../types/propTypes"
+import { Dimensions } from "react-native"
+import colors from "../../utils/color"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import { getUserMasterList } from "../../redux/ducks/getUserMasterData"
+import { dummyProfileUrl } from "../../utils/constant"
 import {
   heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
-import LikedItemsPage from "./components/LikedItemsPage";
-import PostedItemsPage from "./components/PostedItemsPage";
-import TopTabs from "../../components/TopTabs";
-const height = Dimensions.get("window").height;
-const width = Dimensions.get("window").width;
+  widthPercentageToDP as wp
+} from "react-native-responsive-screen"
+import LikedItemsPage from "./components/LikedItemsPage"
+import PostedItemsPage from "./components/PostedItemsPage"
+import TopTabs from "../../components/TopTabs"
+import { useAppSelector } from "../../utils/hooks"
+import { useDispatch } from "react-redux"
+const height = Dimensions.get("window").height
+const width = Dimensions.get("window").width
 
 export default function Profile(props: ProfileProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const dispatch = useDispatch<any>()
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [userData, setUserData] = useState<GET_USER_LIST[]>([])
+  const selectUserData = useAppSelector((state) => state.getUserMasterData)
   const tabs = [
     {
       title: "Posted Items",
       onPress: () => onChangeTab(0),
-      icon: "form-select",
+      icon: "form-select"
     },
     {
       title: "Liked Items",
       onPress: () => onChangeTab(1),
-      icon: "heart-outline",
-    },
-  ];
+      icon: "heart-outline"
+    }
+  ]
+  useEffect(() => {
+    props.navigation.addListener("focus", onFocus)
+    return () => {
+      props.navigation.removeListener("focus", onFocus)
+    }
+  }, [])
+
+  function onFocus() {
+    dispatch(getUserMasterList(2, 1, 0, "string", 0, 0, "string", 0))
+  }
+
+  useEffect(() => {
+    if (selectUserData.called) {
+      setUserData(selectUserData["0"]["0"]["0"])
+    }
+  }, [selectUserData])
+  console.log("userdata", userData)
   const onPressSetting = () => {
-    props.navigation.navigate("Setting");
-  };
+    props.navigation.navigate("Setting")
+  }
 
   function onChangeTab(index: number) {
-    setActiveIndex(index);
+    setActiveIndex(index)
   }
 
   return (
@@ -57,14 +82,21 @@ export default function Profile(props: ProfileProps) {
         />
         <Box style={styles.profileHeader}>
           <Box>
-            <View
-              style={{
-                width: 65,
-                height: 65,
-                borderWidth: 1,
-                borderRadius: 35,
-              }}
-            />
+            <View style={{ borderWidth: 1, borderRadius: 35 }}>
+              <Image
+                source={{
+                  uri: userData.User_Image_Path
+                    ? userData.User_Image_Path
+                    : dummyProfileUrl
+                }}
+                style={{
+                  width: 65,
+                  height: 65,
+                  borderWidth: 1,
+                  borderRadius: 35
+                }}
+              />
+            </View>
           </Box>
           <Box style={{ right: 20 }}>
             <CustomText
@@ -73,7 +105,7 @@ export default function Profile(props: ProfileProps) {
               color={colors.textColor}
               fontFamily="Inter-SemiBold"
             >
-              Dianne Russell
+              {userData.User_Name}
             </CustomText>
             <CustomText
               fontSize={12}
@@ -81,10 +113,13 @@ export default function Profile(props: ProfileProps) {
               color="#171717"
               fontFamily="Inter-Regular"
             >
-              Diannerussell@example.com
+              {userData.User_Email}
             </CustomText>
           </Box>
-          <Pressable style={styles.circle} onPress={() => console.log("Hello")}>
+          <Pressable
+            style={styles.circle}
+            onPress={() => props.navigation.navigate("UpdateProfile")}
+          >
             <Icon
               name="pencil-outline"
               color={colors.primary}
@@ -103,14 +138,14 @@ export default function Profile(props: ProfileProps) {
         )}
       </Box>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
-    backgroundColor: "#F4F4F4",
+    backgroundColor: "#F4F4F4"
   },
   profileHeader: {
     position: "absolute",
@@ -124,7 +159,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: "row",
     justifyContent: "space-around",
-    alignItems: "center",
+    alignItems: "center"
   },
   circle: {
     padding: 8,
@@ -132,10 +167,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    right: 10,
+    right: 10
   },
   onScroll: {
     paddingHorizontal: wp("5%"),
-    paddingVertical: hp("6%"),
-  },
-});
+    paddingVertical: hp("6%")
+  }
+})

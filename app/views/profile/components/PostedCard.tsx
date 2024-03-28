@@ -1,25 +1,26 @@
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
-import React from "react";
-import { CardProps, PostedCardProps } from "../../../types/propTypes";
-import Box from "../../../components/Box";
-import CustomText from "../../../components/CustomText";
-import colors from "../../../utils/color";
+import { View, Text, Image, StyleSheet, Pressable } from "react-native"
+import React from "react"
+import { CardProps, PostedCardProps } from "../../../types/propTypes"
+import Box from "../../../components/Box"
+import CustomText from "../../../components/CustomText"
+import colors from "../../../utils/color"
 import {
   pixelSizeHorizontal,
-  pixelSizeVertical,
-} from "../../../utils/responsive";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { truncateString } from "../../../utils/helper";
+  pixelSizeVertical
+} from "../../../utils/responsive"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import { truncateString } from "../../../utils/helper"
 
 export default function PostedCard({
   data,
   onPress,
-  onPressDots,
+  onPressDots
 }: PostedCardProps) {
+  console.log("data ", data)
   return (
     <Pressable style={styles.card} onPress={() => onPress(data.UP_PKeyID)}>
       <Box alignItems="center">
-        <Image source={{ uri: data.UP_Poster_Img_Path }} style={styles.image} />
+        <Image source={{ uri: data.UP_ImagePath }} style={styles.image} />
       </Box>
       <Box style={styles.textContain}>
         <CustomText
@@ -55,7 +56,7 @@ export default function PostedCard({
           color={colors.primary}
           style={{ marginTop: 5 }}
         >
-          $112
+          ${Number(data?.UP_Price).toFixed(2)}
         </CustomText>
       </Box>
       <Pressable
@@ -65,7 +66,7 @@ export default function PostedCard({
         <Icon name="dots-vertical" size={20} color={colors.textColor} />
       </Pressable>
     </Pressable>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -78,18 +79,18 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   image: {
     height: pixelSizeVertical(120),
     width: pixelSizeHorizontal(120),
     borderRadius: 3,
-    right: 20,
+    right: 20
   },
   textContain: {
     paddingHorizontal: 10,
     paddingVertical: 10,
-    right: 15,
+    right: 15
   },
   circle: {
     position: "absolute",
@@ -99,6 +100,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     right: 5,
-    top: 10,
-  },
-});
+    top: 10
+  }
+})

@@ -3,17 +3,17 @@ import {
   SafeAreaView,
   Platform,
   ScrollView,
-  StyleSheet,
-} from "react-native";
-import React, { useContext, useState } from "react";
+  StyleSheet
+} from "react-native"
+import React, { useContext, useState, useEffect } from "react"
 
-import Box from "../../components/Box";
-import Input from "../../components/Input";
-import PrimaryButton from "../../components/PrimaryButton";
-import { DetailsPageProps } from "../../types/propTypes";
-import TabHeader from "./component/TabHeader";
-import { ProductContext } from "../../contexts/ProductTabContext";
-import CustomAlertBox from "../../components/CustomAlertBox";
+import Box from "../../components/Box"
+import Input from "../../components/Input"
+import PrimaryButton from "../../components/PrimaryButton"
+import { DetailsPageProps } from "../../types/propTypes"
+import TabHeader from "./component/TabHeader"
+import { ProductContext } from "../../contexts/ProductTabContext"
+import CustomAlertBox from "../../components/CustomAlertBox"
 
 export default function DetailsPage({ navigation }: DetailsPageProps) {
   const {
@@ -27,54 +27,69 @@ export default function DetailsPage({ navigation }: DetailsPageProps) {
     setLocation,
     condition,
     setCondition,
-  } = useContext(ProductContext);
-  const [errors, setErrors] = useState<DetailsErrors>();
-  const [showAlertBox, setShowAlertBox] = useState(false);
+    setBrand,
+    setCateg,
+    setSubCateg,
+    setProductImage
+  } = useContext(ProductContext)
+  const [errors, setErrors] = useState<DetailsErrors>()
+  const [showAlertBox, setShowAlertBox] = useState(false)
 
   function onCancelTab() {
-    setShowAlertBox(true);
+    setShowAlertBox(true)
   }
 
   function onCloseAlertBox() {
-    setShowAlertBox(false);
+    setShowAlertBox(false)
   }
 
   function validateInputs() {
-    const tempErrors: DetailsErrors = {};
+    const tempErrors: DetailsErrors = {}
     if (title.length === 0) {
-      tempErrors.titleError = "Enter a valid title";
+      tempErrors.titleError = "Enter a valid title"
     }
     if (price.length === 0) {
-      tempErrors.priceError = "Select a valid price";
+      tempErrors.priceError = "Select a valid price"
     }
     if (description.length === 0) {
-      tempErrors.descError = "Select a valid description";
+      tempErrors.descError = "Select a valid description"
     }
     if (location.length === 0) {
-      tempErrors.locationError = "Select a valid location";
+      tempErrors.locationError = "Select a valid location"
     }
     if (condition.length === 0) {
-      tempErrors.conditionError = "Select a valid condition";
+      tempErrors.conditionError = "Select a valid condition"
     }
-    setErrors(tempErrors);
-    return Object.keys(tempErrors).length === 0;
+    setErrors(tempErrors)
+    return Object.keys(tempErrors).length === 0
   }
+  useEffect(() => {
+    setBrand("")
+    setTitle("")
+    setDescription("")
+    setPrice("")
+    setCateg("")
+    setSubCateg("")
+    setLocation("")
+    setCondition("")
+    setProductImage([])
+  }, [])
 
   const onNext = () => {
-    const isValid = validateInputs();
+    const isValid = validateInputs()
     if (isValid) {
-      navigation.navigate("Categories");
+      navigation.navigate("Categories")
     }
-  };
+  }
 
   const onCancel = () => {
-    onCloseAlertBox();
-  };
+    onCloseAlertBox()
+  }
 
   const onSaveDraft = () => {
-    onCloseAlertBox();
-    navigation.navigate("HomeStack");
-  };
+    onCloseAlertBox()
+    navigation.navigate("HomeStack")
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -151,13 +166,13 @@ export default function DetailsPage({ navigation }: DetailsPageProps) {
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
-    backgroundColor: "#F4F4F4",
-  },
-});
+    backgroundColor: "#F4F4F4"
+  }
+})

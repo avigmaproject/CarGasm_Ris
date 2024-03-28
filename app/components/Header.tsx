@@ -5,6 +5,7 @@ import { HeaderProps } from "../types/propTypes";
 import CustomText from "./CustomText";
 import colors from "../utils/color";
 
+
 export default function Header({ back, title, onPress }: HeaderProps) {
   return (
     <View

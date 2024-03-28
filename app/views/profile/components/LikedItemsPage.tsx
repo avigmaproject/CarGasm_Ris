@@ -57,7 +57,8 @@ export default function LikedItemsPage({ navigation }: ProfileProps) {
   }
 
   const renderItem = ({ item }: ListRenderItemInfo<POSTED_ITEMS>) => {
-    return <LikedItemsCard data={item}  />
+    console.log("data", item)
+    return <LikedItemsCard data={item} />
   }
 
   useEffect(() => {

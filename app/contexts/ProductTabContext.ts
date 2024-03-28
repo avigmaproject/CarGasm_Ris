@@ -10,6 +10,7 @@ export const ProductContext = React.createContext<ProductContextType>({
   location: "",
   setLocation: () => {},
   condition: "",
+
   setCondition: () => {},
   brand: "",
   setBrand: () => {},

@@ -18,7 +18,7 @@ export default function Card({ data, onPress, onPressLike }: CardProps) {
       onPress={() =>
         onPress(
           data.UP_PKeyID,
-          data.UP_Poster_Img_Path,
+          data.UP_ImagePath,
           data.UP_Title,
           data.UP_Location,
           data.UP_Price
@@ -26,7 +26,7 @@ export default function Card({ data, onPress, onPressLike }: CardProps) {
       }
     >
       <Box alignItems="center">
-        <Image source={{ uri: data.UP_Poster_Img_Path }} style={styles.image} />
+        <Image source={{ uri: data.UP_ImagePath }} style={styles.image} />
       </Box>
       <Box ph={10} pv={10}>
         <CustomText
@@ -82,7 +82,11 @@ export default function Card({ data, onPress, onPressLike }: CardProps) {
         style={styles.heart}
         onPress={() => onPressLike(data.UP_PKeyID, data.UP_UserID)}
       >
-        <Icon name="heart-outline" color={colors.secondary} size={25} />
+        <Icon
+          name="heart-outline"
+          color={data?.UP_IsLike ? "red" : colors.secondary}
+          size={25}
+        />
       </Pressable>
     </Pressable>
   )

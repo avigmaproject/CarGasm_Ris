@@ -15,7 +15,7 @@ export default function LikedItemsCard({ data }: PostedCardProps) {
   return (
     <Pressable style={styles.card}>
       <Box alignItems="center">
-        <Image source={{ uri: data.UP_Poster_Img_Path }} style={styles.image} />
+        <Image source={{ uri: data.UP_ImagePath }} style={styles.image} />
       </Box>
       <Box ph={10} pv={10}>
         <CustomText

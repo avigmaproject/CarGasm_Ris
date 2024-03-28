@@ -1,41 +1,52 @@
-import { View, Text, SafeAreaView, StyleSheet, Image } from "react-native";
-import React, { useContext, useEffect } from "react";
-import TabHeader from "./component/TabHeader";
-import { ProductContext } from "../../contexts/ProductTabContext";
-import Box from "../../components/Box";
-import { pixelSizeVertical } from "../../utils/responsive";
-import CustomText from "../../components/CustomText";
-import colors from "../../utils/color";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import PrimaryButton from "../../components/PrimaryButton";
-import { useDispatch } from "react-redux";
-import { onCreatePostData } from "../../redux/ducks/createPost";
-import { useAppSelector } from "../../utils/hooks";
-import { snackBar } from "../../utils/helper";
-import { PaymentProps } from "../../types/propTypes";
+import { View, Text, SafeAreaView, StyleSheet, Image } from "react-native"
+import React, { useContext, useEffect } from "react"
+import TabHeader from "./component/TabHeader"
+import { ProductContext } from "../../contexts/ProductTabContext"
+import Box from "../../components/Box"
+import { pixelSizeVertical } from "../../utils/responsive"
+import CustomText from "../../components/CustomText"
+import colors from "../../utils/color"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import PrimaryButton from "../../components/PrimaryButton"
+import { useDispatch } from "react-redux"
+import { onCreatePostData } from "../../redux/ducks/createPost"
+import { useAppSelector } from "../../utils/hooks"
+import { snackBar } from "../../utils/helper"
+import { PaymentProps } from "../../types/propTypes"
 
 export default function Payment({ navigation }: PaymentProps) {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<any>()
   const {
     brand,
+    setBrand,
     title,
+    setTitle,
     productImage,
+    setProductImage,
     description,
+    setDescription,
     location,
+    setLocation,
     condition,
+    setCondition,
     price,
+    setPrice,
     categ,
+    setCateg,
     subCateg,
-  } = useContext(ProductContext);
-  const selectPostProduct = useAppSelector((state) => state.createPost);
+    setSubCateg
+  } = useContext(ProductContext)
+  const selectPostProduct = useAppSelector((state) => state.createPost)
 
   const postProduct = () => {
+    console.log("productImage[0].UI_File_Path", productImage[0].UI_File_Path)
+
     dispatch(
       onCreatePostData(
         0,
         "string",
         0,
-        "string",
+        productImage[0].UI_File_Path,
         true,
         0,
         0,
@@ -70,18 +81,46 @@ export default function Payment({ navigation }: PaymentProps) {
         brand,
         productImage
       )
-    );
-  };
+    )
 
-  useEffect(() => {
     if (selectPostProduct.called) {
-      const { error } = selectPostProduct;
+      const { error } = selectPostProduct
       if (!error) {
-        snackBar("Product Created Successfully", "green");
-        navigation.navigate("Home");
+        snackBar("Product Created Successfully", "green")
+        navigation.navigate("Home")
+        setBrand("")
+        setTitle("")
+        setDescription("")
+        setPrice("")
+        setCateg("")
+        setSubCateg("")
+        setLocation("")
+        setCondition("")
+        // setProductImage([])
       }
     }
-  }, [selectPostProduct]);
+  }
+  // useEffect(() => {
+  //   setBrand("")
+  //   setTitle("")
+  //   setDescription("")
+  //   setPrice("")
+  //   setCateg("")
+  //   setSubCateg("")
+  //   setLocation("")
+  //   setCondition("")
+  //   // setProductImage([])
+  // }, [])
+  // useEffect(() => {
+  //   if (selectPostProduct.called) {
+  //
+  //     // const { error } = selectPostProduct;
+  //     // if (!error) {
+  //     //   snackBar("Product Created Successfully", "green");
+  //     //   navigation.navigate("Home");
+  //     // }
+  //   }
+  // }, [selectPostProduct])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -168,23 +207,23 @@ export default function Payment({ navigation }: PaymentProps) {
         <PrimaryButton label="Post" onPress={postProduct} />
       </Box>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
-    backgroundColor: "#F4F4F4",
+    backgroundColor: "#F4F4F4"
   },
   image: {
     height: pixelSizeVertical(200),
     width: "100%",
-    borderRadius: 8,
+    borderRadius: 8
   },
   button: {
     marginTop: "auto",
     marginBottom: 50,
-    paddingHorizontal: 20,
-  },
-});
+    paddingHorizontal: 20
+  }
+})
